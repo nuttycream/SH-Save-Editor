@@ -8,7 +8,7 @@ using SpaceHaven_Save_Editor.ViewModels;
 namespace SpaceHaven_Save_Editor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -28,7 +28,7 @@ namespace SpaceHaven_Save_Editor.Views
         {
             var sInfo = new ProcessStartInfo(e.Uri.ToString())
             {
-                UseShellExecute = true,
+                UseShellExecute = true
             };
             Process.Start(sInfo);
         }

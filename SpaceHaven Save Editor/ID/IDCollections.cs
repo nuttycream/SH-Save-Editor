@@ -2,7 +2,6 @@
 
 namespace SpaceHaven_Save_Editor.ID
 {
-    
     // ReSharper disable once InconsistentNaming
     public static class IDCollections
     {
@@ -14,7 +13,7 @@ namespace SpaceHaven_Save_Editor.ID
             "vitamins",
             "toxins"
         };
-        
+
         public static readonly List<string> CharacterStats = new()
         {
             "Health",
@@ -50,7 +49,7 @@ namespace SpaceHaven_Save_Editor.ID
             {14, "Navigation"},
             {16, "Research"}
         };
-        
+
         public static readonly Dictionary<int, string> Traits = new()
         {
             {2082, "Alien Lover"},

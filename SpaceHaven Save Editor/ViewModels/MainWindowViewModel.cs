@@ -18,34 +18,6 @@ namespace SpaceHaven_Save_Editor.ViewModels
         private readonly ReadFile _readFile;
         private readonly WriteFile _writeFile;
 
-        public ICommand OpenFile { get; }
-        public ICommand CreateBackUp { get; }
-        public ICommand SaveFile { get; }
-        public ICommand ClearLog { get; }
-        public ICommand AddToTraits { get; }
-        public ICommand RemoveTrait { get; }
-        public ICommand AddToStorage { get; }
-        public ICommand RemoveFromStorage { get; }
-        
-        public string FilePath { get; private set; }
-        public string BackUpFilePath { get; private set; }
-        public List<Character> Characters { get; private set; }
-        public Character SelectedCharacter { get; set; }
-        public List<string> TraitsList { get; }
-        public string SelectedTraitFromCombobox { get; set; }
-        public Trait SelectedTraitFromList { get; set; }
-        
-        public string SelectedItem { get; set; }
-        public int SelectedItemAmount { get; set; }
-        public Ship Ship { get; private set; }
-        public List<string> ItemList { get; }
-        public StorageFacilities SelectedStorageFacility { get; set; }
-        public Cargo SelectedCargoItem { get; set; }
-        public ObservableCollection<Cargo> CargoList => SelectedStorageFacility?.CargoList;
-        public ToolFacilities SelectedToolFacility { get; set; }
-        public string PlayerCredits { get; set; }
-        public string ReadLogText { get; private set; }
-
         public MainWindowViewModel()
         {
             Characters = new List<Character>();
@@ -58,19 +30,46 @@ namespace SpaceHaven_Save_Editor.ViewModels
             CreateBackUp = new AsyncRelayCommand(BackUp);
             SaveFile = new AsyncRelayCommand(Save);
             ClearLog = new RelayCommand(ClearLogText);
-            
+
             AddToTraits = new RelayCommand(AddToTraitsList);
             RemoveTrait = new RelayCommand(RemoveTraitFromList);
-            
+
             AddToStorage = new RelayCommand(AddToStorageList);
             RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
-   
+
 
             _readFile.ProgressList += UpdateProgress;
             _writeFile.ProgressList += UpdateProgress;
-            
         }
-        
+
+        public ICommand OpenFile { get; }
+        public ICommand CreateBackUp { get; }
+        public ICommand SaveFile { get; }
+        public ICommand ClearLog { get; }
+        public ICommand AddToTraits { get; }
+        public ICommand RemoveTrait { get; }
+        public ICommand AddToStorage { get; }
+        public ICommand RemoveFromStorage { get; }
+
+        public string FilePath { get; private set; }
+        public string BackUpFilePath { get; private set; }
+        public List<Character> Characters { get; private set; }
+        public Character SelectedCharacter { get; set; }
+        public List<string> TraitsList { get; }
+        public string SelectedTraitFromCombobox { get; set; }
+        public Trait SelectedTraitFromList { get; set; }
+
+        public string SelectedItem { get; set; }
+        public int SelectedItemAmount { get; set; }
+        public Ship Ship { get; private set; }
+        public List<string> ItemList { get; }
+        public StorageFacilities SelectedStorageFacility { get; set; }
+        public Cargo SelectedCargoItem { get; set; }
+        public ObservableCollection<Cargo> CargoList => SelectedStorageFacility?.CargoList;
+        public ToolFacilities SelectedToolFacility { get; set; }
+        public string PlayerCredits { get; set; }
+        public string ReadLogText { get; private set; }
+
         private void AddToTraitsList()
         {
             if (SelectedTraitFromCombobox == null)
@@ -78,10 +77,9 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 MessageBox.Show("Choose a trait from the combobox to add.");
                 return;
             }
-            
+
             var value = new Trait(SelectedTraitFromCombobox);
             SelectedCharacter?.Traits.Add(value);
-
         }
 
         private void RemoveTraitFromList()
@@ -91,9 +89,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 MessageBox.Show("No Trait Selected. Select a trait from the list to remove");
                 return;
             }
+
             SelectedCharacter?.Traits.Remove(SelectedTraitFromList);
         }
-        
+
         private void AddToStorageList()
         {
             foreach (var (key, value) in IDCollections.Items)
@@ -105,7 +104,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 break;
             }
         }
-    
+
         private void RemoveFromStorageList()
         {
             if (SelectedCargoItem == null || SelectedStorageFacility == null) return;

@@ -19,6 +19,5 @@ namespace SpaceHaven_Save_Editor.ShipData
         {
             return "Storage " + (Index + 1);
         }
-        
     }
 }

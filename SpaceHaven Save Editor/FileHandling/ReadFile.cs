@@ -50,7 +50,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
             return _characters;
         }
-        
+
         private async Task<List<Character>> ReadXmlData(OpenFileDialog dialogData)
         {
             var fileStream = dialogData.OpenFile();
@@ -60,10 +60,9 @@ namespace SpaceHaven_Save_Editor.FileHandling
             var characters = new List<Character>();
 
             if (reader.Settings == null) return characters;
-            
+
             while (await reader.ReadAsync())
             {
-                
                 if (reader.Name.Equals("c") && reader.GetAttribute("name") != null)
                 {
                     var name = reader.GetAttribute("name");
@@ -95,7 +94,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     }
                 }
             }
-            
+
             reader.Dispose();
             return characters;
         }
@@ -106,7 +105,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             {
                 BuildingTools = (int) GetValueFloat(storageNode, "ft")
             };
-            
+
             return newToolFacility;
         }
 
@@ -134,7 +133,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
             var tasks = new List<Task>();
             var newCharacter = new Character(name);
             foreach (XmlNode rootNode in node.ChildNodes)
-            {
                 switch (rootNode.Name)
                 {
                     case "props":
@@ -146,7 +144,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         AddProgress("Found 'pers' node.");
                         break;
                 }
-            }
 
             await Task.WhenAll(tasks);
 
@@ -156,7 +153,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
         private void ReadPers(XmlNode rootNode, ref Character newCharacter)
         {
             foreach (XmlNode persNode in rootNode.ChildNodes)
-            {
                 switch (persNode.Name)
                 {
                     case "attr":
@@ -192,7 +188,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         break;
                     }
                 }
-            }
         }
 
         private void ReadStats(XmlNode rootNode, ref Character newCharacter)
@@ -210,7 +205,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 if (propsNode.Name != "Food") continue;
                 AddProgress("Found 'Food' node.");
                 foreach (XmlNode foodNode in propsNode.ChildNodes)
-                {
                     switch (foodNode.Name)
                     {
                         case "stored":
@@ -222,7 +216,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                             ReadFood(ref newCharacter, foodNode, false);
                             break;
                     }
-                }
             }
         }
 
@@ -231,26 +224,27 @@ namespace SpaceHaven_Save_Editor.FileHandling
             var foodAttributeCollection = foodNode.Attributes;
             if (foodAttributeCollection == null) return;
             foreach (XmlAttribute foodAttribute in foodAttributeCollection)
+            foreach (var food in IDCollections.Foods)
             {
-                foreach (var food in IDCollections.Foods)
-                {
-                    if (foodAttribute.Name != food) continue;
-                    newCharacter.AddFood(foodAttribute.Name, float.Parse(foodAttribute.Value), stored);
-                    break;
-                }
+                if (foodAttribute.Name != food) continue;
+                newCharacter.AddFood(foodAttribute.Name, float.Parse(foodAttribute.Value), stored);
+                break;
             }
         }
 
         private static float GetValueFloat(XmlNode node, string attributeName)
         {
             var valueAttribute = node.Attributes?[attributeName];
-            if (valueAttribute == null) 
+            if (valueAttribute == null)
                 return 0.0f;
             var value = valueAttribute.Value;
             return float.Parse(value);
         }
 
-        private void AddProgress(string progressText) => ProgressList?.Invoke(progressText);
+        private void AddProgress(string progressText)
+        {
+            ProgressList?.Invoke(progressText);
+        }
 
         public string CreateBackUp()
         {

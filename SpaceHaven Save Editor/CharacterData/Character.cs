@@ -6,14 +6,6 @@ namespace SpaceHaven_Save_Editor.CharacterData
 {
     public class Character
     {
-        public string CharacterName { get; }
-        public List<Stat> Stats { get; }
-        public FoodList SelectedFoodList { get; set; }
-        public List<FoodList> FoodLists { get; }
-        public List<Skill> Skills { get; }
-        public List<AttributeData> Attributes { get; }
-        public ObservableCollection<Trait> Traits { get; }
-        
         public Character(string characterName)
         {
             CharacterName = characterName;
@@ -28,15 +20,20 @@ namespace SpaceHaven_Save_Editor.CharacterData
                 new("Belly")
             };
         }
-        
+
+        public string CharacterName { get; }
+        public List<Stat> Stats { get; }
+        public FoodList SelectedFoodList { get; set; }
+        public List<FoodList> FoodLists { get; }
+        public List<Skill> Skills { get; }
+        public List<AttributeData> Attributes { get; }
+        public ObservableCollection<Trait> Traits { get; }
+
         public void AddTrait(int id)
         {
-            if (IDCollections.Traits.ContainsKey(id))
-            {
-                Traits.Add(new Trait(id));
-            }
+            if (IDCollections.Traits.ContainsKey(id)) Traits.Add(new Trait(id));
         }
-        
+
         public void AddAttribute(int attributeId, int newValue)
         {
             foreach (var (i, value) in IDCollections.Attributes)
@@ -50,27 +47,28 @@ namespace SpaceHaven_Save_Editor.CharacterData
         public string FindAttribute(string attributeId)
         {
             foreach (var attribute in Attributes)
-            {
                 if (attribute.AttributeId == int.Parse(attributeId))
                     return attribute.AttributeValue.ToString();
-            }
 
             return "";
         }
-        
+
         public string FindFood(string foodName, bool isStored)
         {
             var foodList = isStored ? FoodLists[0] : FoodLists[1];
             return foodList.FindFood(foodName);
         }
-        
+
         public void AddFood(string foodName, float value, bool isStored)
         {
             var foodList = isStored ? FoodLists[0] : FoodLists[1];
             foodList.FoodTypeList.Add(new Food(foodName, value));
         }
 
-        public void AddStats(string nodeName, int value) => Stats.Add(new Stat(nodeName, value));
+        public void AddStats(string nodeName, int value)
+        {
+            Stats.Add(new Stat(nodeName, value));
+        }
 
         public string FindStat(string statName)
         {
@@ -79,10 +77,14 @@ namespace SpaceHaven_Save_Editor.CharacterData
                 if (stat.StatName != statName) continue;
                 return stat.StatValue.ToString();
             }
+
             return "";
         }
 
-        public void AddSkill(int skillId, int skillValue) => Skills.Add(new Skill(skillId, skillValue));
+        public void AddSkill(int skillId, int skillValue)
+        {
+            Skills.Add(new Skill(skillId, skillValue));
+        }
 
         public string FindSkill(string skillId)
         {
@@ -95,6 +97,9 @@ namespace SpaceHaven_Save_Editor.CharacterData
             return "";
         }
 
-        public override string ToString() => CharacterName;
+        public override string ToString()
+        {
+            return CharacterName;
+        }
     }
 }

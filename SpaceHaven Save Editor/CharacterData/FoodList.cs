@@ -6,13 +6,14 @@ namespace SpaceHaven_Save_Editor.CharacterData
     public class FoodList
     {
         private readonly string _foodType;
-        public List<Food> FoodTypeList { get; }
 
         public FoodList(string name)
         {
             _foodType = name;
             FoodTypeList = new List<Food>();
         }
+
+        public List<Food> FoodTypeList { get; }
 
         public string FindFood(string foodName)
         {
@@ -21,9 +22,13 @@ namespace SpaceHaven_Save_Editor.CharacterData
                 if (food.FoodName != foodName) continue;
                 return food.Amount.ToString(CultureInfo.CurrentCulture);
             }
+
             return "";
         }
 
-        public override string ToString() => _foodType;
+        public override string ToString()
+        {
+            return _foodType;
+        }
     }
 }

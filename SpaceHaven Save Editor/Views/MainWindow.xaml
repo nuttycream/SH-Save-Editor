@@ -14,7 +14,7 @@
         TextElement.FontSize="16"
         FontSize="16"
         FontFamily="{materialDesign:MaterialDesignFont}">
-    
+
     <Grid>
         <TabControl
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
@@ -44,9 +44,10 @@
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                             <Button Content="Save File" Width="125" Command="{Binding SaveFile}" />
                         </StackPanel>
-                        <Button Content="Clear Log" Width="125" HorizontalAlignment="Left" Margin="0,5,0,5" Command="{Binding ClearLog}"></Button>
+                        <Button Content="Clear Log" Width="125" HorizontalAlignment="Left" Margin="0,5,0,5"
+                                Command="{Binding ClearLog}" />
                     </StackPanel>
-                    
+
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                         <TextBox Text="{Binding ReadLogText, Mode=OneWay}" IsReadOnly="True" />
                     </ScrollViewer>
@@ -65,88 +66,99 @@
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
                         <TextBlock Text="Select Character:" VerticalAlignment="Center" />
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Margin="10,0,0,0" >
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden"
+                                      Margin="10,0,0,0">
                             <ListBox
                                 Style="{StaticResource MaterialDesignChoiceChipListBox}"
                                 ItemsSource="{Binding Characters}"
                                 SelectedItem="{Binding SelectedCharacter}"
-                                SelectionMode="Single"/>
+                                SelectionMode="Single" />
                         </ScrollViewer>
                     </StackPanel>
-                    <GroupBox Grid.Row="1" Header="{Binding SelectedCharacter.CharacterName, FallbackValue=No Character Selected}">
+                    <GroupBox Grid.Row="1"
+                              Header="{Binding SelectedCharacter.CharacterName, FallbackValue=No Character Selected}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50" />
                                 <RowDefinition />
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <materialDesign:Card Grid.Row="0" Grid.Column="0"
                                                  materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                                  Padding="10"
-                                                 Content="Character Stats" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                 Content="Character Stats" HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center" />
                             <materialDesign:Card Grid.Row="0" Grid.Column="1"
                                                  materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                                  Padding="10"
-                                                 Content="Character Attributes" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                 Content="Character Attributes" HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center" />
                             <materialDesign:Card Grid.Row="0" Grid.Column="2"
                                                  materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                                  Padding="10"
-                                                 Content="Character Traits" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                 Content="Character Traits" HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center" />
 
-                            <ListBox Grid.Row="2" Grid.Column="0" Style="{StaticResource MaterialDesignChoiceChipPrimaryListBox}" FontSize="15" 
-                                     VerticalAlignment="Center" HorizontalAlignment="Center" SelectionMode="Single" 
+                            <ListBox Grid.Row="2" Grid.Column="0"
+                                     Style="{StaticResource MaterialDesignChoiceChipPrimaryListBox}" FontSize="15"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center" SelectionMode="Single"
                                      ItemsSource="{Binding SelectedCharacter.FoodLists}"
-                                     SelectedItem="{Binding SelectedCharacter.SelectedFoodList}">
-                            </ListBox>
+                                     SelectedItem="{Binding SelectedCharacter.SelectedFoodList}" />
                             <materialDesign:Card Grid.Row="2" Grid.Column="1"
-                                materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                                Padding="10"
-                                Content="Character Skills" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                 materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                                 Padding="10"
+                                                 Content="Character Skills" HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center" />
 
                             <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                                <DataGrid ItemsSource="{Binding SelectedCharacter.Stats}" AutoGenerateColumns="False" BorderThickness="1">
+                                <DataGrid ItemsSource="{Binding SelectedCharacter.Stats}" AutoGenerateColumns="False"
+                                          BorderThickness="1">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn IsReadOnly="True" Header="Stat Name"
-                                                            Binding="{Binding StatName}" Width="100"/>
+                                                            Binding="{Binding StatName}" Width="100" />
                                         <DataGridTextColumn Header="Amount" Binding="{Binding StatValue}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </ScrollViewer>
-                            <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                                <StackPanel >
-                                    <ComboBox ItemsSource="{Binding TraitsList}" materialDesign:HintAssist.Hint="Select a Trait" 
+                            <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                                <StackPanel>
+                                    <ComboBox ItemsSource="{Binding TraitsList}"
+                                              materialDesign:HintAssist.Hint="Select a Trait"
                                               Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                              SelectedValue="{Binding SelectedTraitFromCombobox}" Margin="5"/>
-                                    <Button Content="Add Trait"  Margin="5" Command="{Binding AddToTraits}"></Button>
-                                    <Button Content="Remove Selected Trait" Margin="5" Command="{Binding RemoveTrait}"></Button>
+                                              SelectedValue="{Binding SelectedTraitFromCombobox}" Margin="5" />
+                                    <Button Content="Add Trait" Margin="5" Command="{Binding AddToTraits}" />
+                                    <Button Content="Remove Selected Trait" Margin="5" Command="{Binding RemoveTrait}" />
                                     <ListBox ItemsSource="{Binding SelectedCharacter.Traits, Mode=OneWay}" Margin="5"
-                                             SelectedItem="{Binding SelectedTraitFromList}"></ListBox>
+                                             SelectedItem="{Binding SelectedTraitFromList}" />
                                 </StackPanel>
                             </ScrollViewer>
-                            <ScrollViewer Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                                <DataGrid ItemsSource="{Binding SelectedCharacter.SelectedFoodList.FoodTypeList}" AutoGenerateColumns="False" BorderThickness="1">
+                            <ScrollViewer Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Hidden">
+                                <DataGrid ItemsSource="{Binding SelectedCharacter.SelectedFoodList.FoodTypeList}"
+                                          AutoGenerateColumns="False" BorderThickness="1">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn IsReadOnly="True" Header="Food Name"
-                                                            Binding="{Binding FoodName}" Width="100"/>
-                                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
+                                                            Binding="{Binding FoodName}" Width="100" />
+                                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </ScrollViewer>
-                            <ScrollViewer Grid.Row="3" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                            </ScrollViewer>
+                            <ScrollViewer Grid.Row="3" Grid.Column="1" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Hidden" />
                             <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
                                 <DataGrid ItemsSource="{Binding SelectedCharacter.Attributes}"
-                                          AutoGenerateColumns="False"  BorderThickness="1">
+                                          AutoGenerateColumns="False" BorderThickness="1">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn IsReadOnly="True" Header="Attribute"
-                                                            Binding="{Binding AttributeName}" Width="125"/>
+                                                            Binding="{Binding AttributeName}" Width="125" />
                                         <DataGridTextColumn Header="Value" Binding="{Binding AttributeValue}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -156,7 +168,7 @@
                                           AutoGenerateColumns="False" BorderThickness="1">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn IsReadOnly="True" Header="Skill Name"
-                                                            Binding="{Binding SkillName}" Width="125"/>
+                                                            Binding="{Binding SkillName}" Width="125" />
                                         <DataGridTextColumn Header="Amount" Binding="{Binding SkillValue}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -190,7 +202,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <ScrollViewer Grid.Column="0">
-                        <DataGrid ItemsSource="{Binding CargoList, Mode=OneWay}" AutoGenerateColumns="False" 
+                        <DataGrid ItemsSource="{Binding CargoList, Mode=OneWay}" AutoGenerateColumns="False"
                                   SelectedItem="{Binding SelectedCargoItem}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn IsReadOnly="True" Header="Item Name" Binding="{Binding CargoName}" />
@@ -203,37 +215,40 @@
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom" />
                         <ComboBox ItemsSource="{Binding Ship.StorageFacilities}"
                                   SelectedItem="{Binding SelectedStorageFacility}"
-                                  materialDesign:HintAssist.Hint="Select Storage To Edit" Margin="5"/>
+                                  materialDesign:HintAssist.Hint="Select Storage To Edit" Margin="5" />
                         <ComboBox ItemsSource="{Binding ItemList}" materialDesign:HintAssist.Hint="Item"
-                                  SelectedItem="{Binding SelectedItem}" Margin="5"/>
+                                  SelectedItem="{Binding SelectedItem}" Margin="5" />
                         <TextBox PreviewTextInput="NumberTextBox_OnPreviewTextInput"
-                                 materialDesign:HintAssist.Hint="Amount" Text="{Binding SelectedItemAmount}" Margin="5"/>
+                                 materialDesign:HintAssist.Hint="Amount" Text="{Binding SelectedItemAmount}" Margin="5" />
                         <Button Content="Add To Selected Storage" Margin="0,10,0,0" Command="{Binding AddToStorage}" />
-                        <Button Content="Remove Selected " Margin="0,10,0,0" 
+                        <Button Content="Remove Selected " Margin="0,10,0,0"
                                 Command="{Binding RemoveFromStorage}" />
                         <Separator Opacity="0" Height="20" />
                         <TextBlock Text="Tool Facilities: " Background="Teal" Padding="10"
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom" />
                         <ComboBox ItemsSource="{Binding Ship.ToolFacilities}"
                                   SelectedItem="{Binding SelectedToolFacility}"
-                                  materialDesign:HintAssist.Hint="Select Tool Facility" Margin="5"/>
+                                  materialDesign:HintAssist.Hint="Select Tool Facility" Margin="5" />
                         <TextBox Text="{Binding SelectedToolFacility.BuildingTools, Mode=TwoWay}"
                                  PreviewTextInput="NumberTextBox_OnPreviewTextInput"
-                                 materialDesign:HintAssist.Hint="Tools Amount" Margin="5"/>
+                                 materialDesign:HintAssist.Hint="Tools Amount" Margin="5" />
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem 
+            <TabItem
                 Header="{materialDesign:PackIcon Kind=About, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <Grid Margin="20">
                     <StackPanel>
-                        <materialDesign:Card Content="About" Padding="10" Background="Teal"></materialDesign:Card>
-                        <TextBlock Text="SpaceHaven Save Editor by nuttyCream Made in C# and XAML using WPF." Margin="10" FontSize="10"></TextBlock>
-                        <StackPanel Orientation="Horizontal" Margin="10" >
-                            <TextBlock Text="Original Guide:" Margin="0,0,10,0"></TextBlock>
+                        <materialDesign:Card Content="About" Padding="10" Background="Teal" />
+                        <TextBlock Text="SpaceHaven Save Editor by nuttyCream Made in C# and XAML using WPF."
+                                   Margin="10" FontSize="10" />
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <TextBlock Text="Original Guide:" Margin="0,0,10,0" />
                             <TextBlock Margin="0,0,10,0">
-                                <Hyperlink NavigateUri="https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221" RequestNavigate="Hyperlink_OnRequestNavigate" Foreground="Aquamarine">
+                                <Hyperlink
+                                    NavigateUri="https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221"
+                                    RequestNavigate="Hyperlink_OnRequestNavigate" Foreground="Aquamarine">
                                     Steam
                                 </Hyperlink>
                             </TextBlock>

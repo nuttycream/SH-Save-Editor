@@ -5,8 +5,9 @@ namespace SpaceHaven_Save_Editor.CharacterData
 {
     public class Trait
     {
+        private readonly string _traitName;
         public int TraitId;
-        private string _traitName;
+
         public Trait(int traitId)
         {
             if (IDCollections.Traits.TryGetValue(traitId, out var value))
@@ -39,6 +40,9 @@ namespace SpaceHaven_Save_Editor.CharacterData
             }
         }
 
-        public override string ToString() => _traitName;
+        public override string ToString()
+        {
+            return _traitName;
+        }
     }
 }

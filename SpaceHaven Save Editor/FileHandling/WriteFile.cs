@@ -11,12 +11,11 @@ namespace SpaceHaven_Save_Editor.FileHandling
 {
     public class WriteFile
     {
-        public Action<string> ProgressList { get; set; }
-        
         private List<Character> _characters;
-        private Ship _ship;
         private string _playerCredits;
         private string _savePath;
+        private Ship _ship;
+        public Action<string> ProgressList { get; set; }
 
         public async Task Write(string savePath, IEnumerable<Character> characters, Ship ship, string playerCredits)
         {
@@ -31,7 +30,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             AddProgress("Saving File...");
             var saveFile = new XmlDocument();
-            if (_savePath != null) 
+            if (_savePath != null)
                 saveFile.Load(_savePath);
 
             var nodeList = saveFile.ChildNodes;
@@ -39,7 +38,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             WritePlayer(nodeList);
             WriteCharacter(nodeList);
             WriteStorages(saveFile);
-            
+
             saveFile.Save(_savePath!);
             AddProgress("File Saved at: " + _savePath);
         }
@@ -51,7 +50,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
             AddProgress("Found Player Bank Node... Writing credits: " + _playerCredits);
             if (playerBank.Attributes["ca"] != null)
                 playerBank.Attributes["ca"].Value = _playerCredits;
-
         }
 
         private void WriteCharacter(XmlNodeList nodeList)
@@ -70,13 +68,12 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     if (statNode.Attributes["v"] != null)
                         statNode.Attributes["v"].Value = character.FindStat(characterStat);
                 }
-                
+
                 var foodNode = FindNode(childNodes, "Food");
-                if(foodNode != null)
+                if (foodNode != null)
                 {
                     AddProgress("Found Food Node... Writing...");
                     foreach (XmlNode node in foodNode.ChildNodes)
-                    {
                         switch (node.Name)
                         {
                             case "stored" when node.Attributes == null:
@@ -92,7 +89,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                                     attribute.Value = character.FindFood(attribute.Name, false);
                                 break;
                         }
-                    }
                 }
 
                 //attributes
@@ -101,12 +97,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 {
                     AddProgress("Found Attributes Node... Writing...");
                     foreach (XmlNode node in attributesNode.ChildNodes)
-                    {
-                        if(node.Attributes?["points"] != null)
+                        if (node.Attributes?["points"] != null)
                             node.Attributes["points"].Value = character.FindAttribute(node.Attributes["id"]?.Value);
-                    }
                 }
-                
+
                 //traits
                 var traitsNode = FindNode(childNodes, "traits");
                 if (traitsNode != null)
@@ -121,7 +115,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         traitsNode.AppendChild(traitTemplate ?? throw new InvalidOperationException());
                     }
                 }
-                
+
                 //Skills
                 var skillsNode = FindNode(childNodes, "skills");
                 if (skillsNode != null)
@@ -140,17 +134,19 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             var storageCount = 0;
             var storageNodes = saveFile.SelectNodes("//feat[@eatAllowed]");
-            if (storageNodes == null) {Debug.Print("Storage Nodes Not Found");return;}
+            if (storageNodes == null)
+            {
+                Debug.Print("Storage Nodes Not Found");
+                return;
+            }
+
             AddProgress("Found Storage Nodes... Writing...");
             foreach (XmlNode storageNode in storageNodes)
             {
                 var storageFacility = _ship.StorageFacilities[storageCount];
                 var inventoryNode = storageNode.FirstChild;
-                
-                if (inventoryNode is {HasChildNodes: true})
-                {
-                    inventoryNode.RemoveAll();
-                }
+
+                if (inventoryNode is {HasChildNodes: true}) inventoryNode.RemoveAll();
 
                 foreach (var cargo in storageFacility.CargoList)
                 {
@@ -164,15 +160,15 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
                 storageCount++;
             }
-            
-            
+
+
             var toolNodes = saveFile.SelectNodes("//feat[@ft]");
             var toolCount = 0;
             if (toolNodes == null) return;
             AddProgress("Found Tool Nodes... Writing...");
             foreach (XmlNode toolNode in toolNodes)
             {
-                if(toolNode.Attributes?["ft"] == null) continue;
+                if (toolNode.Attributes?["ft"] == null) continue;
                 toolNode.Attributes["ft"].Value = _ship.ToolFacilities[toolCount].BuildingTools.ToString();
                 toolCount++;
             }
@@ -183,31 +179,38 @@ namespace SpaceHaven_Save_Editor.FileHandling
             if (list.Count <= 0) return null;
             foreach (XmlNode node in list)
             {
-                if (node.Name.Equals(nodeName)) 
+                if (node.Name.Equals(nodeName))
                     return node;
                 if (!node.HasChildNodes) continue;
                 var nodeFound = FindNode(node.ChildNodes, nodeName);
                 if (nodeFound != null)
                     return nodeFound;
             }
+
             return null;
         }
 
-        private static XmlNode FindNodeWithAttributeValue(XmlNodeList list, string nodeName, string attributeName, string attributeValue)
+        private static XmlNode FindNodeWithAttributeValue(XmlNodeList list, string nodeName, string attributeName,
+            string attributeValue)
         {
             if (list.Count <= 0) return null;
             foreach (XmlNode node in list)
             {
-                if (node.Name.Equals(nodeName) && node.Attributes?[attributeName] != null && node.Attributes?[attributeName].Value == attributeValue) 
+                if (node.Name.Equals(nodeName) && node.Attributes?[attributeName] != null &&
+                    node.Attributes?[attributeName].Value == attributeValue)
                     return node;
                 if (!node.HasChildNodes) continue;
                 var nodeFound = FindNodeWithAttributeValue(node.ChildNodes, nodeName, attributeName, attributeValue);
                 if (nodeFound != null)
                     return nodeFound;
             }
+
             return null;
         }
-        
-        private void AddProgress(string progressText) => ProgressList?.Invoke(progressText);
+
+        private void AddProgress(string progressText)
+        {
+            ProgressList?.Invoke(progressText);
+        }
     }
 }

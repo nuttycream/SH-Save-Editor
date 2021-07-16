@@ -12,5 +12,4 @@
       <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
       <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     </ItemGroup>
-
 </Project>
