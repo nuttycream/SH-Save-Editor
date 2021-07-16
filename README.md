@@ -21,6 +21,10 @@ Edit you Space Haven game save!
 - Click create back-up and start editing!
 - Save file once done.
 
+## Build
+- Clone or download git repo
+- Open `Space Haven Save Editor.sln` in Visual Studio. (Requires .NET 5.0)
+- Run and build project
 
 ## Acknowledgements
 - Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
