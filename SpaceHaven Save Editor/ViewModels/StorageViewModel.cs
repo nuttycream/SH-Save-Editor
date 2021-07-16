@@ -11,10 +11,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class StorageViewModel : BaseViewModel
     {
-        public StorageViewModel(ref Ship ship)
+        public StorageViewModel()
         {
-            Ship = ship;
-            
             ItemList = new List<string>(IDCollections.Items.Values.ToList());
             
             AddToStorage = new RelayCommand(AddToStorageList);
@@ -25,7 +23,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public ICommand RemoveFromStorage { get; }
         public string SelectedItem { get; set; }
         public int SelectedItemAmount { get; set; }
-        public Ship Ship { get; private set; }
+        public Ship Ship { get; set; }
         public List<string> ItemList { get; }
         public StorageFacilities SelectedStorageFacility { get; set; }
         public Cargo SelectedCargoItem { get; set; }

@@ -78,28 +78,12 @@
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Warehouse, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <ContentControl Content="{Binding StorageContent}"></ContentControl>
+                <ContentControl Content="{Binding StorageViewModel}"></ContentControl>
             </TabItem>
             <TabItem
                 Header="{materialDesign:PackIcon Kind=About, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <Grid Margin="20">
-                    <StackPanel>
-                        <materialDesign:Card Content="About" Padding="10" Background="Teal" />
-                        <TextBlock Text="SpaceHaven Save Editor by nuttyCream Made in C# and XAML using WPF."
-                                   Margin="10" FontSize="10" />
-                        <StackPanel Orientation="Horizontal" Margin="10">
-                            <TextBlock Text="Original Guide:" Margin="0,0,10,0" />
-                            <TextBlock Margin="0,0,10,0">
-                                <Hyperlink
-                                    NavigateUri="https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221"
-                                    RequestNavigate="Hyperlink_OnRequestNavigate" Foreground="Aquamarine">
-                                    Steam
-                                </Hyperlink>
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
+                <ContentControl Content="{Binding AboutViewModel}"></ContentControl>
             </TabItem>
         </TabControl>
     </Grid>

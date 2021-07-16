@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
-using SpaceHaven_Save_Editor.CharacterData;
 using SpaceHaven_Save_Editor.FileHandling;
 using SpaceHaven_Save_Editor.ShipData;
 using SpaceHaven_Save_Editor.ViewModels.Base;
+using Character = SpaceHaven_Save_Editor.CharacterData.Character;
 
 namespace SpaceHaven_Save_Editor.ViewModels
 {
@@ -14,16 +14,15 @@ namespace SpaceHaven_Save_Editor.ViewModels
         private readonly ReadFile _readFile;
         private readonly WriteFile _writeFile;
 
-        private BaseViewModel _characterViewModel;
-        private BaseViewModel _storageContent;
+        private CharacterViewModel _characterViewModel;
+        private StorageViewModel _storageViewModel;
+        private AboutViewModel _aboutViewModel;
         
         private List<Character> _characters = new();
         private Ship _ship;
         
         public MainWindowViewModel()
         {
-            
-            
             _readFile = new ReadFile();
             _writeFile = new WriteFile();
 
@@ -35,10 +34,15 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             _readFile.ProgressList += UpdateProgress;
             _writeFile.ProgressList += UpdateProgress;
+            
+            _characterViewModel = new CharacterViewModel();
+            _storageViewModel = new StorageViewModel();
+            _aboutViewModel = new AboutViewModel();
         }
 
         public BaseViewModel CharacterContent => _characterViewModel;
-        public BaseViewModel StorageContent => _storageContent;
+        public BaseViewModel StorageViewModel => _storageViewModel;
+        public BaseViewModel AboutViewModel => _aboutViewModel;
         
         public ICommand OpenFile { get; }
         public ICommand CreateBackUp { get; }
@@ -58,6 +62,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         private async Task Save()
         {
+            _characterViewModel.Characters = _characters;
+            _storageViewModel.Ship = _ship;
             await Task.Run(() => _writeFile.Write(FilePath, _characters, _ship, PlayerCredits));
         }
 
@@ -67,8 +73,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
             FilePath = _readFile.FilePath;
             _ship = _readFile.Ship;
             PlayerCredits = _readFile.PlayerCredits;
-            _storageContent = new StorageViewModel(ref _ship);
-            _characterViewModel = new CharacterViewModel(ref _characters);
+            _characterViewModel.Characters = _characters;
+            _storageViewModel.Ship = _ship;
         }
 
         private async Task BackUp()

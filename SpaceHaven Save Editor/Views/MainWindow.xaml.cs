@@ -24,13 +24,6 @@ namespace SpaceHaven_Save_Editor.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-            var sInfo = new ProcessStartInfo(e.Uri.ToString())
-            {
-                UseShellExecute = true
-            };
-            Process.Start(sInfo);
-        }
+        
     }
 }

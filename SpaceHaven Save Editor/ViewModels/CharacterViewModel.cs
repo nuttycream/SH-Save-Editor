@@ -11,9 +11,9 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class CharacterViewModel : BaseViewModel
     {
-        public CharacterViewModel(ref List<Character> characters)
+        public CharacterViewModel()
         {
-            Characters = characters;
+            Characters = new List<Character>();
             TraitsList = new List<string>(IDCollections.Traits.Values.ToList());
             AddToTraits = new RelayCommand(AddToTraitsList);
             RemoveTrait = new RelayCommand(RemoveTraitFromList);
@@ -21,11 +21,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         public ICommand AddToTraits { get; }
         public ICommand RemoveTrait { get; }
-        public List<Character> Characters { get; private set; }
+        public List<Character> Characters { get; set; }
         public Character SelectedCharacter { get; set; }
         public List<string> TraitsList { get; }
         public string SelectedTraitFromCombobox { get; set; }
         public Trait SelectedTraitFromList { get; set; }
+        
         
         private void AddToTraitsList()
         {

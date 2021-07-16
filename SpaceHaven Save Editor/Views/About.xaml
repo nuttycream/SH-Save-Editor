@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="SpaceHaven_Save_Editor.Views.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SpaceHaven_Save_Editor.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:SpaceHaven_Save_Editor.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:AboutViewModel}"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="16"
+             FontSize="16"
+             FontFamily="{materialDesign:MaterialDesignFont}">
+    
+    <Grid>
+        <Grid Margin="20">
+            <StackPanel>
+                <materialDesign:Card Content="About" Padding="10" Background="Teal" />
+                <TextBlock Text="SpaceHaven Save Editor by nuttyCream Made in C# and XAML using WPF."
+                           Margin="10" FontSize="10" />
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Original Guide:" Margin="0,0,10,0" />
+                    <TextBlock Margin="0,0,10,0">
+                        <Hyperlink
+                            NavigateUri="https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221"
+                            RequestNavigate="Hyperlink_OnRequestNavigate" Foreground="Aquamarine">
+                            Steam
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+    
+</UserControl>
