@@ -4,7 +4,7 @@ namespace SpaceHaven_Save_Editor.CharacterData
 {
     public class Food
     {
-        public Food(string foodName, float amount)
+        public Food(string foodName, string amount)
         {
             if (IDCollections.Foods.Contains(foodName))
             {
@@ -19,6 +19,6 @@ namespace SpaceHaven_Save_Editor.CharacterData
         }
 
         public string FoodName { get; set; }
-        public float Amount { get; set; }
+        public string Amount { get; set; }
     }
 }

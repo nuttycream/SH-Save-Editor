@@ -227,7 +227,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (var food in IDCollections.Foods)
             {
                 if (foodAttribute.Name != food) continue;
-                newCharacter.AddFood(foodAttribute.Name, float.Parse(foodAttribute.Value), stored);
+                newCharacter.AddFood(foodAttribute.Name, foodAttribute.Value, stored);
                 break;
             }
         }

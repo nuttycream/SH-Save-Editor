@@ -59,7 +59,7 @@ namespace SpaceHaven_Save_Editor.CharacterData
             return foodList.FindFood(foodName);
         }
 
-        public void AddFood(string foodName, float value, bool isStored)
+        public void AddFood(string foodName, string value, bool isStored)
         {
             var foodList = isStored ? FoodLists[0] : FoodLists[1];
             foodList.FoodTypeList.Add(new Food(foodName, value));
