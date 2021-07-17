@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
+using SpaceHaven_Save_Editor.CharacterData;
 using SpaceHaven_Save_Editor.FileHandling;
 using SpaceHaven_Save_Editor.ViewModels.Base;
-using Character = SpaceHaven_Save_Editor.CharacterData.Character;
 
 namespace SpaceHaven_Save_Editor.ViewModels
 {
@@ -13,10 +13,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
         private readonly ReadFile _readFile;
         private readonly WriteFile _writeFile;
 
-        private CharacterViewModel _characterViewModel;
-        private StorageViewModel _storageViewModel;
-        
         private List<Character> _characters = new();
+
+        private readonly CharacterViewModel _characterViewModel;
+        private readonly StorageViewModel _storageViewModel;
 
         public MainWindowViewModel()
         {
@@ -30,14 +30,14 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             _readFile.ProgressList += UpdateProgress;
             _writeFile.ProgressList += UpdateProgress;
-            
+
             _characterViewModel = new CharacterViewModel();
             _storageViewModel = new StorageViewModel();
         }
 
         public BaseViewModel CharacterContent => _characterViewModel;
         public BaseViewModel StorageViewModel => _storageViewModel;
-        
+
         public ICommand OpenFile { get; }
         public ICommand CreateBackUp { get; }
         public ICommand SaveFile { get; }
@@ -47,29 +47,37 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public string BackUpFilePath { get; private set; }
         public string PlayerCredits { get; set; }
         public string ReadLogText { get; private set; }
-        
-        private void UpdateProgress(string obj) => ReadLogText += obj + "\n";
 
-        private void ClearLogText() => ReadLogText = "Log Cleared\n";
-        
+        private void UpdateProgress(string obj)
+        {
+            ReadLogText += obj + "\n";
+        }
+
+        private void ClearLogText()
+        {
+            ReadLogText = "Log Cleared\n";
+        }
+
         private async Task Save()
         {
-            await Task.Run(() => _writeFile.Write(FilePath, _characterViewModel.Characters, _storageViewModel.Ship, PlayerCredits));
+            await Task.Run(() =>
+                _writeFile.Write(FilePath, _characterViewModel.Characters, _storageViewModel.Ship, PlayerCredits));
         }
 
         private async Task Open()
         {
             _characters = await Task.Run(() => _readFile.LoadSave());
-            
+
             FilePath = _readFile.FilePath;
             PlayerCredits = _readFile.PlayerCredits;
-            
+
             _characterViewModel.Characters = _characters;
             _storageViewModel.Ship = _readFile.Ship;
         }
 
-        private async Task BackUp() => BackUpFilePath = await Task.Run(() => _readFile.CreateBackUp());
-
-        
+        private async Task BackUp()
+        {
+            BackUpFilePath = await Task.Run(() => _readFile.CreateBackUp());
+        }
     }
 }

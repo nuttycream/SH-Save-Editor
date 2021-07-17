@@ -14,7 +14,7 @@
              TextElement.FontSize="16"
              FontSize="16"
              FontFamily="{materialDesign:MaterialDesignFont}">
-    
+
     <Grid>
         <Grid Margin="20">
             <Grid.ColumnDefinitions>

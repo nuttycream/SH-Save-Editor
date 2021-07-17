@@ -14,11 +14,11 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public StorageViewModel()
         {
             ItemList = new List<string>(IDCollections.Items.Values.ToList());
-            
+
             AddToStorage = new RelayCommand(AddToStorageList);
             RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
         }
-        
+
         public ICommand AddToStorage { get; }
         public ICommand RemoveFromStorage { get; }
         public string SelectedItem { get; set; }
@@ -29,7 +29,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public Cargo SelectedCargoItem { get; set; }
         public ObservableCollection<Cargo> CargoList => SelectedStorageFacility?.CargoList;
         public ToolFacilities SelectedToolFacility { get; set; }
-        
+
         private void AddToStorageList()
         {
             foreach (var (key, value) in IDCollections.Items)

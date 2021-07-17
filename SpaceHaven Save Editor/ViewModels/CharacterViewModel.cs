@@ -26,8 +26,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public List<string> TraitsList { get; }
         public string SelectedTraitFromCombobox { get; set; }
         public Trait SelectedTraitFromList { get; set; }
-        
-        
+
+
         private void AddToTraitsList()
         {
             if (SelectedTraitFromCombobox == null)

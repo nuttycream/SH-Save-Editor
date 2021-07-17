@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using SpaceHaven_Save_Editor.ViewModels;
 
 namespace SpaceHaven_Save_Editor.Views
@@ -23,7 +21,5 @@ namespace SpaceHaven_Save_Editor.Views
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
         }
-
-        
     }
 }

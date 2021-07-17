@@ -12,15 +12,15 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        
+
             <DataTemplate DataType="{x:Type viewModels:CharacterViewModel}">
-                <views:Character/>
+                <views:Character />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:StorageViewModel}">
-                <views:Storage/>
+                <views:Storage />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:AboutViewModel}">
-                <views:About/>
+                <views:About />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

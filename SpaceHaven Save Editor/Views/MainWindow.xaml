@@ -57,7 +57,7 @@
             <TabItem
                 Header="{materialDesign:PackIcon Kind=AccountGroup, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <ContentControl Content="{Binding CharacterContent}"></ContentControl>
+                <ContentControl Content="{Binding CharacterContent}" />
             </TabItem>
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Head, Size=34}"
@@ -78,7 +78,7 @@
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Warehouse, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <ContentControl Content="{Binding StorageViewModel}"></ContentControl>
+                <ContentControl Content="{Binding StorageViewModel}" />
             </TabItem>
         </TabControl>
     </Grid>
