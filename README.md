@@ -14,7 +14,8 @@ Edit your Space Haven game save!
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
 
 ## Usage
-- Click on Releases, download zip file.
+- **Note: Install [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime) to use framework dependent application.**
+- Click on Releases, download self contained zip (much bigger) __OR__ framework dependent zip. 
 - Unzip anywhere then click and run program
 - Click open file, it should open a file explorer window
 - Navigate to stored game save location:
@@ -24,9 +25,9 @@ Edit your Space Haven game save!
 - Save file once done.
 
 ## For Linux and Mac (i think)
-- Note: I tested this on Fedora 33, I don't have a mac but it should be about the same?
+- **Note: I tested this on Fedora 33, I don't have a mac but it should be about the same?**
 - You'll need Wine to run the program
-- Download zip and extract to a folder
+- Download self contained zip and extract to a folder
 - Open a terminal window inside the folder and do `wine SpaceHaven Save Editor.exe`
 
 ## Build
