@@ -80,11 +80,6 @@
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <ContentControl Content="{Binding StorageViewModel}"></ContentControl>
             </TabItem>
-            <TabItem
-                Header="{materialDesign:PackIcon Kind=About, Size=34}"
-                Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <ContentControl Content="{Binding AboutViewModel}"></ContentControl>
-            </TabItem>
         </TabControl>
     </Grid>
 </Window>
