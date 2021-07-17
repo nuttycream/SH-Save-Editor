@@ -40,5 +40,9 @@ Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.c
 - Developed in C# and XAML on the .NET Core WPF UI Framework
 - Used [MaterialDesignInXAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) for buttons, icons, ui etc.
 
+## Like what I do?
+- Donate via [Paypal](https://www.paypal.com/donate?business=LUMQ96R38FW4C&no_recurring=0&currency_code=USD)
+- Donate via [Ko-fi](https://ko-fi.com/nuttycream)
+
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
