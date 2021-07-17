@@ -1,4 +1,5 @@
-# Space Haven Save Editor
+# <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/SpaceHaven%20Save%20Editor/Resources/icon.ico" width="25" height="25"/> Space Haven Save Editor
+
 
 Edit your Space Haven game save!
 ## Features
@@ -9,8 +10,8 @@ Edit your Space Haven game save!
 - Edit research values (coming soon)
 
 ## Screenshots
-<div style="text-align:center" ><img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/File%20Menu.png"/></div>
-<div style="text-align:center"><img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/></div>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/File%20Menu.png"/>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
 
 ## Usage
 - Click on Releases, download zip file.
