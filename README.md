@@ -14,7 +14,7 @@ Edit your Space Haven game save!
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
 
 ## Usage
-- **Note: Install [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime) to use framework dependent application.**
+- **Note: Install [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime) to use framework dependent version.**
 - Click on Releases, download self contained zip (much bigger) __OR__ framework dependent zip. 
 - Unzip anywhere then click and run program
 - Click open file, it should open a file explorer window
