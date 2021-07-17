@@ -1,23 +1,24 @@
 # Space Haven Save Editor
 
-Edit you Space Haven game save!
+Edit your Space Haven game save!
 ## Features
 - Edit each character's stats including health, attributes, skills, traits
-- Add money to players bank
+- Add money to player's bank
 - Add items to storages
 - Add tools to tool storages
 - Edit research values (coming soon)
 
 ## Screenshots
-<!-- ![Example screenshot](./img/screenshot.png) -->
+<div style="text-align:center" ><img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/File%20Menu.png"/></div>
+<div style="text-align:center"><img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/></div>
 
 ## Usage
-- Click on Releases, download framework dependent .exe (requires .NET Framework 5.0) OR self-contained .exe (much bigger)
-- Run program
+- Click on Releases, download zip file.
+- Unzip anywhere then click and run program
 - Click open file, it should open a file explorer window
 - Navigate to stored game save location:
 `..steamapps\common\SpaceHaven\savegames\(SAVE NAME)\save`
-- Open file "game"
+- Select file named "game"
 - Click create back-up and start editing!
 - Save file once done.
 
@@ -29,7 +30,7 @@ Edit you Space Haven game save!
 ## Acknowledgements
 - Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 - Developed in C# and XAML on the .NET Core WPF UI Framework
-- WPF Themeing [MaterialDesignInXAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit)
+- Used [MaterialDesignInXAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) for buttons, icons, ui etc.
 
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
