@@ -23,6 +23,12 @@ Edit your Space Haven game save!
 - Click create back-up and start editing!
 - Save file once done.
 
+## For Linux and Mac (i think)
+- Note: I tested this on Fedora 33, I don't have a mac but it should be about the same?
+- You'll need Wine to run the program
+- Download zip and extract to a folder
+- do `wine SpaceHaven Save Editor.exe`
+
 ## Build
 - Clone or download git repo
 - Open `Space Haven Save Editor.sln` in Visual Studio. (Requires .NET 5.0)
