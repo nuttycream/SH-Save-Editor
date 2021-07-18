@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
 using SpaceHaven_Save_Editor.ID;
@@ -13,7 +13,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
     {
         public StorageViewModel()
         {
-            ItemList = new List<string>(IDCollections.DefaultItemIDs.Values.ToList());
+            ItemList = new List<string>(IDCollections.GetItemList());
 
             AddToStorage = new RelayCommand(AddToStorageList);
             RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
@@ -32,14 +32,15 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         private void AddToStorageList()
         {
-            foreach (var (key, value) in IDCollections.DefaultItemIDs)
-            {
-                if (SelectedStorageFacility == null)
+            if (SelectedStorageFacility == null)
+                MessageBox.Show("Select a storage facility to add items.");
+            else
+                foreach (var itemNode in IDCollections.ItemNodes)
+                {
+                    if (itemNode.Name != SelectedItem) continue;
+                    SelectedStorageFacility.CargoList.Add(new Cargo(itemNode.ID, SelectedItemAmount));
                     break;
-                if (value != SelectedItem) continue;
-                SelectedStorageFacility.CargoList.Add(new Cargo(key, SelectedItemAmount));
-                break;
-            }
+                }
         }
 
         private void RemoveFromStorageList()

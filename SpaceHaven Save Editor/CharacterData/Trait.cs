@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using SpaceHaven_Save_Editor.ID;
+﻿using SpaceHaven_Save_Editor.ID;
 
 namespace SpaceHaven_Save_Editor.CharacterData
 {
@@ -10,33 +9,23 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public Trait(int traitId)
         {
-            if (IDCollections.DefaultTraitIDs.TryGetValue(traitId, out var value))
+            foreach (var traitNode in IDCollections.TraitNodes)
             {
-                _traitName = value;
+                if (traitNode.ID != traitId) continue;
+                _traitName = traitNode.Name;
                 TraitId = traitId;
-            }
-            else
-            {
-                _traitName = traitId + " Not Found";
-                TraitId = 0;
+                break;
             }
         }
 
         public Trait(string traitName)
         {
-            if (IDCollections.DefaultTraitIDs.ContainsValue(traitName))
+            foreach (var traitNode in IDCollections.TraitNodes)
             {
-                foreach (var trait in IDCollections.DefaultTraitIDs.Where(trait => trait.Value == traitName))
-                {
-                    TraitId = trait.Key;
-                    _traitName = traitName;
-                    break;
-                }
-            }
-            else
-            {
-                TraitId = 0;
-                _traitName = traitName + " Not Found";
+                if (traitNode.Name != traitName) continue;
+                _traitName = traitName;
+                TraitId = traitNode.ID;
+                break;
             }
         }
 

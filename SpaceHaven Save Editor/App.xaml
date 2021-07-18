@@ -25,7 +25,7 @@
             <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
                 <views:Settings />
             </DataTemplate>
-            
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

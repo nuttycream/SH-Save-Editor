@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -19,7 +18,6 @@ namespace SpaceHaven_Save_Editor.ViewModels
             RemoveTrait = new RelayCommand(RemoveTraitFromList);
 
             foreach (var traitNode in IDCollections.TraitNodes) TraitsList.Add(traitNode.Name);
-
         }
 
         public ICommand AddToTraits { get; }

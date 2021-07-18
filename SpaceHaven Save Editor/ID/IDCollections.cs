@@ -1,37 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace SpaceHaven_Save_Editor.ID
 {
     // ReSharper disable once InconsistentNaming
     public static class IDCollections
     {
-        public static readonly List<string> Foods = new()
-        {
-            "protein",
-            "carbs",
-            "fat",
-            "vitamins",
-            "toxins"
-        };
+        private static ObservableCollection<Node> _attributeNodes = new();
+        private static ObservableCollection<Node> _itemNodes = new();
+        private static ObservableCollection<Node> _skillNodes = new();
+        private static ObservableCollection<Node> _traitNodes = new();
 
-        public static readonly List<string> CharacterStats = new()
-        {
-            "Health",
-            "Rest",
-            "Comfort",
-            "Oxygen",
-            "Mood",
-            "Social"
-        };
-
-        public static ObservableCollection<Node> AttributeNodes = new();
-        public static ObservableCollection<Node> ItemNodes = new();
-        public static ObservableCollection<Node> SkillNodes = new();
-        public static ObservableCollection<Node> TraitNodes = new();
-        
-        
-        public static readonly Dictionary<int, string> DefaultAttributeIDs = new()
+        private static readonly Dictionary<int, string> DefaultAttributeIDs = new()
         {
             {210, "Bravery"},
             {212, "Zest"},
@@ -39,7 +20,7 @@ namespace SpaceHaven_Save_Editor.ID
             {214, "Perception"}
         };
 
-        public static readonly Dictionary<int, string> DefaultSkillIDs = new()
+        private static readonly Dictionary<int, string> DefaultSkillIDs = new()
         {
             {1, "Piloting"},
             {2, "Mining"},
@@ -57,7 +38,7 @@ namespace SpaceHaven_Save_Editor.ID
             {16, "Research"}
         };
 
-        public static readonly Dictionary<int, string> DefaultTraitIDs = new()
+        private static readonly Dictionary<int, string> DefaultTraitIDs = new()
         {
             {2082, "Alien Lover"},
             {1037, "Anti-Social"},
@@ -85,7 +66,7 @@ namespace SpaceHaven_Save_Editor.ID
             {655, "Wimp"}
         };
 
-        public static readonly Dictionary<int, string> DefaultItemIDs = new()
+        private static readonly Dictionary<int, string> DefaultItemIDs = new()
         {
             {15, "Root Vegetables"},
             {16, "Water"},
@@ -137,5 +118,106 @@ namespace SpaceHaven_Save_Editor.ID
             {2657, "Nuts and Seeds"},
             {2475, "Fertilizer"}
         };
+
+        private static readonly Dictionary<ObservableCollection<Node>, Dictionary<int, string>> Defaults = new()
+        {
+            {AttributeNodes, DefaultAttributeIDs}, {ItemNodes, DefaultItemIDs}, {SkillNodes, DefaultSkillIDs},
+            {TraitNodes, DefaultTraitIDs}
+        };
+
+        public static ObservableCollection<Node> AttributeNodes
+        {
+            get => _attributeNodes;
+            set
+            {
+                _attributeNodes = value;
+                NotifyStaticPropertyChanged("AttributeNodes");
+            }
+        }
+
+        public static ObservableCollection<Node> ItemNodes
+        {
+            get => _itemNodes;
+            set
+            {
+                _itemNodes = value;
+                NotifyStaticPropertyChanged("ItemNodes");
+            }
+        }
+
+        public static ObservableCollection<Node> SkillNodes
+        {
+            get => _skillNodes;
+            set
+            {
+                _skillNodes = value;
+                NotifyStaticPropertyChanged("SkillNodes");
+            }
+        }
+
+        public static ObservableCollection<Node> TraitNodes
+        {
+            get => _traitNodes;
+            set
+            {
+                _traitNodes = value;
+                NotifyStaticPropertyChanged("TraitNodes");
+            }
+        }
+
+        public static event PropertyChangedEventHandler StaticPropertyChanged;
+
+        private static void NotifyStaticPropertyChanged(string name)
+        {
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(name));
+        }
+
+        public static void SetToDefaults()
+        {
+            foreach (var (keys, values) in Defaults)
+            foreach (var (key, value) in values)
+                keys.Add(new Node(key, value));
+        }
+
+        public static Dictionary<string, ObservableCollection<Node>> GetIdList()
+        {
+            var idList = new Dictionary<string, ObservableCollection<Node>>
+            {
+                {"Attributes", AttributeNodes},
+                {"Items", ItemNodes},
+                {"Skills", SkillNodes},
+                {"Traits", TraitNodes}
+            };
+
+            return idList;
+        }
+
+        public static void SetIdList(Dictionary<string, ObservableCollection<Node>> idList)
+        {
+            foreach (var (key, value) in idList)
+                switch (key)
+                {
+                    case "Attributes":
+                        AttributeNodes = value;
+                        break;
+                    case "Items":
+                        ItemNodes = value;
+                        break;
+                    case "Skills":
+                        SkillNodes = value;
+                        break;
+                    case "Traits":
+                        TraitNodes = value;
+                        break;
+                }
+        }
+
+        public static IEnumerable<string> GetItemList()
+        {
+            var itemList = new List<string>();
+            foreach (var node in _itemNodes) itemList.Add(node.Name);
+
+            return itemList;
+        }
     }
 }

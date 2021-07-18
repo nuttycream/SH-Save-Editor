@@ -9,8 +9,10 @@ namespace SpaceHaven_Save_Editor.Utilities
         private const string SaveExtension = ".txt";
         private static readonly string SettingsFolderPath = Directory.GetCurrentDirectory() + "/settings/";
 
-        public static bool SaveExists(string key, string saveExt = SaveExtension) => 
-            File.Exists(SettingsFolderPath + key + saveExt);
+        public static bool SaveExists(string key, string saveExt = SaveExtension)
+        {
+            return File.Exists(SettingsFolderPath + key + saveExt);
+        }
 
         public static void Save<T>(T objectToSave, string key)
         {
@@ -27,7 +29,7 @@ namespace SpaceHaven_Save_Editor.Utilities
         {
             var fileText = File.ReadAllText(SettingsFolderPath + key + SaveExtension);
             var dataToLoadInto = JsonSerializer.Deserialize<T>(fileText);
-            
+
             Debug.Print(key + " found, loading...");
             return dataToLoadInto;
         }

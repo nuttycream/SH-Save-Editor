@@ -6,14 +6,14 @@ namespace SpaceHaven_Save_Editor.ShipData
     {
         public Cargo(int id, int amount)
         {
-            if (!IDCollections.DefaultItemIDs.ContainsKey(id)) return;
-
-            CargoId = id;
-            CargoAmount = amount;
-
-            foreach (var (key, value) in IDCollections.DefaultItemIDs)
-                if (key == id)
-                    CargoName = value;
+            foreach (var nodeId in IDCollections.ItemNodes)
+            {
+                if (nodeId.ID != id) continue;
+                CargoId = id;
+                CargoName = nodeId.Name;
+                CargoAmount = amount;
+                break;
+            }
         }
 
         public int CargoId { get; set; }

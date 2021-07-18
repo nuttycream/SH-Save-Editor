@@ -6,7 +6,7 @@ namespace SpaceHaven_Save_Editor.CharacterData
     {
         public Food(string foodName, string amount)
         {
-            if (IDCollections.Foods.Contains(foodName))
+            if (NodeCollections.Foods.Contains(foodName))
             {
                 FoodName = foodName;
                 Amount = amount;

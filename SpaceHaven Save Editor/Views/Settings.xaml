@@ -13,76 +13,79 @@
              Background="{DynamicResource MaterialDesignPaper}"
              FontSize="14"
              FontFamily="{materialDesign:MaterialDesignFont}">
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
-        <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Settings" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                             Padding="10" Margin="10,0,10,0" Background="Teal"></materialDesign:Card>
-        
-        <materialDesign:Card Grid.Row="1" Grid.Column="0" Content="Nodes:" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Padding="10" Background="Indigo"></materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Settings"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                             Padding="10" Margin="10,0,10,0" Background="Teal" />
+
+        <materialDesign:Card Grid.Row="1" Grid.Column="0" Content="Nodes:" HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Padding="10" Background="Indigo" />
         <ScrollViewer Grid.Row="2" Grid.Column="0">
             <TreeView>
-                <Button Content="Save Test" Command="{Binding SaveSettings}" Padding="5"></Button>
-                <Button Content="Load Test" Command="{Binding LoadSettings}" Padding="5"></Button>
-                <TreeViewItem Header="Character Nodes" ItemsSource="{x:Static s:IDCollections.CharacterStats}"></TreeViewItem>
+                <Button Content="Save Test" Command="{Binding SaveSettings}" Padding="5" />
+                <Button Content="Load Test" Command="{Binding LoadSettings}" Padding="5" />
+                <TreeViewItem Header="Character Nodes" ItemsSource="{x:Static s:NodeCollections.CharacterStats}" />
                 <TreeViewItem Header="Food">
-                    <TreeViewItem Header="Stored Node"></TreeViewItem>
-                    <TreeViewItem Header="In Belly Node"></TreeViewItem>
-                    <TreeViewItem Header="Food Nodes" ItemsSource="{x:Static s:IDCollections.Foods}"></TreeViewItem>
+                    <TreeViewItem Header="Stored Node" />
+                    <TreeViewItem Header="In Belly Node" />
+                    <TreeViewItem Header="Food Nodes" ItemsSource="{x:Static s:NodeCollections.Foods}" />
                 </TreeViewItem>
             </TreeView>
         </ScrollViewer>
-        
-        <materialDesign:Card Grid.Row="1" Grid.Column="1" Content="ID List:" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                             Padding="10" Background="Indigo"></materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="1" Grid.Column="1" Content="ID List:" HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Padding="10" Background="Indigo" />
         <ScrollViewer Grid.Row="2" Grid.Column="1">
             <TreeView>
                 <TreeViewItem Header="Attributes">
-                    <DataGrid ItemsSource="{x:Static s:IDCollections.AttributeNodes}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Path=(s:IDCollections.AttributeNodes)}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TreeViewItem>
-                
+
                 <TreeViewItem Header="Skills">
-                    <DataGrid ItemsSource="{x:Static s:IDCollections.SkillNodes}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Path=(s:IDCollections.SkillNodes)}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TreeViewItem>
-                
+
                 <TreeViewItem Header="Traits">
-                    <DataGrid ItemsSource="{x:Static s:IDCollections.TraitNodes}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Path=(s:IDCollections.TraitNodes)}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TreeViewItem>
-                
+
                 <TreeViewItem Header="Items">
-                    <DataGrid ItemsSource="{x:Static s:IDCollections.ItemNodes}" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Path=(s:IDCollections.ItemNodes)}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="250" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TreeViewItem>
-                
+
             </TreeView>
         </ScrollViewer>
     </Grid>

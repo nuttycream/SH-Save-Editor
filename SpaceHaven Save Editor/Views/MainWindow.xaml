@@ -52,13 +52,13 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            
+
             <TabItem
                 Header="{materialDesign:PackIcon Kind=AccountGroup, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <ContentControl Content="{Binding CharacterContent}" />
             </TabItem>
-            
+
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Head, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
@@ -80,13 +80,13 @@
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <ContentControl Content="{Binding StorageViewModel}" />
             </TabItem>
-            
+
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Settings, Size=34}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                 <ContentControl Content="{Binding SettingsViewModel}" />
             </TabItem>
-            
+
         </TabControl>
     </Grid>
 </Window>

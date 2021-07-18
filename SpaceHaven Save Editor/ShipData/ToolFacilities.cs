@@ -2,11 +2,11 @@
 {
     public class ToolFacilities
     {
-        public readonly int Index;
+        private readonly int _index;
 
         public ToolFacilities(int index)
         {
-            Index = index + 1;
+            _index = index;
         }
 
         //feat ft=
@@ -14,7 +14,7 @@
 
         public override string ToString()
         {
-            return "Tool Facility " + (Index + 1);
+            return "Tool Facility " + (_index + 1);
         }
     }
 }

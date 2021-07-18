@@ -11,14 +11,13 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        private readonly CharacterViewModel _characterViewModel;
         private readonly ReadFile _readFile;
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly StorageViewModel _storageViewModel;
         private readonly WriteFile _writeFile;
 
         private List<Character> _characters = new();
-
-        private readonly CharacterViewModel _characterViewModel;
-        private readonly StorageViewModel _storageViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
 
         public MainWindowViewModel()
         {
@@ -32,7 +31,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             _readFile.ProgressList += UpdateProgress;
             _writeFile.ProgressList += UpdateProgress;
-            
+
             _settingsViewModel = new SettingsViewModel();
             _characterViewModel = new CharacterViewModel();
             _storageViewModel = new StorageViewModel();

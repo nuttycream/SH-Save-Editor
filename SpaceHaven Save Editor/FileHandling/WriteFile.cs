@@ -45,22 +45,23 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
         private void WritePlayer(XmlNodeList nodeList)
         {
-            var playerBank = FindNode(nodeList, "playerBank");
+            var playerBank = FindNode(nodeList, NodeCollections.PlayerBankNode);
             if (playerBank?.Attributes == null) return;
             AddProgress("Found Player Bank Node... Writing credits: " + _playerCredits);
-            if (playerBank.Attributes["ca"] != null)
-                playerBank.Attributes["ca"].Value = _playerCredits;
+            if (playerBank.Attributes[NodeCollections.PlayerBankAttribute] != null)
+                playerBank.Attributes[NodeCollections.PlayerBankAttribute].Value = _playerCredits;
         }
 
         private void WriteCharacter(XmlNodeList nodeList)
         {
             foreach (var character in _characters)
             {
-                var characterNode = FindNodeWithAttributeValue(nodeList, "c", "name", character.CharacterName);
+                var characterNode = FindNodeWithAttributeValue(nodeList, NodeCollections.CharacterNode,
+                    NodeCollections.CharacterAttributeName, character.CharacterName);
                 if (characterNode == null) continue;
                 AddProgress("Found Character Node: " + character.CharacterName + " Writing Data... ");
                 var childNodes = characterNode.ChildNodes;
-                foreach (var characterStat in IDCollections.CharacterStats)
+                foreach (var characterStat in NodeCollections.CharacterStats)
                 {
                     var statNode = FindNode(childNodes, characterStat);
                     if (statNode?.Attributes == null) continue;
@@ -69,30 +70,22 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         statNode.Attributes["v"].Value = character.FindStat(characterStat);
                 }
 
-                var foodNode = FindNode(childNodes, "Food");
+                var foodNode = FindNode(childNodes, NodeCollections.CharacterFoodNode);
                 if (foodNode != null)
                 {
                     AddProgress("Found Food Node... Writing...");
                     foreach (XmlNode node in foodNode.ChildNodes)
-                        switch (node.Name)
-                        {
-                            case "stored" when node.Attributes == null:
-                                continue;
-                            case "stored":
-                                foreach (XmlAttribute attribute in node.Attributes)
-                                    attribute.Value = character.FindFood(attribute.Name, true);
-                                break;
-                            case "belly" when node.Attributes == null:
-                                continue;
-                            case "belly":
-                                foreach (XmlAttribute attribute in node.Attributes)
-                                    attribute.Value = character.FindFood(attribute.Name, false);
-                                break;
-                        }
+                        if (node.Name == NodeCollections.CharacterStoredFoodNode && node.Attributes != null)
+                            foreach (XmlAttribute attribute in node.Attributes)
+                                attribute.Value = character.FindFood(attribute.Name, true);
+
+                        else if (node.Name == NodeCollections.CharacterStomachFoodNode && node.Attributes != null)
+                            foreach (XmlAttribute attribute in node.Attributes)
+                                attribute.Value = character.FindFood(attribute.Name, false);
                 }
 
                 //attributes
-                var attributesNode = FindNode(childNodes, "attr");
+                var attributesNode = FindNode(childNodes, NodeCollections.CharacterAttributesNode);
                 if (attributesNode != null)
                 {
                     AddProgress("Found Attributes Node... Writing...");
@@ -102,7 +95,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 }
 
                 //traits
-                var traitsNode = FindNode(childNodes, "traits");
+                var traitsNode = FindNode(childNodes, NodeCollections.CharacterTraitsNode);
                 if (traitsNode != null)
                 {
                     AddProgress("Found Traits Node... Writing...");
@@ -117,7 +110,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 }
 
                 //Skills
-                var skillsNode = FindNode(childNodes, "skills");
+                var skillsNode = FindNode(childNodes, NodeCollections.CharacterSkillsNode);
                 if (skillsNode != null)
                 {
                     AddProgress("Found Skills Node... Writing...");
@@ -133,7 +126,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         private void WriteStorages(XmlNode saveFile)
         {
             var storageCount = 0;
-            var storageNodes = saveFile.SelectNodes("//feat[@eatAllowed]");
+            var storageNodes = saveFile.SelectNodes(NodeCollections.StoragesXPath);
             if (storageNodes == null)
             {
                 Debug.Print("Storage Nodes Not Found");
@@ -150,9 +143,9 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
                 foreach (var cargo in storageFacility.CargoList)
                 {
-                    var itemTemplate = inventoryNode.OwnerDocument.CreateElement("s");
-                    itemTemplate.SetAttribute("elementaryId", cargo.CargoId.ToString());
-                    itemTemplate.SetAttribute("inStorage", cargo.CargoAmount.ToString());
+                    var itemTemplate = inventoryNode.OwnerDocument.CreateElement(NodeCollections.CargoItemElementName);
+                    itemTemplate.SetAttribute(NodeCollections.CargoItemAttributeId, cargo.CargoId.ToString());
+                    itemTemplate.SetAttribute(NodeCollections.CargoItemAttributeAmount, cargo.CargoAmount.ToString());
                     itemTemplate.SetAttribute("onTheWayIn", "0");
                     itemTemplate.SetAttribute("onTheWayOut", "0");
                     inventoryNode.AppendChild(itemTemplate);
@@ -162,7 +155,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             }
 
 
-            var toolNodes = saveFile.SelectNodes("//feat[@ft]");
+            var toolNodes = saveFile.SelectNodes(NodeCollections.ToolsXPath);
             var toolCount = 0;
             if (toolNodes == null) return;
             AddProgress("Found Tool Nodes... Writing...");

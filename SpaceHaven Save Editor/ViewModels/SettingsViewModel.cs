@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -15,50 +16,27 @@ namespace SpaceHaven_Save_Editor.ViewModels
             SaveSettings = new RelayCommand(Save);
             LoadSettings = new RelayCommand(Load);
 
-            if (!SaveUtility.SaveExists("config"))
-            {
-                UseDefaults();
-            }
+            //UseDefaults();
         }
+
+        public ICommand SaveSettings { get; set; }
+        public ICommand LoadSettings { get; set; }
 
         private void UseDefaults()
         {
-            foreach (var (key, value) in IDCollections.DefaultAttributeIDs)
-                IDCollections.AttributeNodes.Add(new Node(key, value));
-
-            foreach (var (key, value) in IDCollections.DefaultSkillIDs)
-                IDCollections.SkillNodes.Add(new Node(key, value));
-
-            foreach (var (key, value) in IDCollections.DefaultTraitIDs)
-                IDCollections.TraitNodes.Add(new Node(key, value));
-            
-            foreach (var (key, value) in IDCollections.DefaultItemIDs)
-                IDCollections.ItemNodes.Add(new Node(key, value));
+            IDCollections.SetToDefaults();
         }
 
         private void Save()
         {
-            SaveUtility.Save(IDCollections.AttributeNodes, nameof(IDCollections.AttributeNodes));
-            SaveUtility.Save(IDCollections.ItemNodes, nameof(IDCollections.ItemNodes));
-            SaveUtility.Save(IDCollections.TraitNodes, nameof(IDCollections.TraitNodes));
-            SaveUtility.Save(IDCollections.SkillNodes, nameof(IDCollections.SkillNodes));
-            
+            SaveUtility.Save(IDCollections.GetIdList(), "ids");
+
             MessageBox.Show("Saved!");
         }
 
         private void Load()
         {
-            IDCollections.AttributeNodes = SaveUtility.Load<ObservableCollection<Node>>(nameof(IDCollections.AttributeNodes));
-            IDCollections.ItemNodes = SaveUtility.Load<ObservableCollection<Node>>(nameof(IDCollections.ItemNodes));
-            IDCollections.TraitNodes = SaveUtility.Load<ObservableCollection<Node>>(nameof(IDCollections.TraitNodes));
-            IDCollections.SkillNodes = SaveUtility.Load<ObservableCollection<Node>>(nameof(IDCollections.SkillNodes));
-            
-            IDCollections.AttributeNodes.Add(new Node(1, "Test"));
-            
-            MessageBox.Show("Loaded!");
+            IDCollections.SetIdList(SaveUtility.Load<Dictionary<string, ObservableCollection<Node>>>("ids"));
         }
-
-        public ICommand SaveSettings { get; set; }
-        public ICommand LoadSettings { get; set; }
     }
 }

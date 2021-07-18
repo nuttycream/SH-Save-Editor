@@ -4,11 +4,11 @@ namespace SpaceHaven_Save_Editor.ShipData
 {
     public class StorageFacilities
     {
-        public readonly int Index;
+        private readonly int _index;
 
         public StorageFacilities(int index)
         {
-            Index = index;
+            _index = index;
             CargoList = new ObservableCollection<Cargo>();
         }
 
@@ -17,7 +17,7 @@ namespace SpaceHaven_Save_Editor.ShipData
 
         public override string ToString()
         {
-            return "Storage " + (Index + 1);
+            return "Storage " + (_index + 1);
         }
     }
 }

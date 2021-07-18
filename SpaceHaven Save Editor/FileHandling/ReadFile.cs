@@ -63,30 +63,32 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
             while (await reader.ReadAsync())
             {
-                if (reader.Name.Equals("c") && reader.GetAttribute("name") != null)
+                if (reader.Name.Equals(NodeCollections.CharacterNode) &&
+                    reader.GetAttribute(NodeCollections.CharacterAttributeName) != null)
                 {
-                    var name = reader.GetAttribute("name");
+                    var name = reader.GetAttribute(NodeCollections.CharacterAttributeName);
                     var characterNode = doc.ReadNode(reader);
                     AddProgress("Found Character Node for " + name + ". Reading inner text.");
                     characters.Add(await Task.Run(() => HandleCharacterNode(characterNode, name)));
                 }
 
-                if (reader.Name.Equals("playerBank") && reader.GetAttribute("ca") != null)
+                if (reader.Name.Equals(NodeCollections.PlayerBankNode) &&
+                    reader.GetAttribute(NodeCollections.PlayerBankAttribute) != null)
                 {
-                    var amount = reader.GetAttribute("ca");
+                    var amount = reader.GetAttribute(NodeCollections.PlayerBankAttribute);
                     PlayerCredits = amount;
                 }
 
-                if (reader.Name.Equals("feat") && reader.NodeType == XmlNodeType.Element)
+                if (reader.Name.Equals(NodeCollections.StorageNode) && reader.NodeType == XmlNodeType.Element)
                 {
-                    if (reader.GetAttribute("eatAllowed") != null)
+                    if (reader.GetAttribute(NodeCollections.StorageAttributeForCargo) != null)
                     {
                         AddProgress("Found Storage Node.");
                         var storageNode = doc.ReadNode(reader);
                         Ship.StorageFacilities.Add(await Task.Run(() => ReadStorage(storageNode)));
                     }
 
-                    if (reader.GetAttribute("ft") == null) continue;
+                    if (reader.GetAttribute(NodeCollections.StorageAttributeForTools) == null) continue;
                     {
                         AddProgress("Found Tools Node.");
                         var toolNode = doc.ReadNode(reader);
@@ -103,7 +105,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             var newToolFacility = new ToolFacilities(_toolCount++)
             {
-                BuildingTools = (int) GetValueFloat(storageNode, "ft")
+                BuildingTools = (int) GetValueFloat(storageNode, NodeCollections.StorageAttributeForTools)
             };
 
             return newToolFacility;
@@ -120,8 +122,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 {
                     if (cargo.NodeType != XmlNodeType.Element || cargo.Attributes == null) continue;
                     newStorageFacility.CargoList.Add(
-                        new Cargo((int) GetValueFloat(cargo, "elementaryId"),
-                            (int) GetValueFloat(cargo, "inStorage")));
+                        new Cargo((int) GetValueFloat(cargo, NodeCollections.CargoItemAttributeId),
+                            (int) GetValueFloat(cargo, NodeCollections.CargoItemAttributeAmount)));
                 }
             }
 
@@ -133,16 +135,15 @@ namespace SpaceHaven_Save_Editor.FileHandling
             var tasks = new List<Task>();
             var newCharacter = new Character(name);
             foreach (XmlNode rootNode in node.ChildNodes)
-                switch (rootNode.Name)
+                if (rootNode.Name == NodeCollections.CharacterStatsNode)
                 {
-                    case "props":
-                        tasks.Add(Task.Run(() => ReadStats(rootNode, ref newCharacter)));
-                        AddProgress("Found 'props' node.");
-                        break;
-                    case "pers":
-                        tasks.Add(Task.Run(() => ReadPers(rootNode, ref newCharacter)));
-                        AddProgress("Found 'pers' node.");
-                        break;
+                    tasks.Add(Task.Run(() => ReadStats(rootNode, ref newCharacter)));
+                    AddProgress("Found 'props' node.");
+                }
+                else if (rootNode.Name == NodeCollections.CharacterPersonalNode)
+                {
+                    tasks.Add(Task.Run(() => ReadPers(rootNode, ref newCharacter)));
+                    AddProgress("Found 'pers' node.");
                 }
 
             await Task.WhenAll(tasks);
@@ -153,40 +154,32 @@ namespace SpaceHaven_Save_Editor.FileHandling
         private void ReadPers(XmlNode rootNode, ref Character newCharacter)
         {
             foreach (XmlNode persNode in rootNode.ChildNodes)
-                switch (persNode.Name)
+                if (persNode.Name == NodeCollections.CharacterAttributesNode)
                 {
-                    case "attr":
+                    AddProgress("Found 'attr' node. Adding attributes to character.");
+                    foreach (XmlNode attributesNode in persNode.ChildNodes)
                     {
-                        AddProgress("Found 'attr' node. Adding attributes to character.");
-                        foreach (XmlNode attributesNode in persNode.ChildNodes)
-                        {
-                            if (attributesNode.Attributes?["id"] == null) continue;
-                            newCharacter.AddAttribute((int) GetValueFloat(attributesNode, "id"),
-                                (int) GetValueFloat(attributesNode, "points"));
-                        }
-
-                        break;
+                        if (attributesNode.Attributes?["id"] == null) continue;
+                        newCharacter.AddAttribute((int) GetValueFloat(attributesNode, "id"),
+                            (int) GetValueFloat(attributesNode, "points"));
                     }
-                    case "traits":
+                }
+                else if (persNode.Name == NodeCollections.CharacterTraitsNode)
+                {
+                    AddProgress("Found 'traits' node. Adding traits to character.");
+                    foreach (XmlNode traitNode in persNode.ChildNodes)
                     {
-                        AddProgress("Found 'traits' node. Adding traits to character.");
-                        foreach (XmlNode traitNode in persNode.ChildNodes)
-                        {
-                            if (traitNode.Name != "t") continue;
-                            newCharacter.AddTrait((int) GetValueFloat(traitNode, "id"));
-                        }
-
-                        break;
+                        if (traitNode.Name != "t") continue;
+                        newCharacter.AddTrait((int) GetValueFloat(traitNode, "id"));
                     }
-                    case "skills":
-                    {
-                        AddProgress("Found 'skills' node. Adding skills to character.");
-                        foreach (XmlNode skillsNode in persNode.ChildNodes)
-                            if (skillsNode.Attributes?["level"] != null)
-                                newCharacter.AddSkill((int) GetValueFloat(skillsNode, "sk"),
-                                    (int) GetValueFloat(skillsNode, "level"));
-                        break;
-                    }
+                }
+                else if (persNode.Name == NodeCollections.CharacterSkillsNode)
+                {
+                    AddProgress("Found 'skills' node. Adding skills to character.");
+                    foreach (XmlNode skillsNode in persNode.ChildNodes)
+                        if (skillsNode.Attributes?["level"] != null)
+                            newCharacter.AddSkill((int) GetValueFloat(skillsNode, "sk"),
+                                (int) GetValueFloat(skillsNode, "level"));
                 }
         }
 
@@ -195,26 +188,25 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (XmlNode propsNode in rootNode.ChildNodes)
             {
                 if (propsNode.NodeType == XmlNodeType.Whitespace) continue;
-                foreach (var characterStat in IDCollections.CharacterStats)
+                foreach (var characterStat in NodeCollections.CharacterStats)
                 {
                     if (characterStat != propsNode.Name) continue;
                     newCharacter.AddStats(propsNode.Name, (int) GetValueFloat(propsNode, "v"));
                     break;
                 }
 
-                if (propsNode.Name != "Food") continue;
+                if (propsNode.Name != NodeCollections.CharacterFoodNode) continue;
                 AddProgress("Found 'Food' node.");
                 foreach (XmlNode foodNode in propsNode.ChildNodes)
-                    switch (foodNode.Name)
+                    if (foodNode.Name == NodeCollections.CharacterStoredFoodNode)
                     {
-                        case "stored":
-                            AddProgress("Found 'Food' sub node 'stored'.");
-                            ReadFood(ref newCharacter, foodNode, true);
-                            break;
-                        case "belly":
-                            AddProgress("Found 'Food' sub node 'belly'.");
-                            ReadFood(ref newCharacter, foodNode, false);
-                            break;
+                        AddProgress("Found 'Food' sub node 'stored'.");
+                        ReadFood(ref newCharacter, foodNode, true);
+                    }
+                    else if (foodNode.Name == NodeCollections.CharacterStomachFoodNode)
+                    {
+                        AddProgress("Found 'Food' sub node 'belly'.");
+                        ReadFood(ref newCharacter, foodNode, false);
                     }
             }
         }
@@ -224,7 +216,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             var foodAttributeCollection = foodNode.Attributes;
             if (foodAttributeCollection == null) return;
             foreach (XmlAttribute foodAttribute in foodAttributeCollection)
-            foreach (var food in IDCollections.Foods)
+            foreach (var food in NodeCollections.Foods)
             {
                 if (foodAttribute.Name != food) continue;
                 newCharacter.AddFood(foodAttribute.Name, foodAttribute.Value, stored);

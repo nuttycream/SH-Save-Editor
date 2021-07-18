@@ -8,17 +8,13 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public Skill(int skillId, int skillValue)
         {
-            if (IDCollections.DefaultSkillIDs.TryGetValue(skillId, out var skillName))
+            foreach (var skillNode in IDCollections.SkillNodes)
             {
-                SkillName = skillName;
+                if (skillNode.ID != skillId) continue;
+                SkillName = skillNode.Name;
                 SkillId = skillId;
                 SkillValue = skillValue;
-            }
-            else
-            {
-                SkillName = skillId + " Not Found";
-                SkillId = skillId;
-                SkillValue = 0;
+                break;
             }
         }
 
