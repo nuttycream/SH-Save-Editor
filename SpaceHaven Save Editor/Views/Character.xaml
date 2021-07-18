@@ -96,7 +96,7 @@
                         <Button Content="Add Trait" Margin="5" Command="{Binding AddToTraits}" />
                         <Button Content="Remove Selected Trait" Margin="5" Command="{Binding RemoveTrait}" />
                         <ListBox ItemsSource="{Binding SelectedCharacter.Traits, Mode=OneWay}" Margin="5"
-                                 SelectedItem="{Binding SelectedTraitFromList}" />
+                                 SelectedItem="{Binding SelectedTraitFromList}"/>
                     </StackPanel>
                 </ScrollViewer>
                 <ScrollViewer Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto"

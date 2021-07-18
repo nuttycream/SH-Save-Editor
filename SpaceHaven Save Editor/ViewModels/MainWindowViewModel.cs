@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -17,6 +18,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         private readonly CharacterViewModel _characterViewModel;
         private readonly StorageViewModel _storageViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
 
         public MainWindowViewModel()
         {
@@ -30,13 +32,17 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             _readFile.ProgressList += UpdateProgress;
             _writeFile.ProgressList += UpdateProgress;
-
+            
+            _settingsViewModel = new SettingsViewModel();
             _characterViewModel = new CharacterViewModel();
             _storageViewModel = new StorageViewModel();
+
+            var appPath = Directory.GetCurrentDirectory();
         }
 
         public BaseViewModel CharacterContent => _characterViewModel;
         public BaseViewModel StorageViewModel => _storageViewModel;
+        public BaseViewModel SettingsViewModel => _settingsViewModel;
 
         public ICommand OpenFile { get; }
         public ICommand CreateBackUp { get; }

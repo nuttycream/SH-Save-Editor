@@ -10,7 +10,7 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public Trait(int traitId)
         {
-            if (IDCollections.Traits.TryGetValue(traitId, out var value))
+            if (IDCollections.DefaultTraitIDs.TryGetValue(traitId, out var value))
             {
                 _traitName = value;
                 TraitId = traitId;
@@ -24,9 +24,9 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public Trait(string traitName)
         {
-            if (IDCollections.Traits.ContainsValue(traitName))
+            if (IDCollections.DefaultTraitIDs.ContainsValue(traitName))
             {
-                foreach (var trait in IDCollections.Traits.Where(trait => trait.Value == traitName))
+                foreach (var trait in IDCollections.DefaultTraitIDs.Where(trait => trait.Value == traitName))
                 {
                     TraitId = trait.Key;
                     _traitName = traitName;

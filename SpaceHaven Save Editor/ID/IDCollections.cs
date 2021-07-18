@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SpaceHaven_Save_Editor.ID
 {
@@ -24,7 +25,13 @@ namespace SpaceHaven_Save_Editor.ID
             "Social"
         };
 
-        public static readonly Dictionary<int, string> Attributes = new()
+        public static ObservableCollection<Node> AttributeNodes = new();
+        public static ObservableCollection<Node> ItemNodes = new();
+        public static ObservableCollection<Node> SkillNodes = new();
+        public static ObservableCollection<Node> TraitNodes = new();
+        
+        
+        public static readonly Dictionary<int, string> DefaultAttributeIDs = new()
         {
             {210, "Bravery"},
             {212, "Zest"},
@@ -32,7 +39,7 @@ namespace SpaceHaven_Save_Editor.ID
             {214, "Perception"}
         };
 
-        public static readonly Dictionary<int, string> Skills = new()
+        public static readonly Dictionary<int, string> DefaultSkillIDs = new()
         {
             {1, "Piloting"},
             {2, "Mining"},
@@ -50,7 +57,7 @@ namespace SpaceHaven_Save_Editor.ID
             {16, "Research"}
         };
 
-        public static readonly Dictionary<int, string> Traits = new()
+        public static readonly Dictionary<int, string> DefaultTraitIDs = new()
         {
             {2082, "Alien Lover"},
             {1037, "Anti-Social"},
@@ -78,7 +85,7 @@ namespace SpaceHaven_Save_Editor.ID
             {655, "Wimp"}
         };
 
-        public static readonly Dictionary<int, string> Items = new()
+        public static readonly Dictionary<int, string> DefaultItemIDs = new()
         {
             {15, "Root Vegetables"},
             {16, "Water"},

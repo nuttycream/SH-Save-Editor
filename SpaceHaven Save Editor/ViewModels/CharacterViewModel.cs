@@ -14,9 +14,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public CharacterViewModel()
         {
             Characters = new List<Character>();
-            TraitsList = new List<string>(IDCollections.Traits.Values.ToList());
+            TraitsList = new List<string>();
             AddToTraits = new RelayCommand(AddToTraitsList);
             RemoveTrait = new RelayCommand(RemoveTraitFromList);
+
+            foreach (var traitNode in IDCollections.TraitNodes) TraitsList.Add(traitNode.Name);
+
         }
 
         public ICommand AddToTraits { get; }

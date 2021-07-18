@@ -8,7 +8,7 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public Skill(int skillId, int skillValue)
         {
-            if (IDCollections.Skills.TryGetValue(skillId, out var skillName))
+            if (IDCollections.DefaultSkillIDs.TryGetValue(skillId, out var skillName))
             {
                 SkillName = skillName;
                 SkillId = skillId;

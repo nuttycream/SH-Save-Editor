@@ -13,7 +13,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
     {
         public StorageViewModel()
         {
-            ItemList = new List<string>(IDCollections.Items.Values.ToList());
+            ItemList = new List<string>(IDCollections.DefaultItemIDs.Values.ToList());
 
             AddToStorage = new RelayCommand(AddToStorageList);
             RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
@@ -32,7 +32,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         private void AddToStorageList()
         {
-            foreach (var (key, value) in IDCollections.Items)
+            foreach (var (key, value) in IDCollections.DefaultItemIDs)
             {
                 if (SelectedStorageFacility == null)
                     break;

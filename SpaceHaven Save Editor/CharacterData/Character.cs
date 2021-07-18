@@ -31,12 +31,12 @@ namespace SpaceHaven_Save_Editor.CharacterData
 
         public void AddTrait(int id)
         {
-            if (IDCollections.Traits.ContainsKey(id)) Traits.Add(new Trait(id));
+            if (IDCollections.DefaultTraitIDs.ContainsKey(id)) Traits.Add(new Trait(id));
         }
 
         public void AddAttribute(int attributeId, int newValue)
         {
-            foreach (var (i, value) in IDCollections.Attributes)
+            foreach (var (i, value) in IDCollections.DefaultAttributeIDs)
             {
                 if (i != attributeId) continue;
                 Attributes.Add(new AttributeData(i, value, newValue));
