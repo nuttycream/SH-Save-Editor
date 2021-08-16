@@ -47,9 +47,18 @@
                         <Button Content="Clear Log" Width="125" HorizontalAlignment="Left" Margin="0,5,0,5"
                                 Command="{Binding ClearLog}" />
                     </StackPanel>
-                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                        <TextBox Text="{Binding ReadLogText, Mode=OneWay}" IsReadOnly="True" />
-                    </ScrollViewer>
+                    <TabControl Grid.Row="1"  Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                                materialDesign:ColorZoneAssist.Mode="SecondaryMid">
+                        <TabItem Header="Log">
+                            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                                <TextBox Text="{Binding ReadLogText, Mode=OneWay}" IsReadOnly="True" />
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="Checklist">
+                            <CheckBox Content="CheckBox"></CheckBox>
+                        </TabItem>
+                    </TabControl>
+                    
                 </Grid>
             </TabItem>
 

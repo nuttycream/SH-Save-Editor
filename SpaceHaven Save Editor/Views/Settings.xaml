@@ -48,7 +48,7 @@
         <materialDesign:Card Grid.Row="1" Grid.Column="1" Content="ID List:" HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              Padding="10" Background="Indigo" />
-        <ScrollViewer Grid.Row="2" Grid.Column="1">
+        <ScrollViewer Grid.Row="2" Grid.Column="1" CanContentScroll="True">
             <TreeView>
                 <TreeViewItem Header="Attributes">
                     <DataGrid ItemsSource="{Binding Path=(s:IDCollections.AttributeNodes)}" AutoGenerateColumns="False">

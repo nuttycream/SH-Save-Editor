@@ -212,12 +212,20 @@ namespace SpaceHaven_Save_Editor.ID
                 }
         }
 
-        public static IEnumerable<string> GetItemList()
+        public static List<string> GetItemList()
         {
             var itemList = new List<string>();
             foreach (var node in _itemNodes) itemList.Add(node.Name);
 
             return itemList;
+        }
+
+        public static List<string> GetTraitList()
+        {
+            var traitList = new List<string>();
+            foreach (var node in _traitNodes) traitList.Add(node.Name);
+
+            return traitList;
         }
     }
 }

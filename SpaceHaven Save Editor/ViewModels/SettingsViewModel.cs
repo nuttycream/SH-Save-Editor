@@ -17,6 +17,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             LoadSettings = new RelayCommand(Load);
 
             //UseDefaults();
+            Load();
         }
 
         public ICommand SaveSettings { get; set; }

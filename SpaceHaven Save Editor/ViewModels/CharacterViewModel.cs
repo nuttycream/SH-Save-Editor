@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -13,18 +14,16 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public CharacterViewModel()
         {
             Characters = new List<Character>();
-            TraitsList = new List<string>();
             AddToTraits = new RelayCommand(AddToTraitsList);
             RemoveTrait = new RelayCommand(RemoveTraitFromList);
-
-            foreach (var traitNode in IDCollections.TraitNodes) TraitsList.Add(traitNode.Name);
+            
         }
 
         public ICommand AddToTraits { get; }
         public ICommand RemoveTrait { get; }
         public List<Character> Characters { get; set; }
         public Character SelectedCharacter { get; set; }
-        public List<string> TraitsList { get; }
+        public List<string> TraitsList => IDCollections.GetTraitList();
         public string SelectedTraitFromCombobox { get; set; }
         public Trait SelectedTraitFromList { get; set; }
 

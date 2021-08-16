@@ -13,7 +13,6 @@ namespace SpaceHaven_Save_Editor.ViewModels
     {
         public StorageViewModel()
         {
-            ItemList = new List<string>(IDCollections.GetItemList());
 
             AddToStorage = new RelayCommand(AddToStorageList);
             RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
@@ -24,7 +23,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public string SelectedItem { get; set; }
         public int SelectedItemAmount { get; set; }
         public Ship Ship { get; set; }
-        public List<string> ItemList { get; }
+        public List<string> ItemList => IDCollections.GetItemList();
         public StorageFacilities SelectedStorageFacility { get; set; }
         public Cargo SelectedCargoItem { get; set; }
         public ObservableCollection<Cargo> CargoList => SelectedStorageFacility?.CargoList;

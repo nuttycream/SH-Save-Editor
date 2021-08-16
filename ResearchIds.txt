@@ -1,0 +1,70 @@
+
+level 1 - Basic
+level 2 - Intermediate
+level 3 - Advanced
+
+Unknown
+2629
+2627
+2596
+2597
+2598
+2599
+2600
+2602
+2604
+2605
+2606
+2607
+2609
+2610
+2611
+2613 
+2614
+2617
+2622 
+2630
+2635
+
+2618 Fabrics
+2696 X1 Couch
+2623 Botany
+2626 Advanced Nutrition
+2628 Artificial Meat
+2581 Basics
+2532 Scanner
+2533 Shield Generator
+2539 Autopsy Table
+2559 Medical Bed
+2577 Hypersleep Chamber
+2569 Item Fabricator
+2570 MicroWeaver
+2571 Assembler
+2574 Water Collector
+2575 Advanced Assembler
+2572 Energy Refinery
+2573 Chemical Refinery
+2576 Composter
+2568 Power Capacity Node
+2565 Solar Panel
+2566 X2 Power Generator
+2567 X3 Power Generator
+2563 Arcade Machine
+2564 JukeBox
+2561 CO2 Producer
+2585 Advanced
+2586 Optronic
+2587 Quantum
+2589 Weapons Console
+2590 Shields Console
+2591 Missile Turret
+2592 Energy Turret
+2594 X1 Power Generator
+2595 X1 Hyperdrive
+2601 Targeting Jammer
+2612 Metal Refinery
+3024 Logistics Robot Station
+2847 Enslavement Facility
+2619 Fibers
+2694 Optronics Fabricator
+3025 Salvage Robot Station
