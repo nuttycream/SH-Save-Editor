@@ -22,14 +22,13 @@ namespace SpaceHaven_Save_Editor.Views
 
             this.WhenActivated(d => d(ViewModel!.SaveAndExit.Subscribe(Close)));
         }
-        
+
         public StorageWindow()
         {
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
-            
         }
 
 

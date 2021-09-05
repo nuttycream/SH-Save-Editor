@@ -20,6 +20,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             SaveAndExit = ReactiveCommand.Create(() => Character);
         }
+
         public ReactiveCommand<Unit, Character> SaveAndExit { get; }
         public Character Character { get; } = null!;
         public List<string> AllTraits { get; } = IdCollection.DefaultTraitIDs.Values.ToList();
@@ -35,7 +36,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public void AddSelectedTrait()
         {
             if (SelectedCharacterTraitFromComboBox == null) return;
-            Character.CharacterTraits.Add(new CharacterTrait(IdCollection.DefaultTraitIDs.FirstOrDefault(x 
+            Character.CharacterTraits.Add(new CharacterTrait(IdCollection.DefaultTraitIDs.FirstOrDefault(x
                 => x.Value == SelectedCharacterTraitFromComboBox).Key));
         }
 

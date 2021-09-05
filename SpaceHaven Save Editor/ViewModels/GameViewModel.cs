@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -13,7 +11,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private Game? _game;
+        private readonly Game? _game;
         private Character? _selectedCharacter;
         private Ship? _selectedShip;
         private StorageFacility? _selectedStorageFacility;
@@ -32,11 +30,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
             CloneCharacterCommand = ReactiveCommand.CreateFromTask(CloneCharacter);
             OpenResearchCommand = ReactiveCommand.CreateFromTask(OpenResearch);
         }
-        
+
 
         public GameViewModel()
         {
-
             OpenStorageWindow = new Interaction<StorageFacility, StorageFacility?>();
             EditCharacterWindow = new Interaction<Character, Character?>();
             CloneCharacterWindow = new Interaction<Unit, string?>();
@@ -88,18 +85,18 @@ namespace SpaceHaven_Save_Editor.ViewModels
             nodeViewer.Show();
         }
 
-        public void ClearStorage() => SelectedStorageFacility?.Cargo.Clear();
-        
+        public void ClearStorage()
+        {
+            SelectedStorageFacility?.Cargo.Clear();
+        }
+
 
         private async Task OpenCharacter()
         {
             if (_selectedCharacter == null) return;
             var result = await EditCharacterWindow.Handle(_selectedCharacter);
 
-            if (result != null)
-            {
-                SelectedCharacter = result;
-            }
+            if (result != null) SelectedCharacter = result;
         }
 
         private async Task CloneCharacter()
@@ -122,10 +119,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             var result = await OpenStorageWindow.Handle(SelectedStorageFacility);
 
-            if (result != null)
-            {
-                _selectedShip!.StorageFacilities.Replace(SelectedStorageFacility, result);
-            }
+            if (result != null) _selectedShip!.StorageFacilities.Replace(SelectedStorageFacility, result);
         }
 
         private async Task OpenResearch()
@@ -134,11 +128,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             var result = await OpenResearchWindow.Handle(Game.Research);
 
-            if (result != null)
-            {
-                Game.Research = result;
-            }
-
+            if (result != null) Game.Research = result;
         }
     }
 }

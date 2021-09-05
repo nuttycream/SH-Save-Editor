@@ -15,7 +15,7 @@
     </Design.DataContext>
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top" >
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Command="{Binding OpenFile}"
                           Header="Open File" InputGesture="Ctrl+O" HotKey="Ctrl+O" />
@@ -25,8 +25,8 @@
 
                 <MenuItem Command="{Binding CreateBackUp}"
                           Header="Manual Backup" InputGesture="Ctrl+B" HotKey="Ctrl+B" />
-                
-                <CheckBox Content="Auto Backup" IsChecked="{Binding AutoBackup}"></CheckBox>
+
+                <CheckBox Content="Auto Backup" IsChecked="{Binding AutoBackup}" />
 
             </MenuItem>
             <MenuItem Header="References">

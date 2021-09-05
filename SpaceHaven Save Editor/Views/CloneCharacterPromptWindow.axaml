@@ -11,19 +11,19 @@
         Title="Clone Character">
 
     <Design.DataContext>
-        <vm:CloneCharacterPromptViewModel/>
+        <vm:CloneCharacterPromptViewModel />
     </Design.DataContext>
-    
+
     <Grid RowDefinitions="*, *, *" Margin="10">
         <TextBlock Grid.Row="0" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Top"
                    Text="Note: This is an experimental feature - problems may occur, be sure to backup your save file and use with caution." />
         <TextBox Grid.Row="1" Text="{Binding CharacterName}" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="30">
-            <Button Content="Continue" Width="125" HorizontalContentAlignment="Center" 
-                    Command="{Binding Continue}"/>
+            <Button Content="Continue" Width="125" HorizontalContentAlignment="Center"
+                    Command="{Binding Continue}" />
             <Button Content="Cancel" Width="125" HorizontalContentAlignment="Center" HorizontalAlignment="Right"
-                    Click="Button_OnClick"/>
+                    Click="Button_OnClick" />
         </StackPanel>
     </Grid>
 </Window>

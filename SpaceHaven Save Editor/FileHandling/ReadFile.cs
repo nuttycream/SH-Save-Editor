@@ -11,8 +11,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
 {
     public class ReadFile
     {
-        public Action<string>? UpdateLog;
         public XmlDocument? SaveFile;
+        public Action<string>? UpdateLog;
 
         private static void ThrowNotFoundErr(string exceptionText)
         {
@@ -68,7 +68,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             }
 
             UpdateLog?.Invoke(gameSave.Research.ResearchItems.Count + " research items have been verified and added.");
-            
+
             UpdateLog?.Invoke(shipNodes!.Count + " ships found");
             foreach (XmlElement shipNode in shipNodes)
             {
@@ -92,7 +92,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 else
                 {
                     UpdateLog?.Invoke(characterNodes?.ChildNodes.Count + " Characters found on " + shipName);
-                    characters.AddRange(from XmlNode characterNode in characterNodes! select new Character(characterNode));
+                    characters.AddRange(from XmlNode characterNode in characterNodes!
+                        select new Character(characterNode));
                 }
 
                 var storageNodes = Utilities.FindMultipleNodes(shipNode, NodeCollection.StoragesXPath);
@@ -114,7 +115,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             }
 
             UpdateLog?.Invoke("Parse Complete for " + fileName);
-            
+
             return gameSave;
         }
 

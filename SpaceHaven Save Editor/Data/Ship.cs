@@ -30,7 +30,7 @@ namespace SpaceHaven_Save_Editor.Data
         public XmlNode ShipNode { get; }
         public ObservableCollection<Character> Characters { get; set; }
         public ObservableCollection<StorageFacility> StorageFacilities { get; set; }
-        
+
         public override string ToString()
         {
             return ShipName;

@@ -9,10 +9,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             Continue = ReactiveCommand.Create(() => CharacterName);
         }
-        
+
         public ReactiveCommand<Unit, string> Continue { get; set; }
         public string CharacterName { get; set; } = "Enter New Character Name";
-
-
     }
 }

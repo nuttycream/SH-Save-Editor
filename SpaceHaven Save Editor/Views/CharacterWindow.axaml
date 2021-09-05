@@ -16,13 +16,13 @@
 
     <Grid RowDefinitions="50, 350,*" ColumnDefinitions="*,*,*,*" Margin="10">
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="10">
-            <Button Content="View XML Node" Padding="10" 
-                    Command="{Binding  ViewXmlNode}"/>
-            <Button Content="Save and Exit" Padding="10" 
-                    Command="{Binding SaveAndExit}"/>
+            <Button Content="View XML Node" Padding="10"
+                    Command="{Binding  ViewXmlNode}" />
+            <Button Content="Save and Exit" Padding="10"
+                    Command="{Binding SaveAndExit}" />
         </StackPanel>
-        
-        
+
+
         <DataGrid Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Center"
                   Items="{Binding Character.CharacterStats}">
             <DataGrid.Columns>
@@ -48,12 +48,12 @@
             <ComboBox Items="{Binding AllTraits}" Width="125" HorizontalAlignment="Center"
                       SelectedItem="{Binding SelectedCharacterTraitFromComboBox}" />
             <Button Content="Add Trait" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
-                    Command="{Binding AddSelectedTrait}"/>
+                    Command="{Binding AddSelectedTrait}" />
             <Button Content="Remove" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
-                    Command="{Binding RemoveSelectedTrait}"/>
+                    Command="{Binding RemoveSelectedTrait}" />
             <ListBox Items="{Binding Character.CharacterTraits}"
                      SelectedItem="{Binding SelectedCharacterTrait}" />
         </StackPanel>
-        
+
     </Grid>
 </Window>

@@ -5,6 +5,7 @@ using Avalonia.ReactiveUI;
 using ReactiveUI;
 using SpaceHaven_Save_Editor.Data;
 using SpaceHaven_Save_Editor.ViewModels;
+
 namespace SpaceHaven_Save_Editor.Views
 {
     public class ResearchWindow : ReactiveWindow<ResearchViewModel>
@@ -16,10 +17,10 @@ namespace SpaceHaven_Save_Editor.Views
             this.AttachDevTools();
 #endif
             DataContext = new ResearchViewModel(research);
-            
+
             this.WhenActivated(d => d(ViewModel!.SaveAndExit.Subscribe(Close)));
         }
-        
+
         public ResearchWindow()
         {
             InitializeComponent();

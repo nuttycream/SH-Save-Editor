@@ -17,9 +17,9 @@ namespace SpaceHaven_Save_Editor.Data
 
     public class ResearchItem : ReactiveObject
     {
+        private int _advanced;
         private int _basic;
         private int _intermediate;
-        private int _advanced;
 
         public ResearchItem(int researchItemId, int level1Value, int level2Value, int level3Value)
         {

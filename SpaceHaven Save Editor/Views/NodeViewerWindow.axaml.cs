@@ -16,7 +16,7 @@ namespace SpaceHaven_Save_Editor.Views
 #endif
             DataContext = new NodeViewerViewModel(nodeName, xmlNode);
         }
-        
+
         public NodeViewerWindow()
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace SpaceHaven_Save_Editor.Views
 #endif
             DataContext = new NodeViewerViewModel();
         }
-        
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

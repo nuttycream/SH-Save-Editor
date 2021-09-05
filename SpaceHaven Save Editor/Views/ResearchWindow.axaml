@@ -9,34 +9,34 @@
         WindowStartupLocation="CenterOwner"
         Icon="/Assets/icon.ico"
         Title="Research Editor">
-    
+
     <Design.DataContext>
         <vm:ResearchViewModel />
     </Design.DataContext>
-    
+
     <Grid ColumnDefinitions="500, 200" Margin="20">
         <DataGrid Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Center" CanUserResizeColumns="True"
                   Items="{Binding Research.ResearchItems}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"  Width="150" IsReadOnly="True"
-                                    Binding="{Binding ResearchItemName}"/>
-                <DataGridTextColumn Header="Basic" 
+                <DataGridTextColumn Header="Name" Width="150" IsReadOnly="True"
+                                    Binding="{Binding ResearchItemName}" />
+                <DataGridTextColumn Header="Basic"
                                     Binding="{Binding Basic}" Width="100" />
-                <DataGridTextColumn Header="Intermediate" 
-                                    Binding="{Binding Intermediate}" Width="120"  />
-                <DataGridTextColumn Header="Advanced" 
-                                    Binding="{Binding Advanced}" Width="115"  />
+                <DataGridTextColumn Header="Intermediate"
+                                    Binding="{Binding Intermediate}" Width="120" />
+                <DataGridTextColumn Header="Advanced"
+                                    Binding="{Binding Advanced}" Width="115" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <StackPanel Grid.Column="1" Spacing="10" Margin="10">
             <Button Content="Set All To 999" Width="125" HorizontalContentAlignment="Center"
-                    Command="{Binding SetAllToMax}"></Button>
+                    Command="{Binding SetAllToMax}" />
             <Button Content="Set All To 0" Width="125" HorizontalContentAlignment="Center"
-                    Command="{Binding SetAllToMin}"></Button>
+                    Command="{Binding SetAllToMin}" />
             <Button Content="Save and Exit" Width="125" HorizontalContentAlignment="Center"
-                    Command="{Binding SaveAndExit}"></Button>
+                    Command="{Binding SaveAndExit}" />
         </StackPanel>
     </Grid>
-    
+
 </Window>

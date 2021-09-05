@@ -9,6 +9,8 @@ namespace SpaceHaven_Save_Editor.Data
 {
     public class Character
     {
+        public bool IsACharacterClone;
+
         public Character(XmlNode xmlNode)
         {
             CharacterXmlNode = xmlNode;
@@ -25,7 +27,7 @@ namespace SpaceHaven_Save_Editor.Data
             var skillNodes = CharacterXmlNode.SelectNodes(".//s[@sk]");
 
             if (statsNode == null || attributeNodes == null || traitNodes == null || skillNodes == null)
-                throw new Exception("Error at attempt to find all of " +  CharacterName + " nodes.");
+                throw new Exception("Error at attempt to find all of " + CharacterName + " nodes.");
 
             CharacterStats = ReadStats(statsNode);
             CharacterAttributes = ReadAttributes(attributeNodes);
@@ -34,7 +36,6 @@ namespace SpaceHaven_Save_Editor.Data
         }
 
         public XmlNode CharacterXmlNode { get; }
-        public bool IsACharacterClone;
         public int CharacterEntityId { get; set; }
         public string CharacterName { get; set; }
 
@@ -42,14 +43,14 @@ namespace SpaceHaven_Save_Editor.Data
         public ObservableCollection<CharacterAttribute> CharacterAttributes { get; set; }
         public ObservableCollection<CharacterSkill> CharacterSkills { get; set; }
         public ObservableCollection<CharacterTrait> CharacterTraits { get; set; }
-        
+
         public Character CloneCharacter(string newName, int entId)
         {
             var newXmlNode = CharacterXmlNode.CloneNode(true);
 
             newXmlNode.Attributes![NodeCollection.CharacterNameAttribute]!.Value = newName;
             newXmlNode.Attributes![NodeCollection.CharacterEidNode]!.Value = entId.ToString();
-            
+
             return new Character(newXmlNode)
             {
                 IsACharacterClone = true,
@@ -62,7 +63,10 @@ namespace SpaceHaven_Save_Editor.Data
             };
         }
 
-        public override string ToString() => CharacterName;
+        public override string ToString()
+        {
+            return CharacterName;
+        }
 
         private static ObservableCollection<CharacterStat> ReadStats(XmlNode xmlNode)
         {
@@ -71,7 +75,7 @@ namespace SpaceHaven_Save_Editor.Data
             foreach (var characterStat in NodeCollection.CharacterStats)
             {
                 var statNode = xmlNode.SelectSingleNode(".//" + characterStat + "[@v]");
-                if(statNode == null) continue;
+                if (statNode == null) continue;
                 if (int.TryParse(Utilities.GetAttributeValue(statNode, "v"), out var result))
                     characterStats.Add(new CharacterStat(characterStat, result));
             }
@@ -84,23 +88,19 @@ namespace SpaceHaven_Save_Editor.Data
             ObservableCollection<CharacterAttribute> characterAttributes = new();
 
             foreach (XmlNode xmlNode in nodeList)
-            {
-                if (int.TryParse(Utilities.GetAttributeValue(xmlNode, "points"), out var pointsResult) && 
+                if (int.TryParse(Utilities.GetAttributeValue(xmlNode, "points"), out var pointsResult) &&
                     int.TryParse(Utilities.GetAttributeValue(xmlNode, "id"), out var idResult))
                     characterAttributes.Add(new CharacterAttribute(idResult, pointsResult));
-            }
             return characterAttributes;
         }
-        
+
         private static ObservableCollection<CharacterTrait> ReadTraits(IEnumerable traitNodes)
         {
             ObservableCollection<CharacterTrait> characterTraits = new();
 
             foreach (XmlNode xmlNode in traitNodes)
-            {
                 if (int.TryParse(Utilities.GetAttributeValue(xmlNode, "id"), out var idResult))
                     characterTraits.Add(new CharacterTrait(idResult));
-            }
             return characterTraits;
         }
 
@@ -109,11 +109,9 @@ namespace SpaceHaven_Save_Editor.Data
             ObservableCollection<CharacterSkill> characterSkills = new();
 
             foreach (XmlNode xmlNode in nodeList)
-            {
-                if (int.TryParse(Utilities.GetAttributeValue(xmlNode, "sk"), out var idResult) && 
+                if (int.TryParse(Utilities.GetAttributeValue(xmlNode, "sk"), out var idResult) &&
                     int.TryParse(Utilities.GetAttributeValue(xmlNode, "level"), out var pointsResult))
                     characterSkills.Add(new CharacterSkill(idResult, pointsResult));
-            }
             return characterSkills;
         }
     }

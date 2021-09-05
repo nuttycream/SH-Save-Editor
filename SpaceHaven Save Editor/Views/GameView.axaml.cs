@@ -15,6 +15,5 @@ namespace SpaceHaven_Save_Editor.Views
         {
             AvaloniaXamlLoader.Load(this);
         }
-        
     }
 }

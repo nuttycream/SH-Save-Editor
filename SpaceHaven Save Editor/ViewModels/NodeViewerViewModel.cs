@@ -15,9 +15,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
             XmlNodeName = "";
             XmlNodeData = "";
         }
-        
+
         public string XmlNodeName { get; }
         public string XmlNodeData { get; }
-        
     }
 }

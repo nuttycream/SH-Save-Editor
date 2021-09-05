@@ -5,29 +5,27 @@ namespace SpaceHaven_Save_Editor.Data
 {
     public class Cargo : ReactiveObject
     {
-        private readonly int _cargoId;
-        private readonly string _cargoName;
         private int _cargoAmount;
 
         public Cargo(int cargoId, int cargoAmount)
         {
             if (IdCollection.DefaultItemIDs.TryGetValue(cargoId, out var cargoName))
             {
-                _cargoId = cargoId;
-                _cargoName = cargoName;
+                CargoId = cargoId;
+                CargoName = cargoName;
                 CargoAmount = cargoAmount;
             }
             else
             {
-                _cargoId = -1;
-                _cargoName = "Invalid Cargo Id for" + cargoName;
+                CargoId = -1;
+                CargoName = "Invalid Cargo Id for" + cargoName;
                 CargoAmount = -1;
             }
         }
 
-        public int CargoId => _cargoId;
+        public int CargoId { get; }
 
-        public string CargoName => _cargoName;
+        public string CargoName { get; }
 
         public int CargoAmount
         {

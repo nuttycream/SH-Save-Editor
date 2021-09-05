@@ -14,7 +14,7 @@
         <TextBlock Text="Ship Selector" VerticalAlignment="Center" />
         <TextBlock Grid.Row="0" Grid.Column="1" Text="Character Selector" VerticalAlignment="Center" />
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Storage Selector" VerticalAlignment="Center" />
-        
+
         <ScrollViewer Grid.Row="1" Grid.Column="0">
             <StackPanel Spacing="5">
                 <ComboBox Items="{Binding Game.Ships}"
@@ -22,12 +22,12 @@
                           SelectedItem="{Binding SelectedShip}" />
                 <CheckBox Content="Owned by Player"
                           IsChecked="{Binding SelectedShip.OwnedByPlayer}" />
-                <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150" 
-                        Command="{Binding ViewShipNode}"/>
+                <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150"
+                        Command="{Binding ViewShipNode}" />
                 <Separator Height="30" />
-                <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150" 
-                        Command="{Binding OpenResearchCommand}"/>
-                
+                <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150"
+                        Command="{Binding OpenResearchCommand}" />
+
             </StackPanel>
         </ScrollViewer>
 
@@ -48,7 +48,7 @@
             <StackPanel>
                 <ListBox Items="{Binding SelectedShip.StorageFacilities}"
                          SelectedItem="{Binding SelectedStorageFacility}"
-                         SelectionMode="Single"/>
+                         SelectionMode="Single" />
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Spacing="5">

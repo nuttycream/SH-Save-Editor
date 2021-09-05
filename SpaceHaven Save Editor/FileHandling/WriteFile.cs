@@ -9,12 +9,13 @@ namespace SpaceHaven_Save_Editor.FileHandling
     public class WriteFile
     {
         public Action<string>? UpdateLog;
-        
+
         private static void ThrowNotFoundErr(string exceptionText)
         {
             throw new Exception("Could not find any " + exceptionText +
                                 " nodes. Verify if the correct save file has been selected.");
         }
+
         public void WriteXmlData(Game game, ref XmlDocument xmlDocument, string savePath)
         {
             var shipNodes = xmlDocument.GetElementsByTagName("ship");
@@ -28,10 +29,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
             else if (researchNodes == null)
                 ThrowNotFoundErr("Research");
 
-            
+
             UpdateLog?.Invoke("Updating player bank node with " + game.Player.Money);
             playerBankNode!.Attributes![NodeCollection.PlayerBankAttribute]!.Value = game.Player.Money.ToString();
-            
+
             UpdateLog?.Invoke("Updating " + game.Research.ResearchItems.Count + " research nodes.");
             foreach (XmlNode researchNode in researchNodes!)
             {
@@ -40,7 +41,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     continue;
 
                 int.TryParse(researchNode!.Attributes!["techId"]!.Value, out var idResult);
-                var researchItem = game.Research.ResearchItems.FirstOrDefault(r 
+                var researchItem = game.Research.ResearchItems.FirstOrDefault(r
                     => r.ResearchItemId.Equals(idResult));
                 if (researchItem == null) continue;
                 blocksNode.Attributes!["level1"]!.Value = researchItem.Basic.ToString();
@@ -52,8 +53,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
             {
                 var shipName = shipNode.Attributes![NodeCollection.ShipName]!.Value;
                 var ship = game.Ships.FirstOrDefault(s => s.ShipName.Equals(shipName));
-                if(ship == null) continue;
-                
+                if (ship == null) continue;
+
                 UpdateLog?.Invoke("Writing ship " + ship.ShipName);
 
                 var storages = shipNode.SelectNodes(NodeCollection.StoragesXPath);
@@ -62,10 +63,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     UpdateLog?.Invoke("Writing " + storages.Count + " storage facilities on " + shipName);
                     WriteStorages(storages, ship);
                 }
-                
+
                 var characterRootNode = shipNode.SelectSingleNode(".//characters");
                 if (!characterRootNode!.HasChildNodes) continue;
-                
+
                 var cloneCount = 0;
                 foreach (var character in ship.Characters)
                 {
@@ -76,25 +77,29 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         characterNode = shipNode.SelectSingleNode(".//c[@name='" + character.CharacterName + "']");
                         cloneCount++;
                     }
-                    else if(characterNode == null) continue;
-                    
+                    else if (characterNode == null)
+                    {
+                        continue;
+                    }
+
                     var statsNode = characterNode?.SelectSingleNode(".//props");
                     var attributesNodes = characterNode?.SelectNodes(".//a[@points]");
                     var traitNodesRoot = characterNode?.SelectSingleNode(".//traits");
                     var skillsNodes = characterNode?.SelectNodes(".//s[@sk]");
-                        
+
                     if (statsNode == null || attributesNodes == null || traitNodesRoot == null || skillsNodes == null)
-                        throw new Exception("Error at attempt to find all of " +  character.CharacterName + " nodes.");
-                        
+                        throw new Exception("Error at attempt to find all of " + character.CharacterName + " nodes.");
+
                     WriteStats(statsNode, character);
                     WriteAttributes(attributesNodes, character);
                     WriteTraits(traitNodesRoot, character);
                     WriteSkills(skillsNodes, character);
                 }
+
                 UpdateLog?.Invoke("Written " + ship.Characters.Count + " with " + cloneCount + " new characters");
             }
-            
-            
+
+
             xmlDocument.Save(savePath);
             UpdateLog?.Invoke("File Saved at " + savePath);
         }
@@ -115,6 +120,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     itemTemplate.SetAttribute("onTheWayOut", "0");
                     invNode.AppendChild(itemTemplate);
                 }
+
                 index++;
             }
         }
@@ -124,22 +130,22 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (var characterStat in character.CharacterStats)
             {
                 var statNode = statNodes.SelectSingleNode(".//" + characterStat.StatName + "[@v]");
-                if(statNode == null) continue;
+                if (statNode == null) continue;
                 statNode.Attributes!["v"]!.Value = characterStat.StatValue.ToString();
             }
         }
-        
+
         private void WriteAttributes(XmlNodeList attributeNodes, Character character)
         {
             foreach (XmlNode attributeNode in attributeNodes)
             {
                 int.TryParse(attributeNode.Attributes!["id"]!.Value, out var attributeId);
                 var attribute = character.CharacterAttributes.FirstOrDefault(s => s.AttributeId == attributeId);
-                if(attribute == null) continue;
+                if (attribute == null) continue;
                 attributeNode.Attributes["points"]!.Value = attribute.AttributeValue.ToString();
             }
         }
-        
+
         private void WriteTraits(XmlNode traitNodesRoot, Character character)
         {
             traitNodesRoot.RemoveAll();
@@ -150,14 +156,14 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 traitNodesRoot.AppendChild(itemTemplate);
             }
         }
-        
+
         private void WriteSkills(XmlNodeList skillNodes, Character character)
         {
             foreach (XmlNode skillNode in skillNodes)
             {
                 int.TryParse(skillNode.Attributes!["sk"]!.Value, out var skillId);
                 var skill = character.CharacterSkills.FirstOrDefault(s => s.SkillId == skillId);
-                if(skill == null) continue;
+                if (skill == null) continue;
                 skillNode.Attributes["level"]!.Value = skill.SkillValue.ToString();
             }
         }

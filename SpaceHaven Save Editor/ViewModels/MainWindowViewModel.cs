@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -14,17 +13,17 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private bool _autoBackup;
         private string _fileNameTitle;
         private string? _filePath;
         private Game _game;
-        private ReadFile _readFile;
-        private WriteFile _writeFile;
         private GameViewModel? _gameViewModel;
+        private readonly ReadFile _readFile;
         private string _textData;
-        private bool _autoBackup;
+        private readonly WriteFile _writeFile;
 
         public Action? SaveLoaded;
-        
+
 
         public MainWindowViewModel()
         {
@@ -72,7 +71,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _filePath = await ShowOpenFileDialog.Handle(Unit.Default);
 
             if (_filePath == null) return;
-            
+
             _readFile.UpdateLog += UpdateLog;
             UpdateLog("Parsing " + _filePath);
             try
@@ -101,10 +100,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public void SaveFile()
         {
             if (_filePath == null || _readFile.SaveFile == null) return;
-            
-            if(_autoBackup)
+
+            if (_autoBackup)
                 CreateBackUp();
-            
+
             _writeFile.UpdateLog += UpdateLog;
             try
             {

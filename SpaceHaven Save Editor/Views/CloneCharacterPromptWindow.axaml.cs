@@ -18,18 +18,15 @@ namespace SpaceHaven_Save_Editor.Views
 #endif
 
             DataContext = new CloneCharacterPromptViewModel();
-            
-            this.WhenActivated(d =>
-            {
-                d(ViewModel!.Continue.Subscribe(Close));
-            });
+
+            this.WhenActivated(d => { d(ViewModel!.Continue.Subscribe(Close)); });
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
-        
+
 
         private void Button_OnClick(object? sender, RoutedEventArgs e)
         {

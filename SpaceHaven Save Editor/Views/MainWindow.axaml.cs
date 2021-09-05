@@ -62,13 +62,13 @@ namespace SpaceHaven_Save_Editor.Views
 
             interaction.SetOutput(result);
         }
-        
+
         private async Task ShowCharacterDialog(InteractionContext<Character, Character?> interaction)
         {
             var editCharacterWindow = new CharacterWindow(interaction.Input);
 
             var result = await editCharacterWindow.ShowDialog<Character?>(this);
-            
+
             interaction.SetOutput(result);
         }
 
@@ -77,19 +77,17 @@ namespace SpaceHaven_Save_Editor.Views
             var cloneCharacterWindow = new CloneCharacterPromptWindow();
 
             var result = await cloneCharacterWindow.ShowDialog<string?>(this);
-            
-            interactionContext.SetOutput(result);
 
+            interactionContext.SetOutput(result);
         }
-        
+
         private async Task ShowResearchDialog(InteractionContext<Research, Research?> interaction)
         {
             var researchWindow = new ResearchWindow(interaction.Input);
 
             var result = await researchWindow.ShowDialog<Research?>(this);
-            
-            interaction.SetOutput(result);
 
+            interaction.SetOutput(result);
         }
     }
 }

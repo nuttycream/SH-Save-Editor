@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reactive;
+﻿using System.Reactive;
 using ReactiveUI;
 using SpaceHaven_Save_Editor.Data;
 
@@ -8,6 +7,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
     public class ResearchViewModel : ViewModelBase
     {
         private Research _research;
+
         public ResearchViewModel(Research research)
         {
             _research = research;
@@ -30,7 +30,6 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         public void SetAllToMax()
         {
-
             foreach (var researchItem in Research.ResearchItems)
             {
                 researchItem.Basic = 999;
@@ -38,10 +37,9 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 researchItem.Intermediate = 999;
             }
         }
-        
+
         public void SetAllToMin()
         {
-
             foreach (var researchItem in Research.ResearchItems)
             {
                 researchItem.Basic = 0;

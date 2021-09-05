@@ -9,15 +9,15 @@
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon.ico"
         Title="XML Node Viewer">
-    
+
     <Design.DataContext>
         <vm:NodeViewerViewModel />
     </Design.DataContext>
-    
+
     <Grid RowDefinitions="50, *" Margin="10">
         <Label Grid.Row="0" VerticalAlignment="Center" FontSize="20"
-               Content="{Binding XmlNodeName}"  />
-        <TextBox Grid.Row="1"  TextWrapping="Wrap"
+               Content="{Binding XmlNodeName}" />
+        <TextBox Grid.Row="1" TextWrapping="Wrap"
                  Text="{Binding XmlNodeData}" />
     </Grid>
 </Window>
