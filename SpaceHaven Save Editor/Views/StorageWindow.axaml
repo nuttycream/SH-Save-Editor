@@ -1,0 +1,52 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:SpaceHaven_Save_Editor.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="700" Height="450"
+        x:Class="SpaceHaven_Save_Editor.Views.StorageWindow"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/icon.ico"
+        Title="Storage Editor">
+
+    <Design.DataContext>
+        <viewModels:StorageViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="*, 300">
+        <ScrollViewer Grid.Column="0" Margin="20">
+            <DataGrid AutoGenerateColumns="False" x:Name="DataGridCargoItems"
+                      Items="{Binding StorageFacility.Cargo}"
+                      SelectedIndex="{Binding SelectedCargoIndex}"
+                      SelectionChanged="DataGridCargoItems_OnSelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Item Name" Width="275" IsReadOnly="True"
+                                        Binding="{Binding CargoName}" />
+                    <DataGridTextColumn Header="Amount"
+                                        Binding="{Binding CargoAmount}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+        <StackPanel Grid.Column="1" Spacing="10" Margin="20">
+            <TextBlock Text="Select an item to add" />
+            <ComboBox Items="{Binding AllCargoItems}" Width="200"
+                      SelectedItem="{Binding CargoItemComboboxSelection}" />
+            <TextBox Width="200" HorizontalAlignment="Left"
+                     Text="{Binding CargoItemComboboxSelectionAmount, Mode=TwoWay}" />
+            <Button Content="Add Item" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding AddCargoItem}" />
+            <Button Content="Remove Selected" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding RemoveCargoItem}" />
+            <Button Content="Clear All" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding RemoveAllCargo}" />
+            <Button Content="Restore Original" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding Restore}" />
+            <Button Content="Save and Exit" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding SaveAndExit}" />
+            <Separator Height="25" />
+            <Button Content="View Item Ids" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding OpenIDReference}" />
+        </StackPanel>
+    </Grid>
+</Window>

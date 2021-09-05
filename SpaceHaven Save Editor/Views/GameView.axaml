@@ -1,0 +1,67 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SpaceHaven_Save_Editor.Views.GameView">
+
+    <Design.DataContext>
+        <vm:GameViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="*, *, *" RowDefinitions="50, *, 80" Margin="20">
+        <TextBlock Text="Ship Selector" VerticalAlignment="Center" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Character Selector" VerticalAlignment="Center" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Storage Selector" VerticalAlignment="Center" />
+        
+        <ScrollViewer Grid.Row="1" Grid.Column="0">
+            <StackPanel Spacing="5">
+                <ComboBox Items="{Binding Game.Ships}"
+                          PlaceholderText="Select Ship" Width="225"
+                          SelectedItem="{Binding SelectedShip}" />
+                <CheckBox Content="Owned by Player"
+                          IsChecked="{Binding SelectedShip.OwnedByPlayer}" />
+                <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150" 
+                        Command="{Binding ViewShipNode}"/>
+                <Separator Height="30" />
+                <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150" 
+                        Command="{Binding OpenResearchCommand}"/>
+                
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1">
+            <StackPanel>
+                <ListBox Items="{Binding SelectedShip.Characters}"
+                         SelectedItem="{Binding SelectedCharacter}" />
+
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Spacing="5">
+            <Button Content="Edit Character" Width="150" HorizontalContentAlignment="Center" Margin="0,5,0,0"
+                    Command="{Binding EditCharacterCommand}" />
+            <Button Content="Clone Character" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding CloneCharacterCommand}" />
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="2">
+            <StackPanel>
+                <ListBox Items="{Binding SelectedShip.StorageFacilities}"
+                         SelectedItem="{Binding SelectedStorageFacility}"
+                         SelectionMode="Single"/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Spacing="5">
+            <Button Content="Edit Storage" Width="150" HorizontalContentAlignment="Center" Margin="0,5,0,0"
+                    Command="{Binding OpenStorageCommand}" />
+            <Button Content="Clear Storage" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding ClearStorage}" />
+
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <Label Content="Player Bank" VerticalAlignment="Center" />
+            <TextBox Width="225" HorizontalAlignment="Left"
+                     Text="{Binding Game.Player.Money}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

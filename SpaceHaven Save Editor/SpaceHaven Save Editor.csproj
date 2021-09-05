@@ -1,25 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net5.0-windows</TargetFramework>
-        <RootNamespace>SpaceHaven_Save_Editor</RootNamespace>
-        <UseWPF>true</UseWPF>
-        <ApplicationIcon>Resources/icon.ico</ApplicationIcon>
-        <PackageIcon>icon.ico</PackageIcon>
-        <PackageIconUrl />
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
-
     <ItemGroup>
-      <PackageReference Include="MaterialDesignThemes" Version="4.2.0-ci2634" />
-      <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
-      <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+        <Folder Include="Data\" />
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
-
     <ItemGroup>
-      <None Include="Resources\icon.ico">
-        <Pack>True</Pack>
-        <PackagePath></PackagePath>
-      </None>
+        <PackageReference Include="Avalonia" Version="0.10.3" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Data\CharacterSkill.cs">
+        <DependentUpon>Character.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data\CharacterAttribute.cs">
+        <DependentUpon>Character.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data\CharacterStat.cs">
+        <DependentUpon>Character.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data\CharacterTrait.cs">
+        <DependentUpon>Character.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

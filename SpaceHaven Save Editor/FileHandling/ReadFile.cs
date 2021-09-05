@@ -1,249 +1,153 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
-using Microsoft.Win32;
-using SpaceHaven_Save_Editor.CharacterData;
-using SpaceHaven_Save_Editor.ID;
-using SpaceHaven_Save_Editor.ShipData;
+using SpaceHaven_Save_Editor.Data;
+using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
     public class ReadFile
     {
-        private List<Character> _characters = new();
-        private int _storageCount, _toolCount;
-        public Action<string> ProgressList { get; set; }
-        public string FilePath { get; private set; }
-        public string PlayerCredits { get; set; }
-        public Ship Ship { get; set; }
+        public Action<string>? UpdateLog;
+        public XmlDocument? SaveFile;
 
-        public async Task<List<Character>> LoadSave()
+        private static void ThrowNotFoundErr(string exceptionText)
         {
-            Ship = new Ship();
-            _storageCount = 0;
-            _toolCount = 0;
-            var fileDialog = new OpenFileDialog
-            {
-                Title = "Open Save File",
-                CheckFileExists = true,
-                CheckPathExists = true,
-                Filter = "All files (*.*)|*.*",
-                FilterIndex = 2,
-                ReadOnlyChecked = true,
-                ShowReadOnly = true
-            };
-
-            var result = fileDialog.ShowDialog();
-            if (result != true) return _characters;
-            try
-            {
-                FilePath = fileDialog.FileName;
-                _characters = await Task.Run(() => ReadXmlData(fileDialog));
-            }
-            catch (Exception except)
-            {
-                ProgressList?.Invoke("Error: Invalid Save File\n" + except);
-            }
-
-            return _characters;
+            throw new Exception("Could not find any " + exceptionText +
+                                " nodes. Verify if the correct save file has been selected.");
         }
 
-        private async Task<List<Character>> ReadXmlData(OpenFileDialog dialogData)
+        public async Task<Game> ReadXmlData(string fileName)
         {
-            var fileStream = dialogData.OpenFile();
-            var settings = new XmlReaderSettings {Async = true};
-            var reader = XmlReader.Create(fileStream, settings);
-            var doc = new XmlDocument();
-            var characters = new List<Character>();
+            Game gameSave = new();
 
-            if (reader.Settings == null) return characters;
+            SaveFile = new XmlDocument();
+            SaveFile.Load(fileName);
 
-            while (await reader.ReadAsync())
+            var shipNodes = SaveFile.GetElementsByTagName("ship");
+            var playerBankNode = Utilities.FindNode(SaveFile, NodeCollection.PlayerBankNode);
+            var researchNodes = Utilities.FindMultipleNodes(SaveFile, "//l[@techId]");
+
+            if (shipNodes.Count == 0)
+                ThrowNotFoundErr("Ship");
+            else if (playerBankNode == null)
+                ThrowNotFoundErr("Player Bank");
+            else if (researchNodes == null)
+                ThrowNotFoundErr("Research");
+
+            if (playerBankNode != null &&
+                int.TryParse(Utilities.GetAttributeValue(playerBankNode, NodeCollection.PlayerBankAttribute),
+                    out var value))
             {
-                if (reader.Name.Equals(NodeCollections.CharacterNode) &&
-                    reader.GetAttribute(NodeCollections.CharacterAttributeName) != null)
-                {
-                    var name = reader.GetAttribute(NodeCollections.CharacterAttributeName);
-                    var characterNode = doc.ReadNode(reader);
-                    AddProgress("Found Character Node for " + name + ". Reading inner text.");
-                    characters.Add(await Task.Run(() => HandleCharacterNode(characterNode, name)));
-                }
-
-                if (reader.Name.Equals(NodeCollections.PlayerBankNode) &&
-                    reader.GetAttribute(NodeCollections.PlayerBankAttribute) != null)
-                {
-                    var amount = reader.GetAttribute(NodeCollections.PlayerBankAttribute);
-                    PlayerCredits = amount;
-                }
-
-                if (reader.Name.Equals(NodeCollections.StorageNode) && reader.NodeType == XmlNodeType.Element)
-                {
-                    if (reader.GetAttribute(NodeCollections.StorageAttributeForCargo) != null)
-                    {
-                        AddProgress("Found Storage Node.");
-                        var storageNode = doc.ReadNode(reader);
-                        Ship.StorageFacilities.Add(await Task.Run(() => ReadStorage(storageNode)));
-                    }
-
-                    if (reader.GetAttribute(NodeCollections.StorageAttributeForTools) == null) continue;
-                    {
-                        AddProgress("Found Tools Node.");
-                        var toolNode = doc.ReadNode(reader);
-                        Ship.ToolFacilities.Add(await Task.Run(() => ReadTools(toolNode)));
-                    }
-                }
+                UpdateLog?.Invoke("Player bank node found with " + value);
+                gameSave.Player.Money = value;
             }
 
-            reader.Dispose();
-            return characters;
-        }
 
-        private ToolFacilities ReadTools(XmlNode storageNode)
-        {
-            var newToolFacility = new ToolFacilities(_toolCount++)
+            UpdateLog?.Invoke(researchNodes!.Count + " research nodes found.");
+            foreach (XmlNode researchNode in researchNodes!)
             {
-                BuildingTools = (int) GetValueFloat(storageNode, NodeCollections.StorageAttributeForTools)
-            };
+                var blocksNode = researchNode.SelectSingleNode(".//blocksDone");
+                if (blocksNode == null)
+                    continue;
 
-            return newToolFacility;
-        }
+                if (!int.TryParse(Utilities.GetAttributeValue(researchNode, "techId"), out var idResult)
+                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level1Result)
+                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level2Result)
+                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level3Result))
+                    continue;
 
-        private StorageFacilities ReadStorage(XmlNode storageNode)
-        {
-            var newStorageFacility = new StorageFacilities(_storageCount++)
-                {CargoList = new ObservableCollection<Cargo>()};
-            foreach (XmlNode invNode in storageNode.ChildNodes)
-            {
-                if (!invNode.HasChildNodes) continue;
-                foreach (XmlNode cargo in invNode.ChildNodes)
-                {
-                    if (cargo.NodeType != XmlNodeType.Element || cargo.Attributes == null) continue;
-                    newStorageFacility.CargoList.Add(
-                        new Cargo((int) GetValueFloat(cargo, NodeCollections.CargoItemAttributeId),
-                            (int) GetValueFloat(cargo, NodeCollections.CargoItemAttributeAmount)));
-                }
+                if (!IdCollection.DefaultResearchIDs.ContainsKey(idResult))
+                    continue;
+
+                ResearchItem researchItem = new(idResult, level1Result, level2Result, level3Result);
+                gameSave.Research.ResearchItems.Add(researchItem);
             }
 
-            return newStorageFacility;
-        }
-
-        private async Task<Character> HandleCharacterNode(XmlNode node, string name)
-        {
-            var tasks = new List<Task>();
-            var newCharacter = new Character(name);
-            foreach (XmlNode rootNode in node.ChildNodes)
-                if (rootNode.Name == NodeCollections.CharacterStatsNode)
-                {
-                    tasks.Add(Task.Run(() => ReadStats(rootNode, ref newCharacter)));
-                    AddProgress("Found 'props' node.");
-                }
-                else if (rootNode.Name == NodeCollections.CharacterPersonalNode)
-                {
-                    tasks.Add(Task.Run(() => ReadPers(rootNode, ref newCharacter)));
-                    AddProgress("Found 'pers' node.");
-                }
-
-            await Task.WhenAll(tasks);
-
-            return newCharacter;
-        }
-
-        private void ReadPers(XmlNode rootNode, ref Character newCharacter)
-        {
-            foreach (XmlNode persNode in rootNode.ChildNodes)
-                if (persNode.Name == NodeCollections.CharacterAttributesNode)
-                {
-                    AddProgress("Found 'attr' node. Adding attributes to character.");
-                    foreach (XmlNode attributesNode in persNode.ChildNodes)
-                    {
-                        if (attributesNode.Attributes?["id"] == null) continue;
-                        newCharacter.AddAttribute((int) GetValueFloat(attributesNode, "id"),
-                            (int) GetValueFloat(attributesNode, "points"));
-                    }
-                }
-                else if (persNode.Name == NodeCollections.CharacterTraitsNode)
-                {
-                    AddProgress("Found 'traits' node. Adding traits to character.");
-                    foreach (XmlNode traitNode in persNode.ChildNodes)
-                    {
-                        if (traitNode.Name != "t") continue;
-                        newCharacter.AddTrait((int) GetValueFloat(traitNode, "id"));
-                    }
-                }
-                else if (persNode.Name == NodeCollections.CharacterSkillsNode)
-                {
-                    AddProgress("Found 'skills' node. Adding skills to character.");
-                    foreach (XmlNode skillsNode in persNode.ChildNodes)
-                        if (skillsNode.Attributes?["level"] != null)
-                            newCharacter.AddSkill((int) GetValueFloat(skillsNode, "sk"),
-                                (int) GetValueFloat(skillsNode, "level"));
-                }
-        }
-
-        private void ReadStats(XmlNode rootNode, ref Character newCharacter)
-        {
-            foreach (XmlNode propsNode in rootNode.ChildNodes)
+            UpdateLog?.Invoke(gameSave.Research.ResearchItems.Count + " research items have been verified and added.");
+            
+            UpdateLog?.Invoke(shipNodes!.Count + " ships found");
+            foreach (XmlElement shipNode in shipNodes)
             {
-                if (propsNode.NodeType == XmlNodeType.Whitespace) continue;
-                foreach (var characterStat in NodeCollections.CharacterStats)
+                var shipName = Utilities.GetAttributeValue(shipNode, NodeCollection.ShipName);
+                var ownedByPlayerNode = Utilities.FindNode(shipNode, NodeCollection.ShipSettings,
+                    NodeCollection.ShipOwnerAttribute);
+
+                if (ownedByPlayerNode == null)
+                    ThrowNotFoundErr("Ship Settings");
+
+                var isOwnedByPlayer =
+                    Utilities.GetAttributeValue(ownedByPlayerNode!, NodeCollection.ShipOwnerAttribute) == "Player";
+
+                var characterNodes = shipNode.SelectSingleNode(".//characters");
+                List<Character> characters = new();
+
+                if (characterNodes is {HasChildNodes: false})
                 {
-                    if (characterStat != propsNode.Name) continue;
-                    newCharacter.AddStats(propsNode.Name, (int) GetValueFloat(propsNode, "v"));
-                    break;
+                    UpdateLog?.Invoke("No Characters found on " + shipName);
+                }
+                else
+                {
+                    UpdateLog?.Invoke(characterNodes?.ChildNodes.Count + " Characters found on " + shipName);
+                    characters.AddRange(from XmlNode characterNode in characterNodes! select new Character(characterNode));
                 }
 
-                if (propsNode.Name != NodeCollections.CharacterFoodNode) continue;
-                AddProgress("Found 'Food' node.");
-                foreach (XmlNode foodNode in propsNode.ChildNodes)
-                    if (foodNode.Name == NodeCollections.CharacterStoredFoodNode)
-                    {
-                        AddProgress("Found 'Food' sub node 'stored'.");
-                        ReadFood(ref newCharacter, foodNode, true);
-                    }
-                    else if (foodNode.Name == NodeCollections.CharacterStomachFoodNode)
-                    {
-                        AddProgress("Found 'Food' sub node 'belly'.");
-                        ReadFood(ref newCharacter, foodNode, false);
-                    }
+                var storageNodes = Utilities.FindMultipleNodes(shipNode, NodeCollection.StoragesXPath);
+                List<StorageFacility> storageFacilities = new();
+
+                if (storageNodes is {Count: 0})
+                {
+                    UpdateLog?.Invoke("No Storage Facilities found on " + shipName);
+                }
+                else
+                {
+                    UpdateLog?.Invoke(storageNodes!.Count + " Storage Facilities found on " + shipName);
+                    storageFacilities = await Task.Run(() => ReadStorageFacilities(storageNodes));
+                }
+
+                Ship ship = new(shipName, characters, storageFacilities, isOwnedByPlayer, shipNode);
+                UpdateLog?.Invoke("Adding " + shipName + " to ships found.");
+                gameSave.Ships.Add(ship);
             }
+
+            UpdateLog?.Invoke("Parse Complete for " + fileName);
+            
+            return gameSave;
         }
 
-        private static void ReadFood(ref Character newCharacter, XmlNode foodNode, bool stored)
+        //TODO: Move this to Ship.cs
+        private static List<StorageFacility> ReadStorageFacilities(IEnumerable? storageNodes)
         {
-            var foodAttributeCollection = foodNode.Attributes;
-            if (foodAttributeCollection == null) return;
-            foreach (XmlAttribute foodAttribute in foodAttributeCollection)
-            foreach (var food in NodeCollections.Foods)
+            List<StorageFacility> storageFacilities = new();
+
+            if (storageNodes == null)
+                throw new Exception("Something went wrong when trying to access storage nodes list.");
+
+
+            foreach (XmlNode storageNode in storageNodes)
             {
-                if (foodAttribute.Name != food) continue;
-                newCharacter.AddFood(foodAttribute.Name, foodAttribute.Value, stored);
-                break;
+                var invNodes = Utilities.FindMultipleNodes(storageNode, "//s[@elementaryId]");
+                if (invNodes == null) continue;
+
+                StorageFacility storageFacility = new();
+                foreach (XmlNode invNode in invNodes)
+                {
+                    if (!int.TryParse(Utilities.GetAttributeValue(invNode, NodeCollection.CargoItemAttributeId),
+                            out var idResult) ||
+                        !int.TryParse(Utilities.GetAttributeValue(invNode, NodeCollection.CargoItemAttributeAmount),
+                            out var amountResult)) continue;
+
+                    Cargo cargo = new(idResult, amountResult);
+                    storageFacility.Cargo.Add(cargo);
+                }
+
+                storageFacilities.Add(storageFacility);
             }
-        }
 
-        private static float GetValueFloat(XmlNode node, string attributeName)
-        {
-            var valueAttribute = node.Attributes?[attributeName];
-            if (valueAttribute == null)
-                return 0.0f;
-            var value = valueAttribute.Value;
-            return float.Parse(value);
-        }
-
-        private void AddProgress(string progressText)
-        {
-            ProgressList?.Invoke(progressText);
-        }
-
-        public string CreateBackUp()
-        {
-            var backupPath = FilePath + "-backup";
-            File.Copy(FilePath, FilePath + "-backup", true);
-            AddProgress("Backup Created at " + backupPath);
-            return backupPath;
+            return storageFacilities;
         }
     }
 }

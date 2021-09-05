@@ -1,0 +1,102 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+        xmlns:s="clr-namespace:SpaceHaven_Save_Editor.References"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="600" Height="450"
+        x:Class="SpaceHaven_Save_Editor.Views.NodeCollectionView"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/icon.ico"
+        Title="XML Nodes">
+
+    <Design.DataContext>
+        <vm:NodeCollectionViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <ScrollViewer Padding="20">
+            <StackPanel Spacing="5">
+
+                <Label Content="Character Root Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharactersRootNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Name Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterNameAttribute}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Entity ID Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterEidNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Stats Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterStatsNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Pers Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterPersonalNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Stats Nodes" VerticalAlignment="Center" />
+                <ListBox Items="{x:Static s:NodeCollection.CharacterStats}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Attributes Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterAttributesNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Traits Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterTraitsNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Character Skills Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CharacterSkillsNode}"
+                         Margin="0,0,0,15" />
+
+                <Label Content="Player Bank Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.PlayerBankNode}" />
+
+                <Label Content="Player Bank Attribute" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.PlayerBankAttribute}" />
+
+                <Label Content="Ship Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.ShipNode}" />
+
+                <Label Content="Ship Name" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.ShipName}" />
+
+                <Label Content="Storage Node" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.StorageNode}" />
+
+                <Label Content="StoragesXPath" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.StoragesXPath}" />
+
+                <Label Content="Tools XPath" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.ToolsXPath}" />
+
+                <Label Content="Storage Attribute For Cargo" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.StorageAttributeForCargo}" />
+
+                <Label Content="Cargo Item Element Name" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CargoItemElementName}" />
+
+                <Label Content="Cargo Item Attribute Id" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CargoItemAttributeId}" />
+
+                <Label Content="Cargo Item Attribute Amount" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.CargoItemAttributeAmount}" />
+
+                <Label Content="Storage Attribute For Tools" VerticalAlignment="Center" />
+                <TextBox Text="{x:Static s:NodeCollection.StorageAttributeForTools}" />
+
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

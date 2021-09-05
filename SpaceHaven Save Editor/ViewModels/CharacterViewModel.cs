@@ -1,54 +1,48 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.Input;
-using SpaceHaven_Save_Editor.CharacterData;
-using SpaceHaven_Save_Editor.ID;
-using SpaceHaven_Save_Editor.ViewModels.Base;
+using System.Linq;
+using System.Reactive;
+using ReactiveUI;
+using SpaceHaven_Save_Editor.Data;
+using SpaceHaven_Save_Editor.References;
+using SpaceHaven_Save_Editor.Views;
 
 namespace SpaceHaven_Save_Editor.ViewModels
 {
-    public class CharacterViewModel : BaseViewModel
+    public class CharacterViewModel : ViewModelBase
     {
+        public CharacterViewModel(Character character)
+        {
+            Character = character;
+            SaveAndExit = ReactiveCommand.Create(() => Character);
+        }
+
         public CharacterViewModel()
         {
-            Characters = new List<Character>();
-            AddToTraits = new RelayCommand(AddToTraitsList);
-            RemoveTrait = new RelayCommand(RemoveTraitFromList);
-            
+            SaveAndExit = ReactiveCommand.Create(() => Character);
+        }
+        public ReactiveCommand<Unit, Character> SaveAndExit { get; }
+        public Character Character { get; } = null!;
+        public List<string> AllTraits { get; } = IdCollection.DefaultTraitIDs.Values.ToList();
+        public string? SelectedCharacterTraitFromComboBox { get; set; }
+        public CharacterTrait? SelectedCharacterTrait { get; set; }
+
+        public void ViewXmlNode()
+        {
+            var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode);
+            xmlNodeViewer.Show();
         }
 
-        public ICommand AddToTraits { get; }
-        public ICommand RemoveTrait { get; }
-        public List<Character> Characters { get; set; }
-        public Character SelectedCharacter { get; set; }
-        public List<string> TraitsList => IDCollections.GetTraitList();
-        public string SelectedTraitFromCombobox { get; set; }
-        public Trait SelectedTraitFromList { get; set; }
-
-
-        private void AddToTraitsList()
+        public void AddSelectedTrait()
         {
-            if (SelectedTraitFromCombobox == null)
-            {
-                MessageBox.Show("Choose a trait from the combobox to add.");
-                return;
-            }
-
-            var value = new Trait(SelectedTraitFromCombobox);
-            SelectedCharacter?.Traits.Add(value);
+            if (SelectedCharacterTraitFromComboBox == null) return;
+            Character.CharacterTraits.Add(new CharacterTrait(IdCollection.DefaultTraitIDs.FirstOrDefault(x 
+                => x.Value == SelectedCharacterTraitFromComboBox).Key));
         }
 
-        private void RemoveTraitFromList()
+        public void RemoveSelectedTrait()
         {
-            if (SelectedTraitFromList == null)
-            {
-                MessageBox.Show("No Trait Selected. Select a trait from the list to remove");
-                return;
-            }
-
-            SelectedCharacter?.Traits.Remove(SelectedTraitFromList);
+            if (SelectedCharacterTrait == null) return;
+            Character.CharacterTraits.Remove(SelectedCharacterTrait);
         }
     }
 }

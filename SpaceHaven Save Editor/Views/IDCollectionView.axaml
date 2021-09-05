@@ -1,0 +1,43 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="600" Height="450"
+        x:Class="SpaceHaven_Save_Editor.Views.IdCollectionView"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/icon.ico"
+        Title="Game ID References">
+
+    <Design.DataContext>
+        <vm:IdCollectionViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="30, *" ColumnDefinitions="150,*" Margin="20">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Select ID List" />
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   Text="{Binding SelectedIdListText}" />
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Button Content="Research" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding SwitchToResearch}" />
+            <Button Content="Items" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding SwitchToItems}" />
+            <Button Content="Attributes" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding SwitchToAttributes}" />
+            <Button Content="Traits" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding SwitchToTraits}" />
+            <Button Content="Skills" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding SwitchToSkills}" />
+            <Separator Height="10" />
+            <Button Content="Export" Width="100"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding SaveFile}" />
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Grid.Column="1"
+                 Items="{Binding SelectedIdList}" />
+
+    </Grid>
+
+</Window>

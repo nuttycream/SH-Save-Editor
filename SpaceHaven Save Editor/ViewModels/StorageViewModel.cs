@@ -1,52 +1,91 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.Input;
-using SpaceHaven_Save_Editor.ID;
-using SpaceHaven_Save_Editor.ShipData;
-using SpaceHaven_Save_Editor.ViewModels.Base;
+using System.Linq;
+using System.Reactive;
+using ReactiveUI;
+using SpaceHaven_Save_Editor.Data;
+using SpaceHaven_Save_Editor.References;
+using SpaceHaven_Save_Editor.Views;
 
 namespace SpaceHaven_Save_Editor.ViewModels
 {
-    public class StorageViewModel : BaseViewModel
+    public class StorageViewModel : ViewModelBase
     {
+        private readonly IEnumerable<Cargo> _unmodifiedCargoItems;
+        private string? _cargoItemComboboxSelection;
+        private int _cargoItemComboboxSelectionAmount;
+        private int _selectedCargoIndex;
+
+        public StorageViewModel(StorageFacility storageFacility)
+        {
+            StorageFacility = storageFacility;
+            _unmodifiedCargoItems = new List<Cargo>(StorageFacility.Cargo);
+
+            SaveAndExit = ReactiveCommand.Create(() => StorageFacility);
+        }
+
         public StorageViewModel()
         {
+            StorageFacility = new StorageFacility();
+            _unmodifiedCargoItems = new List<Cargo>();
 
-            AddToStorage = new RelayCommand(AddToStorageList);
-            RemoveFromStorage = new RelayCommand(RemoveFromStorageList);
+            SaveAndExit = ReactiveCommand.Create(() => StorageFacility);
         }
 
-        public ICommand AddToStorage { get; }
-        public ICommand RemoveFromStorage { get; }
-        public string SelectedItem { get; set; }
-        public int SelectedItemAmount { get; set; }
-        public Ship Ship { get; set; }
-        public List<string> ItemList => IDCollections.GetItemList();
-        public StorageFacilities SelectedStorageFacility { get; set; }
-        public Cargo SelectedCargoItem { get; set; }
-        public ObservableCollection<Cargo> CargoList => SelectedStorageFacility?.CargoList;
-        public ToolFacilities SelectedToolFacility { get; set; }
+        public ReactiveCommand<Unit, StorageFacility> SaveAndExit { get; set; }
+        public StorageFacility StorageFacility { get; }
 
-        private void AddToStorageList()
+        public int SelectedCargoIndex
         {
-            if (SelectedStorageFacility == null)
-                MessageBox.Show("Select a storage facility to add items.");
-            else
-                foreach (var itemNode in IDCollections.ItemNodes)
-                {
-                    if (itemNode.Name != SelectedItem) continue;
-                    SelectedStorageFacility.CargoList.Add(new Cargo(itemNode.ID, SelectedItemAmount));
-                    break;
-                }
+            get => _selectedCargoIndex;
+            set => this.RaiseAndSetIfChanged(ref _selectedCargoIndex, value);
         }
 
-        private void RemoveFromStorageList()
-        {
-            if (SelectedCargoItem == null || SelectedStorageFacility == null) return;
+        public List<string> AllCargoItems { get; } = new(IdCollection.DefaultItemIDs.Values.ToList());
 
-            SelectedStorageFacility.CargoList.Remove(SelectedCargoItem);
+        public string? CargoItemComboboxSelection
+        {
+            get => _cargoItemComboboxSelection;
+            set => this.RaiseAndSetIfChanged(ref _cargoItemComboboxSelection, value);
+        }
+
+        public int CargoItemComboboxSelectionAmount
+        {
+            get => _cargoItemComboboxSelectionAmount;
+            set => this.RaiseAndSetIfChanged(ref _cargoItemComboboxSelectionAmount, value);
+        }
+
+        public void AddCargoItem()
+        {
+            if (CargoItemComboboxSelection == null || CargoItemComboboxSelectionAmount <= 0) return;
+
+            var idResult = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Key;
+
+            StorageFacility.Cargo.Insert(0, new Cargo(idResult, CargoItemComboboxSelectionAmount));
+        }
+
+        public void RemoveCargoItem()
+        {
+            if (SelectedCargoIndex < 0) return;
+
+            StorageFacility.Cargo.RemoveAt(SelectedCargoIndex);
+        }
+
+        public void RemoveAllCargo()
+        {
+            StorageFacility.Cargo.Clear();
+        }
+
+        public void Restore()
+        {
+            StorageFacility.Cargo.Clear();
+            foreach (var cargoItem in _unmodifiedCargoItems)
+                StorageFacility.Cargo.Add(cargoItem);
+        }
+
+        public void OpenIDReference()
+        {
+            var idWindow = new IdCollectionView();
+            idWindow.Show();
         }
     }
 }

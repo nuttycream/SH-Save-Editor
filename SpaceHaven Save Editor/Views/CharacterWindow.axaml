@@ -1,0 +1,59 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800" Height="450"
+        x:Class="SpaceHaven_Save_Editor.Views.CharacterWindow"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/icon.ico"
+        Title="{Binding Character.CharacterName}">
+
+    <Design.DataContext>
+        <vm:CharacterViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="50, 350,*" ColumnDefinitions="*,*,*,*" Margin="10">
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="10">
+            <Button Content="View XML Node" Padding="10" 
+                    Command="{Binding  ViewXmlNode}"/>
+            <Button Content="Save and Exit" Padding="10" 
+                    Command="{Binding SaveAndExit}"/>
+        </StackPanel>
+        
+        
+        <DataGrid Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Center"
+                  Items="{Binding Character.CharacterStats}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Stat" IsReadOnly="True" Binding="{Binding StatName}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding StatValue}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" HorizontalAlignment="Center"
+                  Items="{Binding Character.CharacterSkills}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Skill" IsReadOnly="True" Binding="{Binding SkillName}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding SkillValue}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False" HorizontalAlignment="Center"
+                  Items="{Binding Character.CharacterAttributes}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Attribute" IsReadOnly="True" Binding="{Binding AttributeName}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding AttributeValue}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Grid.Column="3" Spacing="5">
+            <ComboBox Items="{Binding AllTraits}" Width="125" HorizontalAlignment="Center"
+                      SelectedItem="{Binding SelectedCharacterTraitFromComboBox}" />
+            <Button Content="Add Trait" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding AddSelectedTrait}"/>
+            <Button Content="Remove" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
+                    Command="{Binding RemoveSelectedTrait}"/>
+            <ListBox Items="{Binding Character.CharacterTraits}"
+                     SelectedItem="{Binding SelectedCharacterTrait}" />
+        </StackPanel>
+        
+    </Grid>
+</Window>

@@ -1,88 +1,150 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.Input;
-using SpaceHaven_Save_Editor.CharacterData;
+using Avalonia.Dialogs;
+using ReactiveUI;
+using SpaceHaven_Save_Editor.Data;
 using SpaceHaven_Save_Editor.FileHandling;
-using SpaceHaven_Save_Editor.ViewModels.Base;
+using SpaceHaven_Save_Editor.Views;
 
 namespace SpaceHaven_Save_Editor.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CharacterViewModel _characterViewModel;
-        private readonly ReadFile _readFile;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly StorageViewModel _storageViewModel;
-        private readonly WriteFile _writeFile;
+        private string _fileNameTitle;
+        private string? _filePath;
+        private Game _game;
+        private ReadFile _readFile;
+        private WriteFile _writeFile;
+        private GameViewModel? _gameViewModel;
+        private string _textData;
+        private bool _autoBackup;
 
-        private List<Character> _characters = new();
+        public Action? SaveLoaded;
+        
 
         public MainWindowViewModel()
         {
+            ShowOpenFileDialog = new Interaction<Unit, string?>();
+
+            OpenFile = ReactiveCommand.CreateFromTask(OpenFileAsync);
+
+            _game = new Game();
             _readFile = new ReadFile();
             _writeFile = new WriteFile();
-
-            OpenFile = new AsyncRelayCommand(Open);
-            CreateBackUp = new AsyncRelayCommand(BackUp);
-            SaveFile = new AsyncRelayCommand(Save);
-            ClearLog = new RelayCommand(ClearLogText);
-
-            _readFile.ProgressList += UpdateProgress;
-            _writeFile.ProgressList += UpdateProgress;
-
-            _settingsViewModel = new SettingsViewModel();
-            _characterViewModel = new CharacterViewModel();
-            _storageViewModel = new StorageViewModel();
-
-            var appPath = Directory.GetCurrentDirectory();
+            _textData = "";
+            _fileNameTitle = "SpaceHaven Save Editor";
+            _autoBackup = true;
         }
 
-        public BaseViewModel CharacterContent => _characterViewModel;
-        public BaseViewModel StorageViewModel => _storageViewModel;
-        public BaseViewModel SettingsViewModel => _settingsViewModel;
+        public ReactiveCommand<Unit, Unit> OpenFile { get; }
+        public Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
-        public ICommand OpenFile { get; }
-        public ICommand CreateBackUp { get; }
-        public ICommand SaveFile { get; }
-        public ICommand ClearLog { get; }
-
-        public string FilePath { get; private set; }
-        public string BackUpFilePath { get; private set; }
-        public string PlayerCredits { get; set; }
-        public string ReadLogText { get; private set; }
-
-        private void UpdateProgress(string obj)
+        public GameViewModel? GameViewModel
         {
-            ReadLogText += obj + "\n";
+            get => _gameViewModel;
+            set => this.RaiseAndSetIfChanged(ref _gameViewModel, value);
         }
 
-        private void ClearLogText()
+        public string TextData
         {
-            ReadLogText = "Log Cleared\n";
+            get => _textData;
+            set => this.RaiseAndSetIfChanged(ref _textData, value);
         }
 
-        private async Task Save()
+        public string FileNameTitle
         {
-            await Task.Run(() =>
-                _writeFile.Write(FilePath, _characterViewModel.Characters, _storageViewModel.Ship, PlayerCredits));
+            get => _fileNameTitle;
+            set => this.RaiseAndSetIfChanged(ref _fileNameTitle, value);
         }
 
-        private async Task Open()
+        public bool AutoBackup
         {
-            _characters = await Task.Run(() => _readFile.LoadSave());
-
-            FilePath = _readFile.FilePath;
-            PlayerCredits = _readFile.PlayerCredits;
-
-            _characterViewModel.Characters = _characters;
-            _storageViewModel.Ship = _readFile.Ship;
+            get => _autoBackup;
+            set => this.RaiseAndSetIfChanged(ref _autoBackup, value);
         }
 
-        private async Task BackUp()
+        private async Task OpenFileAsync()
         {
-            BackUpFilePath = await Task.Run(() => _readFile.CreateBackUp());
+            _filePath = await ShowOpenFileDialog.Handle(Unit.Default);
+
+            if (_filePath == null) return;
+            
+            _readFile.UpdateLog += UpdateLog;
+            UpdateLog("Parsing " + _filePath);
+            try
+            {
+                _game = await _readFile.ReadXmlData(_filePath);
+                GameViewModel = new GameViewModel(_game);
+                SaveLoaded?.Invoke();
+                FileNameTitle = "Editing: " + _filePath;
+            }
+            catch (Exception exception)
+            {
+                UpdateLog(exception.Message);
+            }
+        }
+
+        public void ClearLog()
+        {
+            TextData = "";
+        }
+
+        private void UpdateLog(string obj)
+        {
+            TextData += obj + "\n";
+        }
+
+        public void SaveFile()
+        {
+            if (_filePath == null || _readFile.SaveFile == null) return;
+            
+            if(_autoBackup)
+                CreateBackUp();
+            
+            _writeFile.UpdateLog += UpdateLog;
+            try
+            {
+                UpdateLog("Saving file to " + _filePath);
+                _writeFile.WriteXmlData(_game, ref _readFile.SaveFile!, _filePath);
+            }
+            catch (Exception exception)
+            {
+                UpdateLog(exception.Message);
+            }
+        }
+
+        public void CreateBackUp()
+        {
+            if (!File.Exists(_filePath) || _filePath == null)
+            {
+                UpdateLog("There's no save to back-up " + _filePath);
+                return;
+            }
+
+            var backupPath = _filePath + "-backup@" + DateTime.Now.ToString("HHmmss");
+            File.Copy(_filePath, backupPath, false);
+            UpdateLog("Backup Created at " + backupPath);
+        }
+
+        public void OpenIdCollections()
+        {
+            var idWindow = new IdCollectionView();
+            idWindow.Show();
+        }
+
+        public void OpenNodeCollections()
+        {
+            var nodeWindow = new NodeCollectionView();
+            nodeWindow.Show();
+        }
+
+        public void GotoGithub()
+        {
+            AboutAvaloniaDialog.OpenBrowser("https://github.com/nuttycream/SH-Save-Editor");
         }
     }
 }

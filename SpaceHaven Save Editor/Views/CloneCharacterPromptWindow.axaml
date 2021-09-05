@@ -1,0 +1,29 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+        Width="300" Height="200"
+        x:Class="SpaceHaven_Save_Editor.Views.CloneCharacterPromptWindow"
+        WindowStartupLocation="CenterOwner"
+        Icon="/Assets/icon.ico"
+        Title="Clone Character">
+
+    <Design.DataContext>
+        <vm:CloneCharacterPromptViewModel/>
+    </Design.DataContext>
+    
+    <Grid RowDefinitions="*, *, *" Margin="10">
+        <TextBlock Grid.Row="0" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Top"
+                   Text="Note: This is an experimental feature - problems may occur, be sure to backup your save file and use with caution." />
+        <TextBox Grid.Row="1" Text="{Binding CharacterName}" />
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="30">
+            <Button Content="Continue" Width="125" HorizontalContentAlignment="Center" 
+                    Command="{Binding Continue}"/>
+            <Button Content="Cancel" Width="125" HorizontalContentAlignment="Center" HorizontalAlignment="Right"
+                    Click="Button_OnClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

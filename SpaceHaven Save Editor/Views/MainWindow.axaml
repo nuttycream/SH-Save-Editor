@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="900" Height="600"
+        x:Class="SpaceHaven_Save_Editor.Views.MainWindow"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/icon.ico"
+        Title="{Binding FileNameTitle}">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" >
+            <MenuItem Header="File">
+                <MenuItem Command="{Binding OpenFile}"
+                          Header="Open File" InputGesture="Ctrl+O" HotKey="Ctrl+O" />
+
+                <MenuItem Command="{Binding SaveFile}"
+                          Header="Save File" InputGesture="Ctrl+S" HotKey="Ctrl+S" />
+
+                <MenuItem Command="{Binding CreateBackUp}"
+                          Header="Manual Backup" InputGesture="Ctrl+B" HotKey="Ctrl+B" />
+                
+                <CheckBox Content="Auto Backup" IsChecked="{Binding AutoBackup}"></CheckBox>
+
+            </MenuItem>
+            <MenuItem Header="References">
+                <MenuItem Command="{Binding OpenIdCollections}"
+                          Header="IDs" InputGesture="Ctrl+I" HotKey="Ctrl+I" />
+                <MenuItem Command="{Binding OpenNodeCollections}"
+                          Header="Nodes" InputGesture="Ctrl+N" HotKey="Ctrl+N" />
+            </MenuItem>
+            <MenuItem Header="About">
+                <MenuItem Command="{Binding GotoGithub}"
+                          Header="Github" />
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom" RowDefinitions="*, 175">
+
+            <UserControl Grid.Row="0">
+                <ContentControl Content="{Binding GameViewModel}" />
+            </UserControl>
+
+            <DockPanel Grid.Row="1">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="5">
+                    <Button Content="Clear Log"
+                            Command="{Binding ClearLog}" />
+                </StackPanel>
+
+                <TextBox DockPanel.Dock="Bottom"
+                         Text="{Binding TextData}"
+                         IsReadOnly="True" />
+            </DockPanel>
+
+        </Grid>
+    </DockPanel>
+</Window>
