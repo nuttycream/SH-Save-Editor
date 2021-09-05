@@ -14,14 +14,41 @@
         <vm:CharacterViewModel />
     </Design.DataContext>
 
-    <Grid RowDefinitions="50, 350,*" ColumnDefinitions="*,*,*,*" Margin="10">
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="10">
-            <Button Content="View XML Node" Padding="10"
+    <Grid RowDefinitions="50, 350,*" ColumnDefinitions="*,*,*,250" Margin="10">
+        
+        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+            <Button Content="Max Stats" Padding="10"
+                    Command="{Binding  Max}"
+                    CommandParameter="Stats"/>
+            <Button Content="Clear" Padding="10"
+                    Command="{Binding Clear}"
+                    CommandParameter="Stats"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+            <Button Content="Max Skills" Padding="10"
+                    Command="{Binding  Max}" 
+                    CommandParameter="Skills"/>
+            <Button Content="Clear" Padding="10"
+                    Command="{Binding Clear}"
+                    CommandParameter="Skills"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+            <Button Content="Max Attr" Padding="10"
+                    Command="{Binding  Max}"
+                    CommandParameter="Attributes"/>
+            <Button Content="Clear" Padding="10"
+                    Command="{Binding Clear}"
+                    CommandParameter="Attributes"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+            <Button Content="View Node" Padding="10"
                     Command="{Binding  ViewXmlNode}" />
             <Button Content="Save and Exit" Padding="10"
                     Command="{Binding SaveAndExit}" />
         </StackPanel>
-
 
         <DataGrid Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Center"
                   Items="{Binding Character.CharacterStats}">
@@ -44,7 +71,7 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding AttributeValue}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" Grid.Column="3" Spacing="5">
+        <StackPanel Grid.Row="1" Grid.Column="3" Spacing="5" Margin="20">
             <ComboBox Items="{Binding AllTraits}" Width="125" HorizontalAlignment="Center"
                       SelectedItem="{Binding SelectedCharacterTraitFromComboBox}" />
             <Button Content="Add Trait" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"

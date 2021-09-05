@@ -27,6 +27,37 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public string? SelectedCharacterTraitFromComboBox { get; set; }
         public CharacterTrait? SelectedCharacterTrait { get; set; }
 
+        public void Max(string type)
+        {
+            switch (type)
+            {
+                case "Stats":
+                    foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 150;
+                    break;
+                case "Skills":
+                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.SkillValue = 3;
+                    break;
+                case "Attributes":
+                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.AttributeValue = 6;
+                    break;
+            }
+        }
+
+        public void Clear(string type)
+        {
+            switch (type)
+            {
+                case "Stats":
+                    foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 0;
+                    break;
+                case "Skills":
+                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.SkillValue = 0;
+                    break;
+                case "Attributes":
+                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.AttributeValue = 0;
+                    break;
+            }
+        }
         public void ViewXmlNode()
         {
             var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode);
