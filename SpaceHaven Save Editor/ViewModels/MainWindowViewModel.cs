@@ -34,6 +34,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _game = new Game();
             _readFile = new ReadFile();
             _writeFile = new WriteFile();
+            _writeFile.UpdateLog += UpdateLog;
+            _readFile.UpdateLog += UpdateLog;
             _textData = "";
             _fileNameTitle = "SpaceHaven Save Editor";
             _autoBackup = true;
@@ -71,8 +73,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _filePath = await ShowOpenFileDialog.Handle(Unit.Default);
 
             if (_filePath == null) return;
-
-            _readFile.UpdateLog += UpdateLog;
+            
             UpdateLog("Parsing " + _filePath);
             try
             {
@@ -103,8 +104,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             if (_autoBackup)
                 CreateBackUp();
-
-            _writeFile.UpdateLog += UpdateLog;
+            
             try
             {
                 UpdateLog("Saving file to " + _filePath);
