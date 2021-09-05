@@ -1,4 +1,4 @@
-# <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/SpaceHaven%20Save%20Editor/Resources/icon.ico" width="25" height="25"/> Space Haven Save Editor
+# <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/SpaceHaven%20Save%20Editor/Assets/icon.ico" width="25" height="25"/> Space Haven Save Editor
 
 Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 
