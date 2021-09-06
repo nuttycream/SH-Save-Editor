@@ -19,7 +19,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
             foreach (XmlNode storageNode in storageNodes)
             {
-                var invNodes = Utilities.FindMultipleNodes(storageNode, "//s[@elementaryId]");
+                var invNodes = Utilities.FindMultipleNodes(storageNode, ".//s[@elementaryId]");
                 if (invNodes == null) continue;
 
                 StorageFacility storageFacility = new();

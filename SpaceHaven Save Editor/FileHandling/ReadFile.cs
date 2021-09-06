@@ -76,7 +76,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     characters = await Task.Run(() => Characters.ReadCharacters(characterRootNode));
                 }
 
-                var storageNodes = Utilities.FindMultipleNodes(shipNode, NodeCollection.StoragesXPath);
+                var storageNodes = shipNode.SelectNodes(".//feat[@eatAllowed]");
                 List<StorageFacility> storageFacilities = new();
 
                 if (storageNodes is {Count: 0})
