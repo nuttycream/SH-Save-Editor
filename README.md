@@ -42,7 +42,7 @@ Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Stea
 ## Acknowledgements
 - Thanks to $P00KY DA $CARY for his original [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 - Developed in C# and AXAML on the Avalonia .NET Framework
-- You can find an alternative version as a webapp on https://spacehaven-editor.com/
+- You can find an alternative version as a webapp on https://spacehaven-editor.com/ by [@MoltenCoffee](https://github.com/MoltenCoffee)
 
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
