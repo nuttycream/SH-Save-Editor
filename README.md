@@ -1,6 +1,6 @@
 # <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/SpaceHaven%20Save%20Editor/Assets/icon.ico" width="25" height="25"/> Space Haven Save Editor
 
-Edit your [SpaceHave](https://bugbyte.fi/spacehaven/) game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
+Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 
 ### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)]()
 ## Features
@@ -30,8 +30,9 @@ Edit your [SpaceHave](https://bugbyte.fi/spacehaven/) game save! Based on [Steam
 - You'll need [Wine](https://wiki.winehq.org/Download) to run the program
 
 ## Screenshots
-<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/File%20Menu.png"/>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Game%20Menu.png"/>
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Storage%20Menu.png"/>
 
 ## Build
 - Clone or download git repo
@@ -41,7 +42,7 @@ Edit your [SpaceHave](https://bugbyte.fi/spacehaven/) game save! Based on [Steam
 ## Acknowledgements
 - Thanks to $P00KY DA $CARY for his original [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 - Developed in C# and AXAML on the Avalonia .NET Framework
-- You can find an alternative version as a webapp on https://spacehaven-editor.com/
+- You can find an alternative version as a webapp on https://spacehaven-editor.com/ by [@MoltenCoffee](https://github.com/MoltenCoffee)
 
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
