@@ -1,6 +1,6 @@
 # <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/SpaceHaven%20Save%20Editor/Assets/icon.ico" width="25" height="25"/> Space Haven Save Editor
 
-Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
+Edit your [SpaceHave](https://bugbyte.fi/spacehaven/) game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 
 ### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)]()
 ## Features
@@ -40,9 +40,8 @@ Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.c
 
 ## Acknowledgements
 - Thanks to $P00KY DA $CARY for his original [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
-- Developed in C# and XAML on the .NET Core WPF UI Framework
-- Used [MaterialDesignInXAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) for buttons, icons, ui etc.
-
+- Developed in C# and AXAML on the Avalonia .NET Framework
+- You can find an alternative version as a webapp on https://spacehaven-editor.com/
 
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
