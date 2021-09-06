@@ -5,27 +5,29 @@ Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.c
 ### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)]()
 ## Features
 - Edit each character's stats including health, attributes, skills, traits
+- Clone a character (expiremental)
 - Add money to player's bank
-- Add items to storages
-- Add tools to tool storages
-- Edit research values (coming soon)
+- Add items in storages
+- Edit research values
 
-## Usage
-- **Note: Install [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime) to use framework dependent version.**
-- Click on [Releases](https://github.com/nuttycream/SH-Save-Editor/releases), download self contained zip (much bigger) __OR__ framework dependent zip. 
+## Usage for Windows
+- **Note: Requires [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime). Alternatively, you can download the portable version labeled win-x64-portable(~80mb)**
+- Click on [Releases](https://github.com/nuttycream/SH-Save-Editor/releases), download win-x64.zip. 
 - Unzip anywhere then click and run program
-- Click open file, it should open a file explorer window
+- Click File->Open File or Ctrl+O, it should open a file explorer window
 - Navigate to stored game save location:
 `..steamapps\common\SpaceHaven\savegames\(SAVE NAME)\save`
 - Select file named "game"
-- Click create back-up and start editing!
 - Save file once done.
 
-## For Linux and Mac (i think)
-- **Note: I tested this on Fedora 33, I don't have a mac but it should be about the same?**
+## For Linux
+- Click on [Releases](https://github.com/nuttycream/SH-Save-Editor/releases), download linux-x64.
+- Extract to a folder, example shse/SpaceHavenSaveEditor <- this is the File you want to make executable
+- Open a terminal window and enter `chmod +x /SpaceHaven Save Editor`, you should now be able to run the application with `./SpaceHaven Save Editor`
+
+## For Mac (proper .app coming soon)
+- Click on [Releases](https://github.com/nuttycream/SH-Save-Editor/releases), download win-x64-portable.
 - You'll need [Wine](https://wiki.winehq.org/Download) to run the program
-- Download self contained zip and extract to a folder
-- Open a terminal window inside the folder and enter `wine SpaceHaven Save Editor.exe`
 
 ## Screenshots
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/File%20Menu.png"/>
@@ -33,7 +35,7 @@ Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.c
 
 ## Build
 - Clone or download git repo
-- Open `Space Haven Save Editor.sln` in Visual Studio. (Requires .NET 5.0)
+- Open `Space Haven Save Editor.sln` in Visual Studio or Rider
 - Run and build project
 
 ## Acknowledgements
@@ -41,9 +43,6 @@ Edit your Space Haven game save! Based on [Steam Guide](https://steamcommunity.c
 - Developed in C# and XAML on the .NET Core WPF UI Framework
 - Used [MaterialDesignInXAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit) for buttons, icons, ui etc.
 
-## Like what I do?
-- Donate via [Paypal](https://www.paypal.com/donate?business=LUMQ96R38FW4C&no_recurring=0&currency_code=USD)
-- Donate via [Ko-fi](https://ko-fi.com/nuttycream)
 
 ## License
 This project is open source and available under the [MIT License](LICENSE). 
