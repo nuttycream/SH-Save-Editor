@@ -45,8 +45,16 @@ namespace SpaceHaven_Save_Editor.Data
             }
         }
 
+        public ResearchItem()
+        {
+            
+        }
+
         public int ResearchItemId { get; set; }
         public string ResearchItemName { get; set; }
+        public int MaxBasic;
+        public int MaxIntermediate;
+        public int MaxAdvanced;
 
         public int Basic
         {

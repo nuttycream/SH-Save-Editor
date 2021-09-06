@@ -71,7 +71,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 foreach (var character in ship.Characters)
                 {
                     var characterNode = shipNode.SelectSingleNode(".//c[@name='" + character.CharacterName + "']");
-                    if (characterNode == null && character.IsACharacterClone)
+                    if (characterNode == null && character.IsAClone)
                     {
                         characterRootNode!.AppendChild(character.CharacterXmlNode);
                         characterNode = shipNode.SelectSingleNode(".//c[@name='" + character.CharacterName + "']");

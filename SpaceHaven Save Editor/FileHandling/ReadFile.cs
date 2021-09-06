@@ -45,27 +45,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 UpdateLog?.Invoke("Player bank node found with " + value);
                 gameSave.Player.Money = value;
             }
-
+            
 
             UpdateLog?.Invoke(researchNodes!.Count + " research nodes found.");
-            foreach (XmlNode researchNode in researchNodes!)
-            {
-                var blocksNode = researchNode.SelectSingleNode(".//blocksDone");
-                if (blocksNode == null)
-                    continue;
-
-                if (!int.TryParse(Utilities.GetAttributeValue(researchNode, "techId"), out var idResult)
-                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level1Result)
-                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level2Result)
-                    || !int.TryParse(Utilities.GetAttributeValue(blocksNode, "level1"), out var level3Result))
-                    continue;
-
-                if (!IdCollection.DefaultResearchIDs.ContainsKey(idResult))
-                    continue;
-
-                ResearchItem researchItem = new(idResult, level1Result, level2Result, level3Result);
-                gameSave.Research.ResearchItems.Add(researchItem);
-            }
+            gameSave.Research.ResearchItems = ReadResearch.ReadResearchItems(researchNodes);
 
             UpdateLog?.Invoke(gameSave.Research.ResearchItems.Count + " research items have been verified and added.");
 
@@ -82,18 +65,15 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 var isOwnedByPlayer =
                     Utilities.GetAttributeValue(ownedByPlayerNode!, NodeCollection.ShipOwnerAttribute) == "Player";
 
-                var characterNodes = shipNode.SelectSingleNode(".//characters");
-                List<Character> characters = new();
+                var characterRootNode = shipNode.SelectSingleNode(".//characters");
+                var characters = new List<Character>();
 
-                if (characterNodes is {HasChildNodes: false})
-                {
+                if (characterRootNode is {HasChildNodes: false} or null)
                     UpdateLog?.Invoke("No Characters found on " + shipName);
-                }
                 else
                 {
-                    UpdateLog?.Invoke(characterNodes?.ChildNodes.Count + " Characters found on " + shipName);
-                    characters.AddRange(from XmlNode characterNode in characterNodes!
-                        select new Character(characterNode));
+                    UpdateLog?.Invoke(characterRootNode.ChildNodes.Count + " Characters found on " + shipName);
+                    characters = await Task.Run(() => Characters.ReadCharacters(characterRootNode));
                 }
 
                 var storageNodes = Utilities.FindMultipleNodes(shipNode, NodeCollection.StoragesXPath);
@@ -106,7 +86,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 else
                 {
                     UpdateLog?.Invoke(storageNodes!.Count + " Storage Facilities found on " + shipName);
-                    storageFacilities = await Task.Run(() => ReadStorageFacilities(storageNodes));
+                    storageFacilities = await Task.Run(() => Storages.ReadStorageFacilities(storageNodes));
                 }
 
                 Ship ship = new(shipName, characters, storageFacilities, isOwnedByPlayer, shipNode);
@@ -117,38 +97,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
             UpdateLog?.Invoke("Parse Complete for " + fileName);
 
             return gameSave;
-        }
-
-        //TODO: Move this to Ship.cs
-        private static List<StorageFacility> ReadStorageFacilities(IEnumerable? storageNodes)
-        {
-            List<StorageFacility> storageFacilities = new();
-
-            if (storageNodes == null)
-                throw new Exception("Something went wrong when trying to access storage nodes list.");
-
-
-            foreach (XmlNode storageNode in storageNodes)
-            {
-                var invNodes = Utilities.FindMultipleNodes(storageNode, "//s[@elementaryId]");
-                if (invNodes == null) continue;
-
-                StorageFacility storageFacility = new();
-                foreach (XmlNode invNode in invNodes)
-                {
-                    if (!int.TryParse(Utilities.GetAttributeValue(invNode, NodeCollection.CargoItemAttributeId),
-                            out var idResult) ||
-                        !int.TryParse(Utilities.GetAttributeValue(invNode, NodeCollection.CargoItemAttributeAmount),
-                            out var amountResult)) continue;
-
-                    Cargo cargo = new(idResult, amountResult);
-                    storageFacility.Cargo.Add(cargo);
-                }
-
-                storageFacilities.Add(storageFacility);
-            }
-
-            return storageFacilities;
         }
     }
 }

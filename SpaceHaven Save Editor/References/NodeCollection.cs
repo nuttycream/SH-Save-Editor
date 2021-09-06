@@ -27,7 +27,7 @@ namespace SpaceHaven_Save_Editor.References
         public static string CharactersRootNode { get; set; } = "characters";
         public static string CharacterNode { get; set; } = "c";
         public static string CharacterNameAttribute { get; set; } = "name";
-        public static string CharacterEidNode { get; set; } = "entId";
+        public static string CharacterEidAttribute { get; set; } = "entId";
         public static string CharacterStatsNode { get; set; } = "props";
 
         public static string CharacterStatsAttribute { get; set; } = "v";

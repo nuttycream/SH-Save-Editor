@@ -32,7 +32,7 @@
                          Margin="0,0,0,15" />
 
                 <Label Content="Character Entity ID Node" VerticalAlignment="Center" />
-                <TextBox Text="{x:Static s:NodeCollection.CharacterEidNode}"
+                <TextBox Text="{x:Static s:NodeCollection.CharacterEidAttribute}"
                          Margin="0,0,0,15" />
 
                 <Label Content="Character Stats Node" VerticalAlignment="Center" />
