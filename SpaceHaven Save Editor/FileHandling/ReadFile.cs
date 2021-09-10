@@ -48,7 +48,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             
 
             UpdateLog?.Invoke(researchNodes!.Count + " research nodes found.");
-            gameSave.Research.ResearchItems = ReadResearch.ReadResearchItems(researchNodes);
+            gameSave.Research.ResearchItems = FindResearch.ReadResearchItems(researchNodes);
 
             UpdateLog?.Invoke(gameSave.Research.ResearchItems.Count + " research items have been verified and added.");
 
@@ -73,7 +73,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 else
                 {
                     UpdateLog?.Invoke(characterRootNode.ChildNodes.Count + " Characters found on " + shipName);
-                    characters = await Task.Run(() => Characters.ReadCharacters(characterRootNode));
+                    characters = await Task.Run(() => FindCharacters.ReadCharacters(characterRootNode));
                 }
 
                 var storageNodes = shipNode.SelectNodes(".//feat[@eatAllowed]");
@@ -86,7 +86,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 else
                 {
                     UpdateLog?.Invoke(storageNodes!.Count + " Storage Facilities found on " + shipName);
-                    storageFacilities = await Task.Run(() => Storages.ReadStorageFacilities(storageNodes));
+                    storageFacilities = await Task.Run(() => FindStorages.ReadStorageFacilities(storageNodes));
                 }
 
                 Ship ship = new(shipName, characters, storageFacilities, isOwnedByPlayer, shipNode);

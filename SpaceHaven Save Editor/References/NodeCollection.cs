@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceHaven_Save_Editor.References
 {
@@ -54,10 +55,10 @@ namespace SpaceHaven_Save_Editor.References
         public static string StorageNode { get; set; } = "feat";
         public static string StoragesXPath { get; set; } = ".//feat[@eatAllowed]";
         public static string ToolsXPath { get; set; } = ".//feat[@ft]";
-        public static string StorageAttributeForCargo { get; set; } = "eatAllowed";
         public static string CargoItemElementName { get; set; } = "s";
         public static string CargoItemAttributeId { get; set; } = "elementaryId";
         public static string CargoItemAttributeAmount { get; set; } = "inStorage";
         public static string StorageAttributeForTools { get; set; } = "ft";
+        
     }
 }

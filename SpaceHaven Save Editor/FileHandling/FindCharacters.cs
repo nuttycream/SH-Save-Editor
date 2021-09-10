@@ -9,7 +9,7 @@ using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
-    public static class Characters
+    public static class FindCharacters
     {
         public static List<Character> ReadCharacters(XmlNode characterRootNode)
         {

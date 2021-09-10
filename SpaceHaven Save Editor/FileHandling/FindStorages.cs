@@ -7,7 +7,7 @@ using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
-    public static class Storages
+    public static class FindStorages
     {
         public static List<StorageFacility> ReadStorageFacilities(IEnumerable? storageNodes)
         {

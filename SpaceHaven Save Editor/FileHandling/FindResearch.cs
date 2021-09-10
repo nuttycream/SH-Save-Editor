@@ -5,7 +5,7 @@ using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
-    public static class ReadResearch
+    public static class FindResearch
     {
         public static ObservableCollection<ResearchItem> ReadResearchItems(XmlNodeList? researchNodes)
         {

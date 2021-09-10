@@ -47,8 +47,7 @@
         <ScrollViewer Grid.Row="1" Grid.Column="2">
             <StackPanel>
                 <ListBox Items="{Binding SelectedShip.StorageFacilities}"
-                         SelectedItem="{Binding SelectedStorageFacility}"
-                         SelectionMode="Single" />
+                         SelectedItem="{Binding SelectedStorageFacility}"/>
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Spacing="5">
