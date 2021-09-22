@@ -6,33 +6,33 @@ namespace SpaceHaven_Save_Editor.Data
 {
     public class CharacterSkill : ReactiveObject
     {
-        private int _skillValue;
+        private int _value;
 
         public CharacterSkill(int id, int value)
         {
             if (IdCollection.DefaultSkillIDs.TryGetValue(id, out var skillName))
             {
-                SkillId = id;
-                SkillName = skillName;
-                SkillValue = value;
+                ID = id;
+                Name = skillName;
+                Value = value;
             }
             else
             {
                 Debug.Print("Error Invalid Skill ID.");
 
-                SkillId = -1;
-                SkillName = "Invalid Skill";
-                SkillValue = -1;
+                ID = -1;
+                Name = "Invalid Skill";
+                Value = -1;
             }
         }
 
-        public int SkillId { get; set; }
-        public string SkillName { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public int SkillValue
+        public int Value
         {
-            get => _skillValue;
-            set => this.RaiseAndSetIfChanged(ref _skillValue, value);
+            get => _value;
+            set => this.RaiseAndSetIfChanged(ref _value, value);
         }
     }
 }

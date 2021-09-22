@@ -3,84 +3,100 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="800" Height="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+        Width="600" Height="450"
         x:Class="SpaceHaven_Save_Editor.Views.CharacterWindow"
         WindowStartupLocation="CenterOwner"
         Icon="/Assets/icon.ico"
-        Title="{Binding Character.CharacterName}">
-
+        CanResize="False"
+        Title="Character Editor">
+    
     <Design.DataContext>
         <vm:CharacterViewModel />
     </Design.DataContext>
 
-    <Grid RowDefinitions="50, 350,*" ColumnDefinitions="*,*,*,250" Margin="10">
+    <Grid RowDefinitions="50, 300,*" ColumnDefinitions="150,*" Margin="10">
         
-        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left"  Spacing="5" >
+            <TextBlock VerticalAlignment="Bottom" FontSize="34" 
+                       Text="{Binding Character.CharacterName}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Faction: "></TextBlock>
+                <TextBlock Text="{Binding Character.FactionSide}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Is Crewman: "></TextBlock>
+                <TextBlock Text="{Binding Character.isCrewman}"></TextBlock>
+            </StackPanel>
+            <Button Content="View Node" Padding="10" VerticalAlignment="Bottom"
+                    Command="{Binding  ViewXmlNode}" />
+            <Button Content="Save and Exit" Padding="10" VerticalAlignment="Bottom"
+                    Command="{Binding SaveAndExit}" />
+            <Button Content="Set To Crewman" 
+                    IsEnabled="{Binding !Character.isCrewman}"></Button>
+            <Button Content="Set Faction Side"></Button>
+            
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="0">
             <Button Content="Max Stats" Padding="10"
                     Command="{Binding  Max}"
                     CommandParameter="Stats"/>
-            <Button Content="Clear" Padding="10"
-                    Command="{Binding Clear}"
-                    CommandParameter="Stats"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
             <Button Content="Max Skills" Padding="10"
                     Command="{Binding  Max}" 
                     CommandParameter="Skills"/>
-            <Button Content="Clear" Padding="10"
-                    Command="{Binding Clear}"
-                    CommandParameter="Skills"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
-            <Button Content="Max Attr" Padding="10"
+            <Button Content="Max Attri" Padding="10"
                     Command="{Binding  Max}"
                     CommandParameter="Attributes"/>
-            <Button Content="Clear" Padding="10"
-                    Command="{Binding Clear}"
-                    CommandParameter="Attributes"/>
         </StackPanel>
-
-        <StackPanel Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="5">
-            <Button Content="View Node" Padding="10"
-                    Command="{Binding  ViewXmlNode}" />
-            <Button Content="Save and Exit" Padding="10"
-                    Command="{Binding SaveAndExit}" />
-        </StackPanel>
-
-        <DataGrid Grid.Row="1" Grid.Column="0" AutoGenerateColumns="False" HorizontalAlignment="Center"
-                  Items="{Binding Character.CharacterStats}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Stat" IsReadOnly="True" Binding="{Binding StatName}" />
-                <DataGridTextColumn Header="Value" Binding="{Binding StatValue}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" HorizontalAlignment="Center"
-                  Items="{Binding Character.CharacterSkills}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Skill" IsReadOnly="True" Binding="{Binding SkillName}" />
-                <DataGridTextColumn Header="Value" Binding="{Binding SkillValue}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="2" AutoGenerateColumns="False" HorizontalAlignment="Center"
-                  Items="{Binding Character.CharacterAttributes}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Attribute" IsReadOnly="True" Binding="{Binding AttributeName}" />
-                <DataGridTextColumn Header="Value" Binding="{Binding AttributeValue}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Grid.Row="1" Grid.Column="3" Spacing="5" Margin="20">
-            <ComboBox Items="{Binding AllTraits}" Width="125" HorizontalAlignment="Center"
-                      SelectedItem="{Binding SelectedCharacterTraitFromComboBox}" />
-            <Button Content="Add Trait" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
-                    Command="{Binding AddSelectedTrait}" />
-            <Button Content="Remove" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
-                    Command="{Binding RemoveSelectedTrait}" />
-            <ListBox Items="{Binding Character.CharacterTraits}"
-                     SelectedItem="{Binding SelectedCharacterTrait}" />
-        </StackPanel>
+        
+        <TabControl Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+            <TabItem Header="Stats">
+                <DataGrid AutoGenerateColumns="False"
+                          Items="{Binding Character.CharacterStats}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Stat" IsReadOnly="True" Width="200"
+                                            Binding="{Binding StatName}" />
+                        <DataGridTextColumn Header="Value" 
+                                            Binding="{Binding StatValue}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Skills">
+                <DataGrid AutoGenerateColumns="False" 
+                          Items="{Binding Character.CharacterSkills}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Skill" IsReadOnly="True" Width="200"
+                                            Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Value" 
+                                            Binding="{Binding Value}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Attributes">
+                <DataGrid AutoGenerateColumns="False" 
+                          Items="{Binding Character.CharacterAttributes}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Attribute" IsReadOnly="True" Width="200"
+                                            Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Value" 
+                                            Binding="{Binding Value}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Traits">
+                <StackPanel  Spacing="5" Margin="20">
+                    <ComboBox Items="{Binding AllTraits}" Width="200" HorizontalAlignment="Center"
+                              SelectedItem="{Binding SelectedCharacterTraitFromComboBox}" />
+                    <Button Content="Add Trait" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
+                            Command="{Binding AddSelectedTrait}" />
+                    <Button Content="Remove" HorizontalAlignment="Center" Width="100" HorizontalContentAlignment="Center"
+                            Command="{Binding RemoveSelectedTrait}" />
+                    <ListBox Items="{Binding Character.CharacterTraits}"
+                             SelectedItem="{Binding SelectedCharacterTrait}" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>

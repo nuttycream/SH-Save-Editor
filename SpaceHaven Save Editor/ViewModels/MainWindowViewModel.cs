@@ -24,7 +24,6 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         public Action? SaveLoaded;
 
-
         public MainWindowViewModel()
         {
             ShowOpenFileDialog = new Interaction<Unit, string?>();

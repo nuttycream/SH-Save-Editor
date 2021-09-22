@@ -9,24 +9,24 @@ namespace SpaceHaven_Save_Editor.Data
         {
             if (IdCollection.DefaultTraitIDs.TryGetValue(id, out var traitName))
             {
-                TraitId = id;
-                TraitName = traitName;
+                ID = id;
+                Name = traitName;
             }
             else
             {
                 Debug.Print("Error Invalid Trait ID.");
 
-                TraitId = -1;
-                TraitName = "Invalid Trait";
+                ID = -1;
+                Name = "Invalid Trait";
             }
         }
 
-        public int TraitId { get; set; }
-        public string TraitName { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
         public override string ToString()
         {
-            return TraitName;
+            return Name;
         }
     }
 }

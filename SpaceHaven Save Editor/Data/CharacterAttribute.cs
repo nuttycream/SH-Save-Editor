@@ -6,33 +6,33 @@ namespace SpaceHaven_Save_Editor.Data
 {
     public class CharacterAttribute : ReactiveObject
     {
-        private int _attributeValue;
+        private int _value;
 
         public CharacterAttribute(int id, int value)
         {
             if (IdCollection.DefaultAttributeIDs.TryGetValue(id, out var attributeName))
             {
-                AttributeId = id;
-                AttributeName = attributeName;
-                AttributeValue = value;
+                ID = id;
+                Name = attributeName;
+                Value = value;
             }
             else
             {
                 Debug.Print("Error Invalid Attribute ID.");
 
-                AttributeId = -1;
-                AttributeName = "Invalid Attribute";
-                AttributeValue = -1;
+                ID = -1;
+                Name = "Invalid Attribute";
+                Value = -1;
             }
         }
 
-        public int AttributeId { get; set; }
-        public string AttributeName { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public int AttributeValue
+        public int Value
         {
-            get => _attributeValue;
-            set => this.RaiseAndSetIfChanged(ref _attributeValue, value);
+            get => _value;
+            set => this.RaiseAndSetIfChanged(ref _value, value);
         }
     }
 }

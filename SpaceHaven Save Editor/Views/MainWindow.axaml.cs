@@ -33,6 +33,7 @@ namespace SpaceHaven_Save_Editor.Views
                     d(ViewModel.GameViewModel!.OpenResearchWindow.RegisterHandler(ShowResearchDialog));
                 };
             });
+
         }
 
 

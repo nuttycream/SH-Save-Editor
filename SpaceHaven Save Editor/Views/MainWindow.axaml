@@ -3,8 +3,8 @@
         xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="900" Height="600"
+        mc:Ignorable="d" d:DesignWidth="1080" d:DesignHeight="620"
+        Width="1080" Height="620"
         x:Class="SpaceHaven_Save_Editor.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon.ico"
@@ -40,7 +40,7 @@
                           Header="Github" />
             </MenuItem>
         </Menu>
-        <Grid DockPanel.Dock="Bottom" RowDefinitions="*, 175">
+        <Grid DockPanel.Dock="Bottom" RowDefinitions="*, 200">
 
             <UserControl Grid.Row="0">
                 <ContentControl Content="{Binding GameViewModel}" />
@@ -54,7 +54,7 @@
 
                 <TextBox DockPanel.Dock="Bottom"
                          Text="{Binding TextData}"
-                         IsReadOnly="True" />
+                         IsReadOnly="True"/>
             </DockPanel>
 
         </Grid>

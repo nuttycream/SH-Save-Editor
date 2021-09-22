@@ -23,9 +23,11 @@ namespace SpaceHaven_Save_Editor.FileHandling
             Character character = new()
             {
                 CharacterXmlNode = characterNode,
-                CharacterName = Utilities.GetAttributeValue(characterNode, NodeCollection.CharacterNameAttribute)
+                CharacterName = Utilities.GetAttributeValue(characterNode, NodeCollection.CharacterNameAttribute),
+                FactionSide = Utilities.GetAttributeValue(characterNode, "side"),
+                isCrewman = Utilities.GetAttributeValue(characterNode, "side") != "NotSet"
             };
-            
+
             if (int.TryParse(Utilities.GetAttributeValue(characterNode, NodeCollection.CharacterEidAttribute),
                 out var result))
                 character.CharacterEntityId = result;

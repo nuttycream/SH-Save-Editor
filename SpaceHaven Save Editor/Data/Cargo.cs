@@ -18,7 +18,7 @@ namespace SpaceHaven_Save_Editor.Data
             else
             {
                 CargoId = -1;
-                CargoName = "Invalid Cargo Id for" + cargoName;
+                CargoName = "ID: " + cargoId + " Not Found";
                 CargoAmount = -1;
             }
         }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Xml;
-using SpaceHaven_Save_Editor.FileHandling;
 using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.Data
@@ -21,6 +18,8 @@ namespace SpaceHaven_Save_Editor.Data
         public XmlNode? CharacterXmlNode { get; set; }
         public int CharacterEntityId { get; set; }
         public string CharacterName { get; set; }
+        public string FactionSide { get; set; }
+        public bool isCrewman { get; set; }
         public bool IsAClone;
         public ObservableCollection<CharacterStat> CharacterStats { get; set; }
         public ObservableCollection<CharacterAttribute> CharacterAttributes { get; set; }
@@ -38,6 +37,8 @@ namespace SpaceHaven_Save_Editor.Data
             return new Character
             {
                 CharacterXmlNode = newXmlNode,
+                FactionSide = FactionSide,
+                isCrewman = isCrewman,
                 IsAClone = true,
                 CharacterEntityId = entId,
                 CharacterName = newName,
@@ -48,10 +49,8 @@ namespace SpaceHaven_Save_Editor.Data
             };
         }
 
-        public override string ToString()
-        {
-            return CharacterName;
-        }
-        
+        public string CharacterNameToShow =>
+            CharacterName + " [" + (isCrewman ? "Crewman" : "Prisoner/Refugee") +
+            (IsAClone ? ", Clone]" : "]");
     }
 }

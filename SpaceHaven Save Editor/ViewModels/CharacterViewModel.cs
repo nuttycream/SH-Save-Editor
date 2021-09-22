@@ -35,10 +35,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
                     foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 150;
                     break;
                 case "Skills":
-                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.SkillValue = 3;
+                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.Value = 3;
                     break;
                 case "Attributes":
-                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.AttributeValue = 6;
+                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.Value = 6;
                     break;
             }
         }
@@ -51,10 +51,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
                     foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 0;
                     break;
                 case "Skills":
-                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.SkillValue = 0;
+                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.Value = 0;
                     break;
                 case "Attributes":
-                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.AttributeValue = 0;
+                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.Value = 0;
                     break;
             }
         }

@@ -4,18 +4,24 @@ namespace SpaceHaven_Save_Editor.References
 {
     public static class IdCollection
     {
-        public static Dictionary<int, string> DefaultResearchIDs = new()
+        public static List<string> AmountModifiers = new()
+        {
+            "None", "Very Rare", "Rare", "Medium", "Common", "Very Common"
+        };
+        
+        public static readonly Dictionary<int, string> DefaultResearchIDs = new()
         {
             {2618, "Fabrics"},
             {2696, "X1 Couch"},
             {2623, "Botany"},
             {2626, "Advanced Nutrition"},
+            {2628, "Artificial Meat"},
             {2581, "Basics"},
             {2532, "Scanner"},
             {2533, "Shield Generator"},
             {2539, "Autopsy Table"},
             {2559, "Medical Bed"},
-            {2577, "Hypersleep Chamber"},
+            {2577, "HyperSleep Chamber"},
             {2569, "Item Fabricator"},
             {2570, "MicroWeaver"},
             {2571, "Assembler"},
@@ -39,7 +45,7 @@ namespace SpaceHaven_Save_Editor.References
             {2591, "Missile Turret"},
             {2592, "Energy Turret"},
             {2594, "X1 Power Generator"},
-            {2595, "X1 Hyperdrive"},
+            {2595, "X1 HyperDrive"},
             {2601, "Targeting Jammer"},
             {2612, "Metal Refinery"},
             {3024, "Logistics Robot Station"},
@@ -49,7 +55,7 @@ namespace SpaceHaven_Save_Editor.References
             {3025, "Salvage Robot Station"}
         };
 
-        public static Dictionary<int, string> DefaultAttributeIDs = new()
+        public static readonly Dictionary<int, string> DefaultAttributeIDs = new()
         {
             {210, "Bravery"},
             {212, "Zest"},
@@ -57,7 +63,7 @@ namespace SpaceHaven_Save_Editor.References
             {214, "Perception"}
         };
 
-        public static Dictionary<int, string> DefaultSkillIDs = new()
+        public static readonly Dictionary<int, string> DefaultSkillIDs = new()
         {
             {1, "Piloting"},
             {2, "Mining"},
@@ -75,7 +81,7 @@ namespace SpaceHaven_Save_Editor.References
             {16, "Research"}
         };
 
-        public static Dictionary<int, string> DefaultTraitIDs = new()
+        public static readonly Dictionary<int, string> DefaultTraitIDs = new()
         {
             {2082, "Alien Lover"},
             {1037, "Anti-Social"},
@@ -103,7 +109,7 @@ namespace SpaceHaven_Save_Editor.References
             {655, "Wimp"}
         };
 
-        public static Dictionary<int, string> DefaultItemIDs = new()
+        public static readonly Dictionary<int, string> DefaultItemIDs = new()
         {
             {15, "Root Vegetables"},
             {16, "Water"},
@@ -153,7 +159,9 @@ namespace SpaceHaven_Save_Editor.References
             {2053, "Medical Supplies"},
             {2058, "IV Fluid"},
             {2657, "Nuts and Seeds"},
-            {2475, "Fertilizer"}
+            {2475, "Fertilizer"},
+            {2797, "Slave Collar"},
+            {2715, "Explosive Ammunition"}
         };
     }
 }
