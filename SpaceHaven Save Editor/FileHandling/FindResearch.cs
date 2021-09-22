@@ -11,7 +11,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             var researchItems = new ObservableCollection<ResearchItem>();
             if (researchNodes == null) return researchItems;
-            
+
             foreach (XmlNode researchNode in researchNodes!)
             {
                 var blocksNode = researchNode.SelectSingleNode(".//blocksDone");

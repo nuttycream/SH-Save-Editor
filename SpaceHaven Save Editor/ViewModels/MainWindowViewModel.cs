@@ -13,14 +13,14 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly ReadFile _readFile;
+        private readonly WriteFile _writeFile;
         private bool _autoBackup;
         private string _fileNameTitle;
         private string? _filePath;
         private Game _game;
         private GameViewModel? _gameViewModel;
-        private readonly ReadFile _readFile;
         private string _textData;
-        private readonly WriteFile _writeFile;
 
         public Action? SaveLoaded;
 
@@ -72,7 +72,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _filePath = await ShowOpenFileDialog.Handle(Unit.Default);
 
             if (_filePath == null) return;
-            
+
             UpdateLog("Parsing " + _filePath);
             try
             {
@@ -103,7 +103,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             if (_autoBackup)
                 CreateBackUp();
-            
+
             try
             {
                 UpdateLog("Saving file to " + _filePath);

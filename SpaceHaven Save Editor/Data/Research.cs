@@ -20,6 +20,9 @@ namespace SpaceHaven_Save_Editor.Data
         private int _advanced;
         private int _basic;
         private int _intermediate;
+        public int MaxAdvanced;
+        public int MaxBasic;
+        public int MaxIntermediate;
 
         public ResearchItem(int researchItemId, int level1Value, int level2Value, int level3Value)
         {
@@ -47,14 +50,10 @@ namespace SpaceHaven_Save_Editor.Data
 
         public ResearchItem()
         {
-            
         }
 
         public int ResearchItemId { get; set; }
         public string ResearchItemName { get; set; }
-        public int MaxBasic;
-        public int MaxIntermediate;
-        public int MaxAdvanced;
 
         public int Basic
         {

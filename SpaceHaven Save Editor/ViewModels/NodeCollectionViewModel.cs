@@ -11,13 +11,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             NodeCollection = new List<string>();
             Type nodeCollectionType = typeof(NodeCollection);
-            PropertyInfo[] properties = nodeCollectionType.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            PropertyInfo[] properties =
+                nodeCollectionType.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
             foreach (PropertyInfo property in properties)
-            {
                 NodeCollection.Add(property.Name + ": " + property.GetValue(nodeCollectionType, null));
-            }
         }
-        
+
         public List<string> NodeCollection { get; set; }
     }
 }

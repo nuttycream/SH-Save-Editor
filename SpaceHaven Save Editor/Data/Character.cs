@@ -9,22 +9,27 @@ namespace SpaceHaven_Save_Editor.Data
         public Character()
         {
             CharacterName = "";
-            CharacterStats = new ObservableCollection<CharacterStat>();
-            CharacterAttributes = new ObservableCollection<CharacterAttribute>();
-            CharacterSkills = new ObservableCollection<CharacterSkill>();
-            CharacterTraits = new ObservableCollection<CharacterTrait>();
+            FactionSide = "";
+            CharacterStats = new ObservableCollection<CharacterProp>();
+            CharacterAttributes = new ObservableCollection<CharacterProp>();
+            CharacterSkills = new ObservableCollection<CharacterProp>();
+            CharacterTraits = new ObservableCollection<CharacterProp>();
         }
 
         public XmlNode? CharacterXmlNode { get; set; }
         public int CharacterEntityId { get; set; }
         public string CharacterName { get; set; }
         public string FactionSide { get; set; }
-        public bool isCrewman { get; set; }
-        public bool IsAClone;
-        public ObservableCollection<CharacterStat> CharacterStats { get; set; }
-        public ObservableCollection<CharacterAttribute> CharacterAttributes { get; set; }
-        public ObservableCollection<CharacterSkill> CharacterSkills { get; set; }
-        public ObservableCollection<CharacterTrait> CharacterTraits { get; set; }
+        public bool IsCrewman { get; set; }
+        public bool IsAClone { get; private init; }
+        public ObservableCollection<CharacterProp> CharacterStats { get; set; }
+        public ObservableCollection<CharacterProp> CharacterAttributes { get; set; }
+        public ObservableCollection<CharacterProp> CharacterSkills { get; set; }
+        public ObservableCollection<CharacterProp> CharacterTraits { get; set; }
+
+        public string CharacterNameToShow =>
+            CharacterName + " [" + (IsCrewman ? "Crewman" : "Prisoner/Refugee") +
+            (IsAClone ? ", Clone]" : "]");
 
         public Character CloneCharacter(string newName, int entId)
         {
@@ -38,7 +43,7 @@ namespace SpaceHaven_Save_Editor.Data
             {
                 CharacterXmlNode = newXmlNode,
                 FactionSide = FactionSide,
-                isCrewman = isCrewman,
+                IsCrewman = IsCrewman,
                 IsAClone = true,
                 CharacterEntityId = entId,
                 CharacterName = newName,
@@ -48,9 +53,5 @@ namespace SpaceHaven_Save_Editor.Data
                 CharacterTraits = CharacterTraits
             };
         }
-
-        public string CharacterNameToShow =>
-            CharacterName + " [" + (isCrewman ? "Crewman" : "Prisoner/Refugee") +
-            (IsAClone ? ", Clone]" : "]");
     }
 }

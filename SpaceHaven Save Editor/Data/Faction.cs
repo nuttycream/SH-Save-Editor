@@ -9,18 +9,19 @@ namespace SpaceHaven_Save_Editor.Data
             FactionName = factionName;
             Relationships = new List<Relationship>();
         }
-        
+
         public string FactionName { get; set; }
         public List<Relationship> Relationships { get; set; }
     }
 
     public class Relationship
     {
-        public Relationship(string factionName, string factionStance, int relationshipAmount, bool tradeAccess, bool shipAccess, bool visionAccess)
+        public Relationship(string factionName, string factionStance, int relationshipAmount, bool tradeAccess,
+            bool shipAccess, bool visionAccess)
         {
             FactionName = factionName;
             FactionStance = factionStance;
-            
+
             RelationshipAmount = relationshipAmount;
             TradeAccess = tradeAccess;
             ShipAccess = shipAccess;

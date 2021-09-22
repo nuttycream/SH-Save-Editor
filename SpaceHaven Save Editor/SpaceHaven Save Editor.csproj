@@ -16,18 +16,4 @@
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
         <PackageReference Include="DotNet.Bundle" Version="0.9.13" />
     </ItemGroup>
-    <ItemGroup>
-      <Compile Update="Data\CharacterSkill.cs">
-        <DependentUpon>Character.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Data\CharacterAttribute.cs">
-        <DependentUpon>Character.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Data\CharacterStat.cs">
-        <DependentUpon>Character.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Data\CharacterTrait.cs">
-        <DependentUpon>Character.cs</DependentUpon>
-      </Compile>
-    </ItemGroup>
 </Project>

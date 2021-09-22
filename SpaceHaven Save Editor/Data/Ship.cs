@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Xml;
 using ReactiveUI;
 
@@ -10,20 +9,18 @@ namespace SpaceHaven_Save_Editor.Data
         private string _shipFaction;
         private string _shipState;
 
-        public Ship(string shipName, IEnumerable<Character> characters, IEnumerable<ToolFacility> toolFacilities, IEnumerable<StorageFacility> storageFacilities, 
-            XmlNode shipNode, string shipFaction, string shipState)
+        public Ship()
         {
-            ShipName = shipName;
-            Characters = new ObservableCollection<Character>(characters);
-            ToolFacilities = new ObservableCollection<ToolFacility>(toolFacilities);
-            StorageFacilities = new ObservableCollection<StorageFacility>(storageFacilities);
-            ShipNode = shipNode;
-
-            _shipFaction = shipFaction;
-            _shipState = shipState;
+            ShipName = "";
+            _shipFaction = "";
+            _shipState = "";
+            Characters = new ObservableCollection<Character>();
+            ToolFacilities = new ObservableCollection<ToolFacility>();
+            StorageFacilities = new ObservableCollection<StorageFacility>();
         }
 
-        public string ShipName { get; }
+        public string ShipName { get; set; }
+        public XmlNode? ShipNode { get; set; }
 
         public string ShipFaction
         {
@@ -37,7 +34,6 @@ namespace SpaceHaven_Save_Editor.Data
             set => this.RaiseAndSetIfChanged(ref _shipState, value);
         }
 
-        public XmlNode ShipNode { get; }
         public ObservableCollection<Character> Characters { get; set; }
         public ObservableCollection<ToolFacility> ToolFacilities { get; set; }
         public ObservableCollection<StorageFacility> StorageFacilities { get; set; }

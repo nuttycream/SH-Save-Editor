@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml;
 using SpaceHaven_Save_Editor.Data;
@@ -49,7 +50,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 UpdateLog?.Invoke("Player bank node found with " + value);
                 gameSave.Player.Money = value;
             }
-            
+
 
             UpdateLog?.Invoke(researchNodes!.Count + " research nodes found.");
             gameSave.Research.ResearchItems = FindResearch.ReadResearchItems(researchNodes);
@@ -72,18 +73,20 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 var characters = new List<Character>();
 
                 if (characterRootNode is {HasChildNodes: false} or null)
+                {
                     UpdateLog?.Invoke("No Characters found on " + shipName);
+                }
                 else
                 {
                     UpdateLog?.Invoke(characterRootNode.ChildNodes.Count + " Characters found on " + shipName);
                     characters = await Task.Run(() => FindCharacters.ReadCharacters(characterRootNode));
                 }
-                
+
                 var storageNodes = shipNode.SelectNodes(".//feat[@eatAllowed]");
                 var toolStorageNodes = shipNode.SelectNodes(".//feat[@ft]");
                 List<ToolFacility> toolFacilities = new();
                 List<StorageFacility> storageFacilities = new();
-                
+
                 if (toolStorageNodes is {Count: 0})
                 {
                     UpdateLog?.Invoke("No Tool Facilities found on " + shipName);
@@ -92,12 +95,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 {
                     UpdateLog?.Invoke(toolStorageNodes!.Count + " Tool Facilities found on " + shipName);
                     foreach (XmlNode toolStorageNode in toolStorageNodes!)
-                    {
                         if (int.TryParse(Utilities.GetAttributeValue(toolStorageNode, "ft"), out var result))
                             toolFacilities.Add(new ToolFacility(result));
-                    }
                 }
-                
+
                 if (storageNodes is {Count: 0})
                 {
                     UpdateLog?.Invoke("No Storage Facilities found on " + shipName);
@@ -108,7 +109,16 @@ namespace SpaceHaven_Save_Editor.FileHandling
                     storageFacilities = await Task.Run(() => FindStorages.ReadStorageFacilities(storageNodes));
                 }
 
-                Ship ship = new(shipName, characters, toolFacilities, storageFacilities, shipNode, shipOwner, shipState);
+                Ship ship = new()
+                {
+                    ShipName = shipName,
+                    ShipFaction = shipOwner,
+                    ShipState = shipState,
+                    ShipNode = shipNode,
+                    Characters = new ObservableCollection<Character>(characters),
+                    StorageFacilities = new ObservableCollection<StorageFacility>(storageFacilities),
+                    ToolFacilities = new ObservableCollection<ToolFacility>(toolFacilities)
+                };
                 UpdateLog?.Invoke("Adding " + shipName + " to ships found.");
                 gameSave.Ships.Add(ship);
             }

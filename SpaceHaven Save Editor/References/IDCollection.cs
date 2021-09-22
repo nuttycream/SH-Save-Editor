@@ -8,7 +8,7 @@ namespace SpaceHaven_Save_Editor.References
         {
             "None", "Very Rare", "Rare", "Medium", "Common", "Very Common"
         };
-        
+
         public static readonly Dictionary<int, string> DefaultResearchIDs = new()
         {
             {2618, "Fabrics"},

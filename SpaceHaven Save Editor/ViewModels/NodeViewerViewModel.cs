@@ -17,10 +17,10 @@ namespace SpaceHaven_Save_Editor.ViewModels
             writer.Flush();
             mStream.Flush();
             mStream.Position = 0;
-            
+
             StreamReader sReader = new(mStream);
             string formattedXml = sReader.ReadToEnd();
-            
+
             XmlNodeData = formattedXml;
 
             mStream.Close();

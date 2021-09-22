@@ -11,62 +11,62 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="250, *, *" RowDefinitions="50, 50, *, *" Margin="5">
-        
+
         <!-- Game Settings -->
         <TextBlock Grid.Row="0" Text="Game" VerticalAlignment="Center" />
-        
+
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Spacing="5">
-            
+
             <Label Content="Player Bank" VerticalAlignment="Center" />
             <TextBox Width="225" HorizontalAlignment="Left"
                      Text="{Binding Game.Player.Money}" />
-            <CheckBox Content="SandBox Mode" 
+            <CheckBox Content="SandBox Mode"
                       IsChecked="{Binding Game.GameSettings.SandBoxMode}" />
             <Separator Height="20" />
             <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150"
                     Command="{Binding OpenResearchCommand}" />
             <Separator Height="20" />
-            
+
             <Button Content="Edit Factions" Width="150" HorizontalContentAlignment="Center"
-                    Command="{Binding EditFactionsCommand}"/>
+                    Command="{Binding EditFactionsCommand}" />
             <Button Content="Edit Hazard Rules" Width="150" HorizontalContentAlignment="Center"
-                    Command="{Binding EditHazardsCommand}"/>
-            
-            
+                    Command="{Binding EditHazardsCommand}" />
+
+
         </StackPanel>
-        
+
         <!-- Ship Stuff -->
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="5">
             <ComboBox Items="{Binding Game.Ships}"
                       PlaceholderText="Select Ship" Width="225" VerticalAlignment="Center"
                       SelectedItem="{Binding SelectedShip}" />
-            <TextBlock Text="Owned By:" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding SelectedShip.ShipFaction}" 
+            <TextBlock Text="Owned By:" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding SelectedShip.ShipFaction}"
                        VerticalAlignment="Center" />
-            <Separator Width="10"></Separator>
-            <TextBlock Text="Ship State:" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding SelectedShip.ShipState}" 
+            <Separator Width="10" />
+            <TextBlock Text="Ship State:" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding SelectedShip.ShipState}"
                        VerticalAlignment="Center" />
             <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150"
                     Command="{Binding ViewShipNode}" />
             <Separator Height="30" />
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="5">
-            <TextBlock  Text="Characters" VerticalAlignment="Center" />
+            <TextBlock Text="Characters" VerticalAlignment="Center" />
             <Button Content="Edit" Width="75" HorizontalContentAlignment="Center" VerticalAlignment="Center"
                     Command="{Binding EditCharacterCommand}" />
             <Button Content="Clone" Width="75" HorizontalContentAlignment="Center" VerticalAlignment="Center"
                     Command="{Binding CloneCharacterCommand}" />
         </StackPanel>
-        
-        
+
+
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-            <TextBlock  Text="Storages" VerticalAlignment="Center" />
+            <TextBlock Text="Storages" VerticalAlignment="Center" />
             <Button Content="Edit Storage" Width="150" HorizontalContentAlignment="Center" VerticalAlignment="Center"
                     Command="{Binding OpenStorageCommand}" />
         </StackPanel>
-        
+
 
         <ScrollViewer Grid.Row="2" Grid.RowSpan="2" Grid.Column="1">
             <StackPanel>
@@ -75,12 +75,12 @@
 
             </StackPanel>
         </ScrollViewer>
-        
+
         <ScrollViewer Grid.Row="2" Grid.Column="2">
             <StackPanel>
                 <ListBox Items="{Binding StorageFacilities}"
-                         SelectedIndex="{Binding SelectedStorageFacilityIndex}"/>
-                
+                         SelectedIndex="{Binding SelectedStorageFacilityIndex}" />
+
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer Grid.Row="3" Grid.Column="2">
@@ -92,6 +92,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
-        
+
     </Grid>
 </UserControl>

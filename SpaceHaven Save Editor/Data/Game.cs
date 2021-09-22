@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SpaceHaven_Save_Editor.Data
 {
@@ -12,7 +11,7 @@ namespace SpaceHaven_Save_Editor.Data
             Research = new Research();
             GameSettings = new GameSettings();
         }
-        
+
         public GameSettings GameSettings { get; set; }
         public List<Faction> Factions { get; set; } = new();
         public Player Player { get; set; }

@@ -56,7 +56,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 if (ship == null) continue;
 
                 UpdateLog?.Invoke("Writing ship " + ship.ShipName);
-                
+
                 var storages = shipNode.SelectNodes(NodeCollection.StoragesXPath);
                 var toolStorages = shipNode.SelectNodes(NodeCollection.ToolsXPath);
                 if (storages != null)
@@ -146,9 +146,9 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             foreach (var characterStat in character.CharacterStats)
             {
-                var statNode = statNodes.SelectSingleNode(".//" + characterStat.StatName + "[@v]");
+                var statNode = statNodes.SelectSingleNode(".//" + characterStat.Name + "[@v]");
                 if (statNode == null) continue;
-                statNode.Attributes!["v"]!.Value = characterStat.StatValue.ToString();
+                statNode.Attributes!["v"]!.Value = characterStat.Value.ToString();
             }
         }
 
@@ -157,7 +157,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (XmlNode attributeNode in attributeNodes)
             {
                 int.TryParse(attributeNode.Attributes!["id"]!.Value, out var attributeId);
-                var attribute = character.CharacterAttributes.FirstOrDefault(s => s.ID == attributeId);
+                var attribute = character.CharacterAttributes.FirstOrDefault(s => s.Id == attributeId);
                 if (attribute == null) continue;
                 attributeNode.Attributes["points"]!.Value = attribute.Value.ToString();
             }
@@ -169,7 +169,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (var characterTrait in character.CharacterTraits)
             {
                 var itemTemplate = traitNodesRoot.OwnerDocument!.CreateElement("t");
-                itemTemplate.SetAttribute("id", characterTrait.ID.ToString());
+                itemTemplate.SetAttribute("id", characterTrait.Id.ToString());
                 traitNodesRoot.AppendChild(itemTemplate);
             }
         }
@@ -179,7 +179,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
             foreach (XmlNode skillNode in skillNodes)
             {
                 int.TryParse(skillNode.Attributes!["sk"]!.Value, out var skillId);
-                var skill = character.CharacterSkills.FirstOrDefault(s => s.ID == skillId);
+                var skill = character.CharacterSkills.FirstOrDefault(s => s.Id == skillId);
                 if (skill == null) continue;
                 skillNode.Attributes["level"]!.Value = skill.Value.ToString();
             }

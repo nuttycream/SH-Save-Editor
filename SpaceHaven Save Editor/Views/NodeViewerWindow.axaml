@@ -16,11 +16,11 @@
 
     <Grid RowDefinitions="50, *" Margin="10">
         <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" Spacing="30">
-            <Label FontSize="30" 
+            <Label FontSize="30"
                    Content="{Binding XmlNodeName}" />
-            <Label Content="Edits made here are not saved." FontSize="12" VerticalAlignment="Bottom"/>
+            <Label Content="Edits made here are not saved." FontSize="12" VerticalAlignment="Bottom" />
         </StackPanel>
-        
+
         <TextBox Grid.Row="1" TextWrapping="Wrap"
                  Text="{Binding XmlNodeData}" />
     </Grid>

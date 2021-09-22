@@ -54,7 +54,7 @@
 
                 <TextBox DockPanel.Dock="Bottom"
                          Text="{Binding TextData}"
-                         IsReadOnly="True"/>
+                         IsReadOnly="True" />
             </DockPanel>
 
         </Grid>

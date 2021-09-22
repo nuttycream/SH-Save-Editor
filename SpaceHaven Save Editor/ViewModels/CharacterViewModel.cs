@@ -25,14 +25,14 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public Character Character { get; } = null!;
         public List<string> AllTraits { get; } = IdCollection.DefaultTraitIDs.Values.ToList();
         public string? SelectedCharacterTraitFromComboBox { get; set; }
-        public CharacterTrait? SelectedCharacterTrait { get; set; }
+        public int SelectedCharacterTrait { get; set; }
 
         public void Max(string type)
         {
             switch (type)
             {
                 case "Stats":
-                    foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 150;
+                    foreach (var characterStat in Character.CharacterStats) characterStat.Value = 150;
                     break;
                 case "Skills":
                     foreach (var characterSkill in Character.CharacterSkills) characterSkill.Value = 3;
@@ -48,7 +48,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             switch (type)
             {
                 case "Stats":
-                    foreach (var characterStat in Character.CharacterStats) characterStat.StatValue = 0;
+                    foreach (var characterStat in Character.CharacterStats) characterStat.Value = 0;
                     break;
                 case "Skills":
                     foreach (var characterSkill in Character.CharacterSkills) characterSkill.Value = 0;
@@ -58,23 +58,32 @@ namespace SpaceHaven_Save_Editor.ViewModels
                     break;
             }
         }
+
+
         public void ViewXmlNode()
         {
-            var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode);
+            var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode!);
             xmlNodeViewer.Show();
         }
 
         public void AddSelectedTrait()
         {
             if (SelectedCharacterTraitFromComboBox == null) return;
-            Character.CharacterTraits.Add(new CharacterTrait(IdCollection.DefaultTraitIDs.FirstOrDefault(x
-                => x.Value == SelectedCharacterTraitFromComboBox).Key));
+
+            var newTrait = IdCollection.DefaultTraitIDs.FirstOrDefault(x
+                => x.Value == SelectedCharacterTraitFromComboBox);
+
+            Character.CharacterTraits.Add(new CharacterProp
+            {
+                Id = newTrait.Key,
+                Name = newTrait.Value
+            });
         }
 
         public void RemoveSelectedTrait()
         {
-            if (SelectedCharacterTrait == null) return;
-            Character.CharacterTraits.Remove(SelectedCharacterTrait);
+            if (SelectedCharacterTrait == -1) return;
+            Character.CharacterTraits.RemoveAt(SelectedCharacterTrait);
         }
     }
 }

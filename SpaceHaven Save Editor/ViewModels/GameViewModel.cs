@@ -12,11 +12,11 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private Ship _selectedShip;
-        private List<string> _storageFacilities;
-        private int _selectedStorageFacilityIndex;
         private List<string> _characterList;
         private int _selectedCharacterIndex;
+        private Ship _selectedShip;
+        private int _selectedStorageFacilityIndex;
+        private List<string> _storageFacilities;
 
         public GameViewModel(Game game)
         {
@@ -38,13 +38,28 @@ namespace SpaceHaven_Save_Editor.ViewModels
             EditCharacterWindow = new Interaction<Character, Character?>();
             CloneCharacterWindow = new Interaction<Unit, string?>();
             OpenResearchWindow = new Interaction<Research, Research?>();
-
-            
         }
 
         public GameViewModel()
         {
-            
+            Game = new Game();
+            _selectedShip = new Ship();
+            _storageFacilities = new List<string>();
+            _characterList = new List<string>();
+
+            EditFactionsCommand = ReactiveCommand.CreateFromTask(OpenFactions);
+            EditHazardsCommand = ReactiveCommand.CreateFromTask(OpenHazards);
+            OpenStorageCommand = ReactiveCommand.CreateFromTask(OpenStorage);
+            EditCharacterCommand = ReactiveCommand.CreateFromTask(OpenCharacter);
+            CloneCharacterCommand = ReactiveCommand.CreateFromTask(CloneCharacter);
+            OpenResearchCommand = ReactiveCommand.CreateFromTask(OpenResearch);
+
+            EditFactionsWindow = new Interaction<List<Faction>, List<Faction>?>();
+            EditHazardsWindow = new Interaction<List<AmountSettings>, List<AmountSettings>?>();
+            OpenStorageWindow = new Interaction<StorageFacility, StorageFacility?>();
+            EditCharacterWindow = new Interaction<Character, Character?>();
+            CloneCharacterWindow = new Interaction<Unit, string?>();
+            OpenResearchWindow = new Interaction<Research, Research?>();
         }
 
         public Game? Game { get; }
@@ -83,13 +98,13 @@ namespace SpaceHaven_Save_Editor.ViewModels
             get => _selectedStorageFacilityIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedStorageFacilityIndex, value);
         }
-        
+
         public ReactiveCommand<Unit, Unit> EditFactionsCommand { get; }
         public ReactiveCommand<Unit, Unit> EditHazardsCommand { get; }
-        
+
         public Interaction<List<Faction>, List<Faction>?> EditFactionsWindow { get; }
         public Interaction<List<AmountSettings>, List<AmountSettings>?> EditHazardsWindow { get; }
-        
+
         public ReactiveCommand<Unit, Unit> OpenStorageCommand { get; }
         public Interaction<StorageFacility, StorageFacility?> OpenStorageWindow { get; }
         public ReactiveCommand<Unit, Unit> EditCharacterCommand { get; }
@@ -105,7 +120,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             nodeViewer.Show();
         }
 
-        
+
         private async Task OpenFactions()
         {
             var result = await EditFactionsWindow.Handle(Game.Factions);
@@ -115,7 +130,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             var result = await EditHazardsWindow.Handle(Game.GameSettings.ModeSettings);
         }
-        
+
         private async Task OpenCharacter()
         {
             if (_selectedCharacterIndex == -1) return;
