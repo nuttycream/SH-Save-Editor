@@ -2,11 +2,11 @@
 
 namespace SpaceHaven_Save_Editor.Data
 {
-    public class CharacterProp : ReactiveObject
+    public class DataProp : ReactiveObject
     {
         private int _value;
 
-        public CharacterProp()
+        public DataProp()
         {
             Name = "def";
         }

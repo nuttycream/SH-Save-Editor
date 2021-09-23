@@ -28,13 +28,15 @@
                 <TextBlock Text="Is Crewman: " />
                 <TextBlock Text="{Binding Character.IsCrewman}" />
             </StackPanel>
-            <Button Content="Save and Exit" Width="130" HorizontalContentAlignment="Center" Padding="10"
-                    Command="{Binding SaveAndExit}" />
             <Button Content="Set To Crewman" Width="130" HorizontalContentAlignment="Center" Padding="10"
-                    IsEnabled="{Binding !Character.IsCrewman}" />
-            <Button Content="Set Faction Side" Width="130" HorizontalContentAlignment="Center" Padding="10" />
+                    IsEnabled="{Binding !Character.IsCrewman}"
+                    Command="{Binding SetToCrewman}"/>
+            <Button Content="Set Faction Side" Width="130" HorizontalContentAlignment="Center" Padding="10" 
+                    Command="{Binding SetFaction}"/>
             <Button Content="View XML Node" Width="130" HorizontalContentAlignment="Center" Padding="10"
                     Command="{Binding  ViewXmlNode}" />
+            <Button Content="Save and Exit" Width="130" HorizontalContentAlignment="Center" Padding="10"
+                    Command="{Binding SaveAndExit}" />
 
         </StackPanel>
 

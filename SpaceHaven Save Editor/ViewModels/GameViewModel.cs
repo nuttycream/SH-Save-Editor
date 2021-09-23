@@ -124,6 +124,11 @@ namespace SpaceHaven_Save_Editor.ViewModels
         private async Task OpenFactions()
         {
             var result = await EditFactionsWindow.Handle(Game.Factions);
+
+            if (result != null)
+            {
+                Game.Factions = result;
+            }
         }
 
         private async Task OpenHazards()

@@ -25,12 +25,10 @@
             <Separator Height="20" />
             <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150"
                     Command="{Binding OpenResearchCommand}" />
-            <Separator Height="20" />
-
             <Button Content="Edit Factions" Width="150" HorizontalContentAlignment="Center"
                     Command="{Binding EditFactionsCommand}" />
-            <Button Content="Edit Hazard Rules" Width="150" HorizontalContentAlignment="Center"
-                    Command="{Binding EditHazardsCommand}" />
+            <!-- <Button Content="Edit Hazard Rules" Width="150" HorizontalContentAlignment="Center"
+                    Command="{Binding EditHazardsCommand}" /> -->
 
 
         </StackPanel>

@@ -51,16 +51,16 @@ namespace SpaceHaven_Save_Editor.FileHandling
             return character;
         }
 
-        private static ObservableCollection<CharacterProp> ReadStats(XmlNode xmlNode)
+        private static ObservableCollection<DataProp> ReadStats(XmlNode xmlNode)
         {
-            ObservableCollection<CharacterProp> characterStats = new();
+            ObservableCollection<DataProp> characterStats = new();
 
             foreach (var characterStat in NodeCollection.CharacterStats)
             {
                 var statNode = xmlNode.SelectSingleNode(".//" + characterStat + "[@v]");
                 if (statNode == null) continue;
                 if (int.TryParse(Utilities.GetAttributeValue(statNode, "v"), out var result))
-                    characterStats.Add(new CharacterProp
+                    characterStats.Add(new DataProp
                     {
                         Name = characterStat,
                         Value = result
@@ -70,16 +70,16 @@ namespace SpaceHaven_Save_Editor.FileHandling
             return characterStats;
         }
 
-        private static ObservableCollection<CharacterProp> ReadAttributes(XmlNode attributesNode)
+        private static ObservableCollection<DataProp> ReadAttributes(XmlNode attributesNode)
         {
-            ObservableCollection<CharacterProp> characterAttributes = new();
+            ObservableCollection<DataProp> characterAttributes = new();
 
             foreach (var (key, value) in IdCollection.DefaultAttributeIDs)
             {
                 var attributeNode = attributesNode.SelectSingleNode(".//a[@id='" + key + "']");
                 if (attributeNode == null) continue;
                 if (int.TryParse(Utilities.GetAttributeValue(attributeNode, "points"), out var result))
-                    characterAttributes.Add(new CharacterProp
+                    characterAttributes.Add(new DataProp
                     {
                         Id = key,
                         Name = value,
@@ -90,15 +90,15 @@ namespace SpaceHaven_Save_Editor.FileHandling
             return characterAttributes;
         }
 
-        private static ObservableCollection<CharacterProp> ReadTraits(XmlNode traitsNode)
+        private static ObservableCollection<DataProp> ReadTraits(XmlNode traitsNode)
         {
-            ObservableCollection<CharacterProp> characterTraits = new();
+            ObservableCollection<DataProp> characterTraits = new();
 
             foreach (var (key, value) in from trait in IdCollection.DefaultTraitIDs
                 let traitNode = traitsNode.SelectSingleNode(".//t[@id='" + trait.Key + "']")
                 where traitNode != null
                 select trait)
-                characterTraits.Add(new CharacterProp
+                characterTraits.Add(new DataProp
                 {
                     Id = key,
                     Name = value
@@ -106,16 +106,16 @@ namespace SpaceHaven_Save_Editor.FileHandling
             return characterTraits;
         }
 
-        private static ObservableCollection<CharacterProp> ReadSkills(XmlNode skillsNode)
+        private static ObservableCollection<DataProp> ReadSkills(XmlNode skillsNode)
         {
-            ObservableCollection<CharacterProp> characterSkills = new();
+            ObservableCollection<DataProp> characterSkills = new();
 
             foreach (var (key, value) in IdCollection.DefaultSkillIDs)
             {
                 var attributeNode = skillsNode.SelectSingleNode(".//s[@sk='" + key + "']");
                 if (attributeNode == null) continue;
                 if (int.TryParse(Utilities.GetAttributeValue(attributeNode, "level"), out var result))
-                    characterSkills.Add(new CharacterProp
+                    characterSkills.Add(new DataProp
                     {
                         Id = key,
                         Name = value,

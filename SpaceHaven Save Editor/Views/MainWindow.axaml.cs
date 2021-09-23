@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace SpaceHaven_Save_Editor.Views
 
                 ViewModel.SaveLoaded += () =>
                 {
+                    d(ViewModel.GameViewModel!.EditFactionsWindow.RegisterHandler(ShowFactionsDialog));
                     d(ViewModel.GameViewModel!.OpenStorageWindow.RegisterHandler(ShowStorageDialog));
                     d(ViewModel.GameViewModel!.CloneCharacterWindow.RegisterHandler(ShowCloneCharacterDialog));
                     d(ViewModel.GameViewModel!.EditCharacterWindow.RegisterHandler(ShowCharacterDialog));
@@ -34,7 +36,6 @@ namespace SpaceHaven_Save_Editor.Views
                 };
             });
         }
-
 
         private void InitializeComponent()
         {
@@ -52,6 +53,15 @@ namespace SpaceHaven_Save_Editor.Views
 
             var fileNames = await dialog.ShowAsync(this);
             interaction.SetOutput(fileNames.FirstOrDefault());
+        }
+        
+        private async Task ShowFactionsDialog(InteractionContext<List<Faction>, List<Faction>?> interaction)
+        {
+            var factionWindow = new FactionsWindow(interaction.Input);
+
+            var result = await factionWindow.ShowDialog<List<Faction>?>(this);
+            
+            interaction.SetOutput(result);
         }
 
         private async Task ShowStorageDialog(InteractionContext<StorageFacility, StorageFacility?> interaction)

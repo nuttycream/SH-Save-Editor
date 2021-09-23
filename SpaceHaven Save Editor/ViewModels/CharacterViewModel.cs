@@ -43,23 +43,16 @@ namespace SpaceHaven_Save_Editor.ViewModels
             }
         }
 
-        public void Clear(string type)
+        public void SetToCrewman()
         {
-            switch (type)
-            {
-                case "Stats":
-                    foreach (var characterStat in Character.CharacterStats) characterStat.Value = 0;
-                    break;
-                case "Skills":
-                    foreach (var characterSkill in Character.CharacterSkills) characterSkill.Value = 0;
-                    break;
-                case "Attributes":
-                    foreach (var characterAttribute in Character.CharacterAttributes) characterAttribute.Value = 0;
-                    break;
-            }
+            Character.IsCrewman = true;
         }
 
-
+        public void SetFaction()
+        {
+            Character.FactionSide = "Player";
+        }
+        
         public void ViewXmlNode()
         {
             var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode!);
@@ -73,7 +66,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             var newTrait = IdCollection.DefaultTraitIDs.FirstOrDefault(x
                 => x.Value == SelectedCharacterTraitFromComboBox);
 
-            Character.CharacterTraits.Add(new CharacterProp
+            Character.CharacterTraits.Add(new DataProp
             {
                 Id = newTrait.Key,
                 Name = newTrait.Value

@@ -12,6 +12,11 @@ namespace SpaceHaven_Save_Editor.Data
 
         public string FactionName { get; set; }
         public List<Relationship> Relationships { get; set; }
+
+        public override string ToString()
+        {
+            return FactionName;
+        }
     }
 
     public class Relationship

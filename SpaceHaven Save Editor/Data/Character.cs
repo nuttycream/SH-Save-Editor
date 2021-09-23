@@ -10,10 +10,10 @@ namespace SpaceHaven_Save_Editor.Data
         {
             CharacterName = "";
             FactionSide = "";
-            CharacterStats = new ObservableCollection<CharacterProp>();
-            CharacterAttributes = new ObservableCollection<CharacterProp>();
-            CharacterSkills = new ObservableCollection<CharacterProp>();
-            CharacterTraits = new ObservableCollection<CharacterProp>();
+            CharacterStats = new ObservableCollection<DataProp>();
+            CharacterAttributes = new ObservableCollection<DataProp>();
+            CharacterSkills = new ObservableCollection<DataProp>();
+            CharacterTraits = new ObservableCollection<DataProp>();
         }
 
         public XmlNode? CharacterXmlNode { get; set; }
@@ -22,10 +22,10 @@ namespace SpaceHaven_Save_Editor.Data
         public string FactionSide { get; set; }
         public bool IsCrewman { get; set; }
         public bool IsAClone { get; private init; }
-        public ObservableCollection<CharacterProp> CharacterStats { get; set; }
-        public ObservableCollection<CharacterProp> CharacterAttributes { get; set; }
-        public ObservableCollection<CharacterProp> CharacterSkills { get; set; }
-        public ObservableCollection<CharacterProp> CharacterTraits { get; set; }
+        public ObservableCollection<DataProp> CharacterStats { get; set; }
+        public ObservableCollection<DataProp> CharacterAttributes { get; set; }
+        public ObservableCollection<DataProp> CharacterSkills { get; set; }
+        public ObservableCollection<DataProp> CharacterTraits { get; set; }
 
         public string CharacterNameToShow =>
             CharacterName + " [" + (IsCrewman ? "Crewman" : "Prisoner/Refugee") +

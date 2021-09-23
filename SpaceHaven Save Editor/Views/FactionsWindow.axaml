@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:SpaceHaven_Save_Editor.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
-        Width="600" Height="450"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="350"
+        Width="700" Height="350"
         x:Class="SpaceHaven_Save_Editor.Views.FactionsWindow"
         WindowStartupLocation="CenterOwner"
         Icon="/Assets/icon.ico"
@@ -15,7 +15,33 @@
         <viewModels:FactionsViewModel />
     </Design.DataContext>
 
-    <Grid>
-        <TextBlock Text="Text" />
+    <Grid Margin="5" RowDefinitions="50, *">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
+                <ComboBox Width="200" PlaceholderText="Select Faction" VerticalAlignment="Center"
+                          Items="{Binding Factions}"
+                          SelectedItem="{Binding SelectedFaction}"></ComboBox>
+                <TextBlock FontSize="14" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Text="You can only adjust relationship and access safely." ></TextBlock>
+                <Button Content="Save and Exit" HorizontalAlignment="Right" Padding="10"
+                    Command="{Binding SaveAndExit}"></Button>
+            </StackPanel>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" HorizontalAlignment="Center" VerticalScrollBarVisibility="Visible"
+                  Items="{Binding SelectedFaction.Relationships}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" IsReadOnly="True" 
+                                    Binding="{Binding FactionName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Stance" IsReadOnly="True"
+                                    Binding="{Binding FactionStance}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Relationship" 
+                                    Binding="{Binding RelationshipAmount}"></DataGridTextColumn>
+                
+                <DataGridCheckBoxColumn Header="Trade Access" 
+                                        Binding="{Binding TradeAccess}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Ship Access" 
+                                        Binding="{Binding ShipAccess}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Vision Access" 
+                                        Binding="{Binding VisionAccess}"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

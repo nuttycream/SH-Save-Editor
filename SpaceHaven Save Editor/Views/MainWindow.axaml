@@ -40,6 +40,8 @@
                           Header="Github" />
             </MenuItem>
         </Menu>
+        <ProgressBar IsIndeterminate="True" DockPanel.Dock="Top" 
+                     IsVisible="{Binding IsBusy}"></ProgressBar>
         <Grid DockPanel.Dock="Bottom" RowDefinitions="*, 200">
 
             <UserControl Grid.Row="0">

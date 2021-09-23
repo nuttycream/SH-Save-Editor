@@ -32,10 +32,5 @@ namespace SpaceHaven_Save_Editor.Data
             get => _cargoAmount;
             set => this.RaiseAndSetIfChanged(ref _cargoAmount, value);
         }
-
-        public override string ToString()
-        {
-            return CargoName + " in storage: " + CargoAmount;
-        }
     }
 }

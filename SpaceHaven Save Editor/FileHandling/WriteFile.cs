@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using SpaceHaven_Save_Editor.Data;
@@ -20,7 +21,9 @@ namespace SpaceHaven_Save_Editor.FileHandling
         {
             var shipNodes = xmlDocument.GetElementsByTagName("ship");
             var playerBankNode = Utilities.FindNode(xmlDocument, NodeCollection.PlayerBankNode);
+            var factionNodes = xmlDocument.SelectNodes("//l[@s1]");
             var researchNodes = Utilities.FindMultipleNodes(xmlDocument, "//l[@techId]");
+            var gameSettings = xmlDocument.SelectSingleNode("//settings[@gm]");
 
             if (shipNodes.Count == 0)
                 ThrowNotFoundErr("Ship");
@@ -28,6 +31,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 ThrowNotFoundErr("Player Bank");
             else if (researchNodes == null)
                 ThrowNotFoundErr("Research");
+            if (gameSettings == null)
+                ThrowNotFoundErr("Game Settings");
+            if (factionNodes == null)
+                ThrowNotFoundErr("Factions");
 
 
             UpdateLog?.Invoke("Updating player bank node with " + game.Player.Money);
@@ -92,7 +99,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         continue;
                     }
 
-                    if (character.FactionSide == "Player")
+                    if (character.FactionSide == "Player" && character.IsCrewman)
                     {
                         characterNode.Attributes.RemoveNamedItem("oside");
                         characterNode.Attributes.RemoveNamedItem("owside");
@@ -116,9 +123,35 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 UpdateLog?.Invoke("Written " + ship.Characters.Count + " with " + cloneCount + " new characters");
             }
 
+            WriteFactions(factionNodes, game.Factions);
+            WriteSettings(gameSettings, game.GameSettings);
 
             xmlDocument.Save(savePath);
             UpdateLog?.Invoke("File Saved at " + savePath);
+        }
+
+        private void WriteFactions(XmlNodeList nodeList, List<Faction> factions)
+        {
+            foreach (XmlNode factionNode in nodeList)
+            {
+                var factionName = Utilities.GetAttributeValue(factionNode, "s1");
+                var relationshipName = Utilities.GetAttributeValue(factionNode, "s2");
+                var faction = factions.FirstOrDefault(f => f.FactionName == factionName);
+                var relationshipFaction = faction?.Relationships.FirstOrDefault(r => r.FactionName == relationshipName);
+                if (faction == null || relationshipFaction == null) continue;
+
+                factionNode.Attributes["relationship"].Value = relationshipFaction.RelationshipAmount.ToString();
+                factionNode.Attributes["accessTrade"].Value = relationshipFaction.TradeAccess ? "true" : "false";
+                factionNode.Attributes["accessShip"].Value = relationshipFaction.ShipAccess ? "true" : "false";
+                factionNode.Attributes["accessVision"].Value = relationshipFaction.VisionAccess ? "true" : "false";
+
+            }
+        }
+
+        private void WriteSettings(XmlNode node, GameSettings gameSettings)
+        {
+            var sandBoxNode = node.SelectSingleNode(".//diff[@sandbox]");
+            sandBoxNode.Attributes["sandbox"].Value = gameSettings.SandBoxMode ? "true" : "false";
         }
 
         private void WriteStorages(XmlNodeList storages, Ship ship)

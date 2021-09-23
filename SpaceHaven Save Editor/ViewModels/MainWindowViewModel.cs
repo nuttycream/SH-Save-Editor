@@ -15,6 +15,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
     {
         private readonly ReadFile _readFile;
         private readonly WriteFile _writeFile;
+        private bool _isBusy;
         private bool _autoBackup;
         private string _fileNameTitle;
         private string? _filePath;
@@ -39,7 +40,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _fileNameTitle = "SpaceHaven Save Editor";
             _autoBackup = true;
         }
-
+        
         public ReactiveCommand<Unit, Unit> OpenFile { get; }
         public Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
@@ -47,6 +48,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             get => _gameViewModel;
             set => this.RaiseAndSetIfChanged(ref _gameViewModel, value);
+        }
+        
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => this.RaiseAndSetIfChanged(ref _isBusy, value);
         }
 
         public string TextData
@@ -69,10 +76,15 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         private async Task OpenFileAsync()
         {
+            IsBusy = true;
             _filePath = await ShowOpenFileDialog.Handle(Unit.Default);
-
-            if (_filePath == null) return;
-
+            if (_filePath == null)
+            {
+                IsBusy = false;
+                return;
+            }
+            
+            
             UpdateLog("Parsing " + _filePath);
             try
             {
@@ -85,6 +97,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             {
                 UpdateLog(exception.Message);
             }
+            IsBusy = false;
         }
 
         public void ClearLog()
@@ -101,6 +114,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             if (_filePath == null || _readFile.SaveFile == null) return;
 
+            IsBusy = true;
             if (_autoBackup)
                 CreateBackUp();
 
@@ -113,6 +127,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             {
                 UpdateLog(exception.Message);
             }
+            IsBusy = false;
         }
 
         public void CreateBackUp()
