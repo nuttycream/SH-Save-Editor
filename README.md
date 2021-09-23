@@ -5,10 +5,14 @@ Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Stea
 ### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)]()
 ## Features
 - Edit each character's stats including health, attributes, skills, traits
-- Clone a character (expiremental)
+- Set character faction to player's side / set character to crewman (instant recruit from prisoner)
+- Clone a character
 - Add money to player's bank
 - Add items in storages
+- Add more tools
 - Edit research values
+- Edit factions
+- and more...
 
 ## Usage for Windows
 - **Note: Requires [.NET 5.0 Runtime](https://dotnet.microsoft.com/download/dotnet/5.0/runtime). Alternatively, you can download the portable version labeled win-x64-portable(~80mb)**
@@ -31,6 +35,7 @@ Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Stea
 
 ## Screenshots
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Game%20Menu.png"/>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Faction%20Editor.png"/>
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Storage%20Menu.png"/>
 
