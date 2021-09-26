@@ -36,8 +36,7 @@ Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Stea
 ## Screenshots
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Game%20Menu.png"/>
 <img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Faction%20Editor.png"/>
-<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Menu.png"/>
-<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Storage%20Menu.png"/>
+<img src="https://github.com/nuttycream/SH-Save-Editor/blob/master/Screenies/Character%20Editor.png"/>
 
 ## Build
 - Clone or download git repo
