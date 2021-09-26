@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
 {
     public static class FindCharacters
     {
+
+        #region Read
         public static List<Character> ReadCharacters(XmlNode characterRootNode)
         {
             var characterNodes = characterRootNode.SelectNodes(".//c[@cid]");
@@ -125,5 +128,93 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
             return characterSkills;
         }
+        
+        #endregion
+
+        #region Write
+
+        public static void WriteCharacters(XmlNode? rootNode, IEnumerable<Character> characters)
+        {
+            if(rootNode == null) return;
+
+            foreach (var character in characters)
+            {
+                var characterNode = rootNode.SelectSingleNode(".//c[@name='" + character.CharacterName + "']");
+                if (characterNode == null && character.IsAClone)
+                {
+                    rootNode!.AppendChild(character.CharacterXmlNode);
+                    characterNode = rootNode.SelectSingleNode(".//c[@name='" + character.CharacterName + "']");
+                }
+                else if (characterNode == null)
+                {
+                    continue;
+                }
+
+                if (character.FactionSide == "Player" && character.IsCrewman)
+                {
+                    characterNode.Attributes.RemoveNamedItem("oside");
+                    characterNode.Attributes.RemoveNamedItem("owside");
+                    characterNode.Attributes["side"].Value = "Player";
+                }
+
+                var statsNode = characterNode?.SelectSingleNode(".//props");
+                var attributesNodes = characterNode?.SelectNodes(".//a[@points]");
+                var traitNodesRoot = characterNode?.SelectSingleNode(".//traits");
+                var skillsNodes = characterNode?.SelectNodes(".//s[@sk]");
+
+                if (statsNode == null || attributesNodes == null || traitNodesRoot == null || skillsNodes == null)
+                    throw new Exception("Error at attempt to find all of " + character.CharacterName + " nodes.");
+
+                WriteStats(statsNode, character);
+                WriteAttributes(attributesNodes, character);
+                WriteTraits(traitNodesRoot, character);
+                WriteSkills(skillsNodes, character);
+            }
+        }
+
+        private static void WriteStats(XmlNode statNodes, Character character)
+        {
+            foreach (var characterStat in character.CharacterStats)
+            {
+                var statNode = statNodes.SelectSingleNode(".//" + characterStat.Name + "[@v]");
+                if (statNode == null) continue;
+                statNode.Attributes!["v"]!.Value = characterStat.Value.ToString();
+            }
+        }
+
+        private static void WriteAttributes(IEnumerable attributeNodes, Character character)
+        {
+            foreach (XmlNode attributeNode in attributeNodes)
+            {
+                int.TryParse(attributeNode.Attributes!["id"]!.Value, out var attributeId);
+                var attribute = character.CharacterAttributes.FirstOrDefault(s => s.Id == attributeId);
+                if (attribute == null) continue;
+                attributeNode.Attributes["points"]!.Value = attribute.Value.ToString();
+            }
+        }
+
+        private static void WriteTraits(XmlNode traitNodesRoot, Character character)
+        {
+            traitNodesRoot.RemoveAll();
+            foreach (var characterTrait in character.CharacterTraits)
+            {
+                var itemTemplate = traitNodesRoot.OwnerDocument!.CreateElement("t");
+                itemTemplate.SetAttribute("id", characterTrait.Id.ToString());
+                traitNodesRoot.AppendChild(itemTemplate);
+            }
+        }
+
+        private static void WriteSkills(IEnumerable skillNodes, Character character)
+        {
+            foreach (XmlNode skillNode in skillNodes)
+            {
+                int.TryParse(skillNode.Attributes!["sk"]!.Value, out var skillId);
+                var skill = character.CharacterSkills.FirstOrDefault(s => s.Id == skillId);
+                if (skill == null) continue;
+                skillNode.Attributes["level"]!.Value = skill.Value.ToString();
+            }
+        }
+
+        #endregion
     }
 }

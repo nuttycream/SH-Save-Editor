@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml;
 using SpaceHaven_Save_Editor.Data;
-using SpaceHaven_Save_Editor.References;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
@@ -13,122 +11,68 @@ namespace SpaceHaven_Save_Editor.FileHandling
         public XmlDocument? SaveFile;
         public Action<string>? UpdateLog;
 
-        private static void ThrowNotFoundErr(string exceptionText)
-        {
-            throw new Exception("Could not find any " + exceptionText +
-                                " nodes. Verify if the correct save file has been selected.");
-        }
+        private string _filePath;
+        private Game _gameSave;
+        
+        private XmlNode? _shipRootNode;
+        private XmlNode? _playerBankNode;
+        private XmlNode? _researchRootNode;
+        private XmlNode? _factionRootNode;
+        private XmlNode? _gameSettingsNode;
 
-        public async Task<Game> ReadXmlData(string fileName)
-        {
-            Game gameSave = new();
+        private List<Task> _asynchronousTasks;
 
+        public Game ReadXmlData(string fileName)
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            _gameSave = new Game();
+            _filePath = fileName;
             SaveFile = new XmlDocument();
-            SaveFile.Load(fileName);
+            SaveFile.Load(_filePath);
 
-            var shipNodes = SaveFile.GetElementsByTagName("ship");
-            var playerBankNode = SaveFile.SelectSingleNode("//playerBank");
-            var researchNodes = Utilities.FindMultipleNodes(SaveFile, "//l[@techId]");
-            var gameFactions = SaveFile.SelectNodes("//l[@s1]");
-            var gameSettings = SaveFile.SelectSingleNode("//settings[@gm]");
-
-            if (shipNodes.Count == 0)
-                ThrowNotFoundErr("Ship");
-            else if (playerBankNode == null)
-                ThrowNotFoundErr("Player Bank");
-            else if (researchNodes == null)
-                ThrowNotFoundErr("Research");
-            if (gameSettings == null)
-                ThrowNotFoundErr("Game Settings");
-            if (gameFactions == null)
-                ThrowNotFoundErr("Factions");
-
-            if (playerBankNode != null &&
-                int.TryParse(Utilities.GetAttributeValue(playerBankNode, NodeCollection.PlayerBankAttribute),
-                    out var value))
+            _shipRootNode = SaveFile.SelectSingleNode("//game/ships");
+            _playerBankNode = SaveFile.SelectSingleNode("//playerBank");
+            _researchRootNode = SaveFile.SelectSingleNode("//research/states");
+            _factionRootNode = SaveFile.SelectSingleNode("//hostmap/map");
+            _gameSettingsNode = SaveFile.SelectSingleNode("//settings[@gm]");
+            
+            _asynchronousTasks = new List<Task>
             {
-                UpdateLog?.Invoke("Player bank node found with " + value);
-                gameSave.Player.Money = value;
-            }
+                Task.Run(() => _gameSave.Player.Money = int.Parse(Utilities.GetAttributeValue(_playerBankNode, "ca"))),
+                Task.Run(() => _gameSave.Ships = FindShips.ReadShips(_shipRootNode)), 
+                Task.Run(() => _gameSave.Research.ResearchItems = FindResearch.ReadResearchItems(_researchRootNode)),
+                Task.Run(() => _gameSave.Factions = FindFactions.ReadFactions(_factionRootNode)),
+                Task.Run(() => _gameSave.GameSettings = FindSettings.ReadGameSettings(_gameSettingsNode!))
+            };
+            
+            Task completed = Task.WhenAll(_asynchronousTasks);
+            completed.Wait();
+            watch.Stop();
 
+            if (completed.Status == TaskStatus.RanToCompletion)
+                UpdateLog?.Invoke("Parsing completed, it took " + watch.ElapsedMilliseconds + "ms.");
 
-            UpdateLog?.Invoke(researchNodes!.Count + " research nodes found.");
-            gameSave.Research.ResearchItems = FindResearch.ReadResearchItems(researchNodes);
-            UpdateLog?.Invoke(gameSave.Research.ResearchItems.Count + " research items have been verified and added.");
-
-            UpdateLog?.Invoke(shipNodes!.Count + " ships found");
-            foreach (XmlElement shipNode in shipNodes)
+            return _gameSave;
+        }
+        public void WriteXmlData()
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            
+            _asynchronousTasks = new List<Task>
             {
-                var shipName = Utilities.GetAttributeValue(shipNode, NodeCollection.ShipName);
-                var ownedByPlayerNode = shipNode.SelectSingleNode(".//settings[@owner]");
-
-                if (ownedByPlayerNode == null)
-                    ThrowNotFoundErr("Ship Settings");
-
-                var shipOwner =
-                    Utilities.GetAttributeValue(ownedByPlayerNode!, NodeCollection.ShipOwnerAttribute);
-                var shipState = Utilities.GetAttributeValue(ownedByPlayerNode!, "state");
-
-                var characterRootNode = shipNode.SelectSingleNode(".//characters");
-                var characters = new List<Character>();
-
-                if (characterRootNode is {HasChildNodes: false} or null)
-                {
-                    UpdateLog?.Invoke("No Characters found on " + shipName);
-                }
-                else
-                {
-                    UpdateLog?.Invoke(characterRootNode.ChildNodes.Count + " Characters found on " + shipName);
-                    characters = await Task.Run(() => FindCharacters.ReadCharacters(characterRootNode));
-                }
-
-                var storageNodes = shipNode.SelectNodes(".//feat[@eatAllowed]");
-                var toolStorageNodes = shipNode.SelectNodes(".//feat[@ft]");
-                List<ToolFacility> toolFacilities = new();
-                List<StorageFacility> storageFacilities = new();
-
-                if (toolStorageNodes is {Count: 0})
-                {
-                    UpdateLog?.Invoke("No Tool Facilities found on " + shipName);
-                }
-                else
-                {
-                    UpdateLog?.Invoke(toolStorageNodes!.Count + " Tool Facilities found on " + shipName);
-                    foreach (XmlNode toolStorageNode in toolStorageNodes!)
-                        if (int.TryParse(Utilities.GetAttributeValue(toolStorageNode, "ft"), out var result))
-                            toolFacilities.Add(new ToolFacility(result));
-                }
-
-                if (storageNodes is {Count: 0})
-                {
-                    UpdateLog?.Invoke("No Storage Facilities found on " + shipName);
-                }
-                else
-                {
-                    UpdateLog?.Invoke(storageNodes!.Count + " Storage Facilities found on " + shipName);
-                    storageFacilities = await Task.Run(() => FindStorages.ReadStorageFacilities(storageNodes));
-                }
-
-                Ship ship = new()
-                {
-                    ShipName = shipName,
-                    ShipFaction = shipOwner,
-                    ShipState = shipState,
-                    ShipNode = shipNode,
-                    Characters = new ObservableCollection<Character>(characters),
-                    StorageFacilities = new ObservableCollection<StorageFacility>(storageFacilities),
-                    ToolFacilities = new ObservableCollection<ToolFacility>(toolFacilities)
-                };
-                UpdateLog?.Invoke("Adding " + shipName + " to ships found.");
-                gameSave.Ships.Add(ship);
-            }
-
-            gameSave.Factions = FindFactions.ReadFactions(gameFactions!);
-            gameSave.GameSettings = FindSettings.ReadGameSettings(gameSettings!);
-
-            UpdateLog?.Invoke("Parse Complete for " + fileName);
-
-            return gameSave;
+                Task.Run(() => _playerBankNode.Attributes["ca"].Value = _gameSave.Player.Money.ToString()),
+                Task.Run(() => FindShips.WriteShips(_gameSave.Ships)),
+                Task.Run(() => FindFactions.WriteFactions(_gameSave.Factions)),
+                Task.Run(() => FindSettings.WriteGameSettings(_gameSave.GameSettings)),
+                Task.Run(() => SaveFile?.Save(_filePath))
+            };
+            
+            Task completed = Task.WhenAll(_asynchronousTasks);
+            completed.Wait();
+            watch.Stop();
+            
+            if(completed.Status == TaskStatus.RanToCompletion)
+                UpdateLog?.Invoke("Write completed, it took " + watch.ElapsedMilliseconds + "ms.");
         }
     }
 }

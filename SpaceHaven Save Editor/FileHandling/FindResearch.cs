@@ -7,12 +7,13 @@ namespace SpaceHaven_Save_Editor.FileHandling
 {
     public static class FindResearch
     {
-        public static ObservableCollection<ResearchItem> ReadResearchItems(XmlNodeList? researchNodes)
+        public static ObservableCollection<ResearchItem> ReadResearchItems(XmlNode researchRootNode)
         {
+            var researchNodes = researchRootNode.SelectNodes(".//l[@techId]");
             var researchItems = new ObservableCollection<ResearchItem>();
             if (researchNodes == null) return researchItems;
 
-            foreach (XmlNode researchNode in researchNodes!)
+            foreach (XmlNode researchNode in researchNodes)
             {
                 var blocksNode = researchNode.SelectSingleNode(".//blocksDone");
                 if (blocksNode == null)

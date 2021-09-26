@@ -4,15 +4,6 @@ namespace SpaceHaven_Save_Editor.References
 {
     public static class NodeCollection
     {
-        public static List<string> Foods = new()
-        {
-            "protein",
-            "carbs",
-            "fat",
-            "vitamins",
-            "toxins"
-        };
-
         public static List<string> CharacterStats = new()
         {
             "Health",

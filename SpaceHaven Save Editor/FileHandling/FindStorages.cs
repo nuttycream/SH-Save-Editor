@@ -14,12 +14,12 @@ namespace SpaceHaven_Save_Editor.FileHandling
             List<StorageFacility> storageFacilities = new();
 
             if (storageNodes == null)
-                throw new Exception("Something went wrong when trying to access storage nodes list.");
+                return storageFacilities;
 
 
             foreach (XmlNode storageNode in storageNodes)
             {
-                var invNodes = Utilities.FindMultipleNodes(storageNode, ".//s[@elementaryId]");
+                var invNodes = storageNode.SelectNodes(".//s[@elementaryId]");
                 if (invNodes == null) continue;
 
                 StorageFacility storageFacility = new();
@@ -38,6 +38,49 @@ namespace SpaceHaven_Save_Editor.FileHandling
             }
 
             return storageFacilities;
+        }
+
+        public static List<ToolFacility> ReadToolFacilities(IEnumerable? toolStorageNodes)
+        {
+            List<ToolFacility> toolFacilities = new();
+            
+            foreach (XmlNode toolStorageNode in toolStorageNodes!)
+                if (int.TryParse(Utilities.GetAttributeValue(toolStorageNode, "ft"), out var result))
+                    toolFacilities.Add(new ToolFacility(result));
+
+            return toolFacilities;
+        }
+
+        public static void WriteStorageFacilities(IEnumerable? storageNodes, List<StorageFacility> storageFacilities)
+        {
+            if (storageNodes == null) return;
+            
+            var index = 0;
+            foreach (XmlNode storage in storageNodes)
+            {
+                var invNode = storage.SelectSingleNode(".//inv");
+                invNode?.RemoveAll();
+                foreach (var cargo in storageFacilities[index].Cargo)
+                {
+                    var itemTemplate = invNode.OwnerDocument.CreateElement(NodeCollection.CargoItemElementName);
+                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeId, cargo.CargoId.ToString());
+                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeAmount, cargo.CargoAmount.ToString());
+                    itemTemplate.SetAttribute("onTheWayIn", "0");
+                    itemTemplate.SetAttribute("onTheWayOut", "0");
+                    invNode.AppendChild(itemTemplate);
+                }
+
+                index++;
+            }
+        }
+
+        public static void WriteToolFacilities(IEnumerable? toolStorageNodes, List<ToolFacility> toolFacilities)
+        {
+            if (toolStorageNodes == null) return;
+            var index = 0;
+            foreach (XmlNode toolStorage in toolStorageNodes)
+                toolStorage.Attributes!["ft"]!.Value =
+                    toolFacilities[index++].BuildingToolsAmount.ToString();
         }
     }
 }
