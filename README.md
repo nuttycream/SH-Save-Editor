@@ -12,6 +12,7 @@ Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Stea
 - Add more tools
 - Edit research values
 - Edit factions
+- Edit ship sizes
 - and more...
 
 ## Usage for Windows
