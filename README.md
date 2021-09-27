@@ -2,7 +2,7 @@
 
 Edit your [SpaceHaven](https://bugbyte.fi/spacehaven/) game save! Based on [Steam Guide](https://steamcommunity.com/sharedfiles/filedetails/?id=2120100221)
 
-### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)]()
+### [![Github All Releases](https://img.shields.io/github/downloads/nuttyCream/SH-Save-Editor/total)](https://github.com/nuttycream/SH-Save-Editor/releases)
 ## Features
 - Edit each character's stats including health, attributes, skills, traits
 - Set character faction to player's side / set character to crewman (instant recruit from prisoner)
