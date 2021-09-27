@@ -18,10 +18,10 @@ namespace SpaceHaven_Save_Editor.Views
             this.AttachDevTools();
 #endif
             DataContext = new FactionsViewModel(interactionInput);
-            
+
             this.WhenActivated(d => d(ViewModel!.SaveAndExit.Subscribe(Close)));
         }
-        
+
         public FactionsWindow()
         {
             InitializeComponent();

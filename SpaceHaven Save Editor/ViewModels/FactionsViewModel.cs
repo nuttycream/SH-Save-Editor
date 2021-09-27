@@ -20,7 +20,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             Factions = new List<Faction>();
             SaveAndExit = ReactiveCommand.Create(() => Factions);
         }
-        
+
         public ReactiveCommand<Unit, List<Faction>> SaveAndExit { get; set; }
 
         public List<Faction> Factions { get; set; }

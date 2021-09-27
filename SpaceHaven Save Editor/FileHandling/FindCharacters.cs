@@ -11,8 +11,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
 {
     public static class FindCharacters
     {
-
         #region Read
+
         public static List<Character> ReadCharacters(XmlNode characterRootNode)
         {
             var characterNodes = characterRootNode.SelectNodes(".//c[@cid]");
@@ -128,14 +128,14 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
             return characterSkills;
         }
-        
+
         #endregion
 
         #region Write
 
         public static void WriteCharacters(XmlNode? rootNode, IEnumerable<Character> characters)
         {
-            if(rootNode == null) return;
+            if (rootNode == null) return;
 
             foreach (var character in characters)
             {

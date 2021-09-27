@@ -56,7 +56,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             Character.FactionSide = "Player";
         }
-        
+
         public void ViewXmlNode()
         {
             var xmlNodeViewer = new NodeViewerWindow(Character.CharacterName, Character.CharacterXmlNode!);

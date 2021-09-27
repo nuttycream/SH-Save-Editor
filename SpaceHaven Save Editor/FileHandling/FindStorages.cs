@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -32,7 +31,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
                             out var amountResult)) continue;
 
                     var cargoName = IdCollection.DefaultItemIDs.FirstOrDefault(c => c.Key == idResult).Value;
-                    
+
                     DataProp cargo = new()
                     {
                         Id = idResult,
@@ -51,7 +50,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         public static List<ToolFacility> ReadToolFacilities(IEnumerable? toolStorageNodes)
         {
             List<ToolFacility> toolFacilities = new();
-            
+
             foreach (XmlNode toolStorageNode in toolStorageNodes!)
                 if (int.TryParse(Utilities.GetAttributeValue(toolStorageNode, "ft"), out var result))
                     toolFacilities.Add(new ToolFacility(result));
@@ -62,7 +61,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
         public static void WriteStorageFacilities(IEnumerable? storageNodes, List<StorageFacility> storageFacilities)
         {
             if (storageNodes == null) return;
-            
+
             var index = 0;
             foreach (XmlNode storage in storageNodes)
             {

@@ -14,12 +14,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly ReadWrite _readWrite;
-        private bool _isBusy;
         private bool _autoBackup;
         private string _fileNameTitle;
         private string? _filePath;
         private Game _game;
         private GameViewModel? _gameViewModel;
+        private bool _isBusy;
         private string _textData;
 
         public Action? SaveLoaded;
@@ -37,7 +37,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             _fileNameTitle = "SpaceHaven Save Editor";
             _autoBackup = true;
         }
-        
+
         public ReactiveCommand<Unit, Unit> OpenFile { get; }
         public Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
@@ -46,7 +46,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             get => _gameViewModel;
             set => this.RaiseAndSetIfChanged(ref _gameViewModel, value);
         }
-        
+
         public bool IsBusy
         {
             get => _isBusy;
@@ -80,9 +80,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 IsBusy = false;
                 return;
             }
-            
-            
-            UpdateLog("Parsing " + _filePath);
+
+            TextData = "";
             try
             {
                 _game = await Task.Run(() => _readWrite.ReadXmlData(_filePath));
@@ -92,32 +91,41 @@ namespace SpaceHaven_Save_Editor.ViewModels
             }
             catch (Exception exception)
             {
+                TextData = "Error with loading file. See log.";
                 UpdateLog(exception.Message);
+                ExportLog();
             }
+
             IsBusy = false;
         }
 
         private void UpdateLog(string obj)
         {
-            TextData = obj;
+            _game.UpdateLog(obj);
         }
 
         public async Task SaveFile()
         {
             if (_filePath == null || _readWrite.SaveFile == null) return;
-
+            
             IsBusy = true;
             if (_autoBackup)
                 CreateBackUp();
 
+            TextData = "";
+            UpdateLog("Writing " + _filePath + "@" + DateTime.Now.ToString("h:mm:ss tt d"));
             try
             {
                 await Task.Run(() => _readWrite.WriteXmlData());
             }
             catch (Exception exception)
             {
+                TextData = "Error with saving file. See log.";
                 UpdateLog(exception.Message);
+                ExportLog();
             }
+            
+            ExportLog();
             IsBusy = false;
         }
 
@@ -132,6 +140,21 @@ namespace SpaceHaven_Save_Editor.ViewModels
             var backupPath = _filePath + "-backup@" + DateTime.Now.ToString("HHmmss");
             File.Copy(_filePath, backupPath, true);
             UpdateLog("Backup Created at " + backupPath);
+        }
+
+        public void OpenLogWindow()
+        {
+            var logWindow = new LogWindow(_game.Log, _filePath + "-editorLog");
+            logWindow.Show();
+        }
+
+        private void ExportLog()
+        {
+            if (_filePath == null) return;
+            
+            var logPath = _filePath + "-editorLog" + ".txt";
+            using var sw = File.AppendText(logPath);
+            sw.WriteLine(_game.Log);
         }
 
         public void OpenIdCollections()

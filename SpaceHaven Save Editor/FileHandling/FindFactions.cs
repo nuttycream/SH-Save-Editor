@@ -8,12 +8,13 @@ namespace SpaceHaven_Save_Editor.FileHandling
     public static class FindFactions
     {
         private static XmlNodeList? _factionNodes;
+
         public static List<Faction> ReadFactions(XmlNode factionRootNodes)
         {
             _factionNodes = factionRootNodes.SelectNodes(".//l[@s1]");
             var factions = new List<Faction>();
             if (_factionNodes == null) return factions;
-            
+
             foreach (XmlNode factionNode in _factionNodes)
             {
                 string factionName = Utilities.GetAttributeValue(factionNode, "s1");
@@ -46,7 +47,7 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
         public static void WriteFactions(List<Faction> factions)
         {
-            if(_factionNodes == null) return;
+            if (_factionNodes == null) return;
             foreach (XmlNode factionNode in _factionNodes)
             {
                 var factionName = Utilities.GetAttributeValue(factionNode, "s1");
@@ -59,7 +60,6 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 factionNode.Attributes["accessTrade"].Value = relationshipFaction.TradeAccess ? "true" : "false";
                 factionNode.Attributes["accessShip"].Value = relationshipFaction.ShipAccess ? "true" : "false";
                 factionNode.Attributes["accessVision"].Value = relationshipFaction.VisionAccess ? "true" : "false";
-
             }
         }
     }

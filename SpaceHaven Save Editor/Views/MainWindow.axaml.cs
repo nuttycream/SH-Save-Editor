@@ -54,13 +54,13 @@ namespace SpaceHaven_Save_Editor.Views
             var fileNames = await dialog.ShowAsync(this);
             interaction.SetOutput(fileNames.FirstOrDefault());
         }
-        
+
         private async Task ShowFactionsDialog(InteractionContext<List<Faction>, List<Faction>?> interaction)
         {
             var factionWindow = new FactionsWindow(interaction.Input);
 
             var result = await factionWindow.ShowDialog<List<Faction>?>(this);
-            
+
             interaction.SetOutput(result);
         }
 

@@ -58,7 +58,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             if (CargoItemComboboxSelection == null || CargoItemComboboxSelectionAmount <= 0) return;
 
-            StorageFacility.Cargo.Insert(0, new DataProp()
+            StorageFacility.Cargo.Insert(0, new DataProp
             {
                 Id = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Key,
                 Name = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Value,

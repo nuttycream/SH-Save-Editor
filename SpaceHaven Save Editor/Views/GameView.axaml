@@ -21,7 +21,7 @@
             <TextBox Width="150" HorizontalAlignment="Left"
                      Text="{Binding Game.Player.Money}" />
             <CheckBox Content="SandBox Mode"
-                      IsChecked="{Binding Game.GameSettings.SandBoxMode, Mode=TwoWay}"/>
+                      IsChecked="{Binding Game.GameSettings.SandBoxMode, Mode=TwoWay}" />
             <Separator Height="20" />
             <Button Content=" Edit Research" HorizontalContentAlignment="Center" Width="150"
                     Command="{Binding OpenResearchCommand}" />

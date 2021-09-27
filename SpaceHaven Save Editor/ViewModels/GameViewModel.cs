@@ -101,10 +101,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         public ReactiveCommand<Unit, Unit> EditFactionsCommand { get; }
         public ReactiveCommand<Unit, Unit> EditHazardsCommand { get; }
-
         public Interaction<List<Faction>, List<Faction>?> EditFactionsWindow { get; }
         public Interaction<List<AmountSettings>, List<AmountSettings>?> EditHazardsWindow { get; }
-
         public ReactiveCommand<Unit, Unit> OpenStorageCommand { get; }
         public Interaction<StorageFacility, StorageFacility?> OpenStorageWindow { get; }
         public ReactiveCommand<Unit, Unit> EditCharacterCommand { get; }
@@ -125,10 +123,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             var result = await EditFactionsWindow.Handle(Game.Factions);
 
-            if (result != null)
-            {
-                Game.Factions = result;
-            }
+            if (result != null) Game.Factions = result;
         }
 
         private async Task OpenHazards()

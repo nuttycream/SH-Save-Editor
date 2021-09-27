@@ -17,30 +17,31 @@
 
     <Grid Margin="5" RowDefinitions="50, *">
         <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
-                <ComboBox Width="200" PlaceholderText="Select Faction" VerticalAlignment="Center"
-                          Items="{Binding Factions}"
-                          SelectedItem="{Binding SelectedFaction}"></ComboBox>
-                <TextBlock FontSize="14" VerticalAlignment="Center" TextWrapping="Wrap"
-                           Text="You can only adjust relationship and access safely." ></TextBlock>
-                <Button Content="Save and Exit" HorizontalAlignment="Right" Padding="10"
-                    Command="{Binding SaveAndExit}"></Button>
-            </StackPanel>
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" HorizontalAlignment="Center" VerticalScrollBarVisibility="Visible"
-                  Items="{Binding SelectedFaction.Relationships}" >
+            <ComboBox Width="200" PlaceholderText="Select Faction" VerticalAlignment="Center"
+                      Items="{Binding Factions}"
+                      SelectedItem="{Binding SelectedFaction}" />
+            <TextBlock FontSize="14" VerticalAlignment="Center" TextWrapping="Wrap"
+                       Text="You can only adjust relationship and access safely." />
+            <Button Content="Save and Exit" HorizontalAlignment="Right" Padding="10"
+                    Command="{Binding SaveAndExit}" />
+        </StackPanel>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" HorizontalAlignment="Center"
+                  VerticalScrollBarVisibility="Visible"
+                  Items="{Binding SelectedFaction.Relationships}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" IsReadOnly="True" 
-                                    Binding="{Binding FactionName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" IsReadOnly="True"
+                                    Binding="{Binding FactionName}" />
                 <DataGridTextColumn Header="Stance" IsReadOnly="True"
-                                    Binding="{Binding FactionStance}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Relationship" 
-                                    Binding="{Binding RelationshipAmount}"></DataGridTextColumn>
-                
-                <DataGridCheckBoxColumn Header="Trade Access" 
-                                        Binding="{Binding TradeAccess}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="Ship Access" 
-                                        Binding="{Binding ShipAccess}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="Vision Access" 
-                                        Binding="{Binding VisionAccess}"></DataGridCheckBoxColumn>
+                                    Binding="{Binding FactionStance}" />
+                <DataGridTextColumn Header="Relationship"
+                                    Binding="{Binding RelationshipAmount}" />
+
+                <DataGridCheckBoxColumn Header="Trade Access"
+                                        Binding="{Binding TradeAccess}" />
+                <DataGridCheckBoxColumn Header="Ship Access"
+                                        Binding="{Binding ShipAccess}" />
+                <DataGridCheckBoxColumn Header="Vision Access"
+                                        Binding="{Binding VisionAccess}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
