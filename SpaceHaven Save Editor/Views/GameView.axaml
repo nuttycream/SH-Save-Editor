@@ -41,13 +41,21 @@
             <TextBlock Text="Owned By:" VerticalAlignment="Center" />
             <TextBlock Text="{Binding SelectedShip.ShipFaction}"
                        VerticalAlignment="Center" />
-            <Separator Width="10" />
+            <Separator Width="7" />
             <TextBlock Text="Ship State:" VerticalAlignment="Center" />
             <TextBlock Text="{Binding SelectedShip.ShipState}"
                        VerticalAlignment="Center" />
-            <Separator Width="10" />
-            <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150"
-                    Command="{Binding ViewShipNode}" />
+            <Separator Width="7" />
+            <TextBlock Text="Ship Size"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="X:"
+                       VerticalAlignment="Center" />
+            <TextBox VerticalAlignment="Center" 
+                     Text="{Binding SelectedShip.ShipSizeX}"></TextBox>
+            <TextBlock Text="Y:"
+                       VerticalAlignment="Center" />
+            <TextBox VerticalAlignment="Center" 
+                     Text="{Binding SelectedShip.ShipSizeY}"></TextBox>
             <Separator Height="30" />
         </StackPanel>
 

@@ -61,8 +61,8 @@ namespace SpaceHaven_Save_Editor.Data
 
             FactionStance = RelationshipAmount switch
             {
-                >= 25 => "Allies",
-                <= -25 => "Enemies",
+                >= 50 => "Allies",
+                <= -50 => "Enemies",
                 _ => "Neutral"
             };
         }

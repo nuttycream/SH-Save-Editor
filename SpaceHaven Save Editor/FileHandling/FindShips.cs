@@ -20,6 +20,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 {
                     ShipNode = shipNode,
                     ShipName = Utilities.GetAttributeValue(shipNode, "sname"),
+                    ShipSizeX = int.Parse(Utilities.GetAttributeValue(shipNode, "sx")),
+                    ShipSizeY = int.Parse(Utilities.GetAttributeValue(shipNode, "sy")),
                     ShipFaction = shipNode.SelectSingleNode(".//settings[@owner]").Attributes["owner"].Value,
                     ShipState = shipNode.SelectSingleNode(".//settings[@owner]").Attributes["state"].Value,
                     Characters =
@@ -43,6 +45,9 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 var ship = ships.FirstOrDefault(s => s.ShipName.Equals(shipName));
                 if (ship == null) continue;
 
+                shipNode.Attributes["sx"].Value = ship.ShipSizeX.ToString();
+                shipNode.Attributes["sy"].Value = ship.ShipSizeY.ToString();
+                
                 var storageNodes = shipNode.SelectNodes(".//feat[@eatAllowed]");
                 var toolStorageNodes = shipNode.SelectNodes(".//feat[@ft]");
                 var characterRootNode = shipNode.SelectSingleNode(".//characters");

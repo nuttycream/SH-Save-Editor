@@ -8,6 +8,8 @@ namespace SpaceHaven_Save_Editor.Data
     {
         private string _shipFaction;
         private string _shipState;
+        private int _shipSizeX;
+        private int _shipSizeY;
 
         public Ship()
         {
@@ -20,6 +22,7 @@ namespace SpaceHaven_Save_Editor.Data
         }
 
         public string ShipName { get; set; }
+
         public XmlNode? ShipNode { get; set; }
 
         public string ShipFaction
@@ -32,6 +35,18 @@ namespace SpaceHaven_Save_Editor.Data
         {
             get => _shipState;
             set => this.RaiseAndSetIfChanged(ref _shipState, value);
+        }
+        
+        public int ShipSizeX
+        {
+            get => _shipSizeX;
+            set => this.RaiseAndSetIfChanged(ref _shipSizeX, value);
+        }
+        
+        public int ShipSizeY
+        {
+            get => _shipSizeY;
+            set => this.RaiseAndSetIfChanged(ref _shipSizeY, value);
         }
 
         public ObservableCollection<Character> Characters { get; set; }

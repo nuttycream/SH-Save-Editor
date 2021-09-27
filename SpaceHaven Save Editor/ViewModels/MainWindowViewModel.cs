@@ -88,6 +88,9 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 GameViewModel = new GameViewModel(_game);
                 SaveLoaded?.Invoke();
                 FileNameTitle = "Editing: " + _filePath;
+                
+                TextData = "Parse Completed.";
+                
             }
             catch (Exception exception)
             {
@@ -95,8 +98,11 @@ namespace SpaceHaven_Save_Editor.ViewModels
                 UpdateLog(exception.Message);
                 ExportLog();
             }
-
+            
             IsBusy = false;
+            
+            await Task.Delay(5000);
+            TextData = "";
         }
 
         private void UpdateLog(string obj)
@@ -117,6 +123,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             try
             {
                 await Task.Run(() => _readWrite.WriteXmlData());
+                TextData = "Save Completed.";
             }
             catch (Exception exception)
             {
@@ -127,6 +134,9 @@ namespace SpaceHaven_Save_Editor.ViewModels
             
             ExportLog();
             IsBusy = false;
+            
+            await Task.Delay(5000);
+            TextData = "";
         }
 
         public void CreateBackUp()
