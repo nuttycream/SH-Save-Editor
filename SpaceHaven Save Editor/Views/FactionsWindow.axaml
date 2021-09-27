@@ -32,9 +32,9 @@
                 <DataGridTextColumn Header="Name" IsReadOnly="True"
                                     Binding="{Binding FactionName}" />
                 <DataGridTextColumn Header="Stance" IsReadOnly="True"
-                                    Binding="{Binding FactionStance}" />
+                                    Binding="{Binding FactionStance, Mode=TwoWay}" />
                 <DataGridTextColumn Header="Relationship"
-                                    Binding="{Binding RelationshipAmount}" />
+                                    Binding="{Binding RelationshipAmount, Mode=TwoWay}" />
 
                 <DataGridCheckBoxColumn Header="Trade Access"
                                         Binding="{Binding TradeAccess}" />
