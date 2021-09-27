@@ -13,7 +13,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly ReadFile _readFile;
+        private readonly ReadWrite _readWrite;
         private bool _isBusy;
         private bool _autoBackup;
         private string _fileNameTitle;
@@ -31,8 +31,8 @@ namespace SpaceHaven_Save_Editor.ViewModels
             OpenFile = ReactiveCommand.CreateFromTask(OpenFileAsync);
 
             _game = new Game();
-            _readFile = new ReadFile();
-            _readFile.UpdateLog += UpdateLog;
+            _readWrite = new ReadWrite();
+            _readWrite.UpdateLog += UpdateLog;
             _textData = "";
             _fileNameTitle = "SpaceHaven Save Editor";
             _autoBackup = true;
@@ -85,7 +85,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             UpdateLog("Parsing " + _filePath);
             try
             {
-                _game = await Task.Run(() => _readFile.ReadXmlData(_filePath));
+                _game = await Task.Run(() => _readWrite.ReadXmlData(_filePath));
                 GameViewModel = new GameViewModel(_game);
                 SaveLoaded?.Invoke();
                 FileNameTitle = "Editing: " + _filePath;
@@ -97,19 +97,14 @@ namespace SpaceHaven_Save_Editor.ViewModels
             IsBusy = false;
         }
 
-        public void ClearLog()
-        {
-            TextData = "";
-        }
-
         private void UpdateLog(string obj)
         {
-            TextData += obj + "\n";
+            TextData = obj;
         }
 
         public async Task SaveFile()
         {
-            if (_filePath == null || _readFile.SaveFile == null) return;
+            if (_filePath == null || _readWrite.SaveFile == null) return;
 
             IsBusy = true;
             if (_autoBackup)
@@ -117,8 +112,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
             try
             {
-                UpdateLog("Saving file to " + _filePath);
-                await Task.Run(() => _readFile.WriteXmlData());
+                await Task.Run(() => _readWrite.WriteXmlData());
             }
             catch (Exception exception)
             {
@@ -136,7 +130,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
             }
 
             var backupPath = _filePath + "-backup@" + DateTime.Now.ToString("HHmmss");
-            File.Copy(_filePath, backupPath, false);
+            File.Copy(_filePath, backupPath, true);
             UpdateLog("Backup Created at " + backupPath);
         }
 

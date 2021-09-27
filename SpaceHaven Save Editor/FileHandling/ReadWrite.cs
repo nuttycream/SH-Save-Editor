@@ -6,7 +6,7 @@ using SpaceHaven_Save_Editor.Data;
 
 namespace SpaceHaven_Save_Editor.FileHandling
 {
-    public class ReadFile
+    public class ReadWrite
     {
         public XmlDocument? SaveFile;
         public Action<string>? UpdateLog;
@@ -22,10 +22,16 @@ namespace SpaceHaven_Save_Editor.FileHandling
 
         private List<Task> _asynchronousTasks;
 
+        public ReadWrite()
+        {
+            _filePath = "";
+            _gameSave = new Game();
+            _asynchronousTasks = new List<Task>();
+        }
+
         public Game ReadXmlData(string fileName)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            _gameSave = new Game();
             _filePath = fileName;
             SaveFile = new XmlDocument();
             SaveFile.Load(_filePath);
@@ -47,10 +53,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
             
             Task completed = Task.WhenAll(_asynchronousTasks);
             completed.Wait();
-            watch.Stop();
 
-            if (completed.Status == TaskStatus.RanToCompletion)
-                UpdateLog?.Invoke("Parsing completed, it took " + watch.ElapsedMilliseconds + "ms.");
+            if (completed.Status != TaskStatus.RanToCompletion) return _gameSave;
+            watch.Stop();
+            UpdateLog?.Invoke("Parsing completed, it took " + watch.ElapsedMilliseconds + "ms.");
 
             return _gameSave;
         }
@@ -69,10 +75,10 @@ namespace SpaceHaven_Save_Editor.FileHandling
             
             Task completed = Task.WhenAll(_asynchronousTasks);
             completed.Wait();
+
+            if (completed.Status != TaskStatus.RanToCompletion) return;
             watch.Stop();
-            
-            if(completed.Status == TaskStatus.RanToCompletion)
-                UpdateLog?.Invoke("Write completed, it took " + watch.ElapsedMilliseconds + "ms.");
+            UpdateLog?.Invoke("Write completed, it took " + watch.ElapsedMilliseconds + "ms.");
         }
     }
 }

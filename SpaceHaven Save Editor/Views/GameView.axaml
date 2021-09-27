@@ -3,14 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="520"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="420"
              x:Class="SpaceHaven_Save_Editor.Views.GameView">
 
     <Design.DataContext>
         <vm:GameViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="250, *, *" RowDefinitions="50, 50, *, *" Margin="5">
+    <Grid ColumnDefinitions="175, *, *" RowDefinitions="50, 50, *, *" Margin="5">
 
         <!-- Game Settings -->
         <TextBlock Grid.Row="0" Text="Game" VerticalAlignment="Center" />
@@ -18,7 +18,7 @@
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Spacing="5">
 
             <Label Content="Player Bank" VerticalAlignment="Center" />
-            <TextBox Width="225" HorizontalAlignment="Left"
+            <TextBox Width="150" HorizontalAlignment="Left"
                      Text="{Binding Game.Player.Money}" />
             <CheckBox Content="SandBox Mode"
                       IsChecked="{Binding Game.GameSettings.SandBoxMode, Mode=TwoWay}"/>
@@ -45,6 +45,7 @@
             <TextBlock Text="Ship State:" VerticalAlignment="Center" />
             <TextBlock Text="{Binding SelectedShip.ShipState}"
                        VerticalAlignment="Center" />
+            <Separator Width="10" />
             <Button Content="View Ship Node" HorizontalContentAlignment="Center" Width="150"
                     Command="{Binding ViewShipNode}" />
             <Separator Height="30" />

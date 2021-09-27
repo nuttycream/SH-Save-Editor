@@ -10,7 +10,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
 {
     public class StorageViewModel : ViewModelBase
     {
-        private readonly IEnumerable<Cargo> _unmodifiedCargoItems;
+        private readonly IEnumerable<DataProp> _unmodifiedCargoItems;
         private string? _cargoItemComboboxSelection;
         private int _cargoItemComboboxSelectionAmount;
         private int _selectedCargoIndex;
@@ -18,7 +18,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public StorageViewModel(StorageFacility storageFacility)
         {
             StorageFacility = storageFacility;
-            _unmodifiedCargoItems = new List<Cargo>(StorageFacility.Cargo);
+            _unmodifiedCargoItems = new List<DataProp>(StorageFacility.Cargo);
 
             SaveAndExit = ReactiveCommand.Create(() => StorageFacility);
         }
@@ -26,7 +26,7 @@ namespace SpaceHaven_Save_Editor.ViewModels
         public StorageViewModel()
         {
             StorageFacility = new StorageFacility();
-            _unmodifiedCargoItems = new List<Cargo>();
+            _unmodifiedCargoItems = new List<DataProp>();
 
             SaveAndExit = ReactiveCommand.Create(() => StorageFacility);
         }
@@ -58,9 +58,12 @@ namespace SpaceHaven_Save_Editor.ViewModels
         {
             if (CargoItemComboboxSelection == null || CargoItemComboboxSelectionAmount <= 0) return;
 
-            var idResult = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Key;
-
-            StorageFacility.Cargo.Insert(0, new Cargo(idResult, CargoItemComboboxSelectionAmount));
+            StorageFacility.Cargo.Insert(0, new DataProp()
+            {
+                Id = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Key,
+                Name = IdCollection.DefaultItemIDs.FirstOrDefault(x => x.Value == CargoItemComboboxSelection).Value,
+                Value = CargoItemComboboxSelectionAmount
+            });
         }
 
         public void RemoveCargoItem()

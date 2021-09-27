@@ -22,7 +22,7 @@
                        Text="{Binding Character.CharacterName}" />
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Faction: " />
-                <TextBlock Text="{Binding Character.FactionSide}" />
+                <TextBlock Text="{Binding Character.FactionSide, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Is Crewman: " />
@@ -32,6 +32,7 @@
                     IsEnabled="{Binding !Character.IsCrewman}"
                     Command="{Binding SetToCrewman}"/>
             <Button Content="Set Faction Side" Width="130" HorizontalContentAlignment="Center" Padding="10" 
+                    IsEnabled="{Binding !isPlayerFaction}"
                     Command="{Binding SetFaction}"/>
             <Button Content="View XML Node" Width="130" HorizontalContentAlignment="Center" Padding="10"
                     Command="{Binding  ViewXmlNode}" />

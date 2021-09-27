@@ -18,11 +18,15 @@ namespace SpaceHaven_Save_Editor.ViewModels
 
         public CharacterViewModel()
         {
+            Character = new Character();
             SaveAndExit = ReactiveCommand.Create(() => Character);
         }
 
         public ReactiveCommand<Unit, Character> SaveAndExit { get; }
-        public Character Character { get; } = null!;
+        public Character Character { get; }
+
+        public bool isPlayerFaction => Character.FactionSide == "Player";
+
         public List<string> AllTraits { get; } = IdCollection.DefaultTraitIDs.Values.ToList();
         public string? SelectedCharacterTraitFromComboBox { get; set; }
         public int SelectedCharacterTrait { get; set; }

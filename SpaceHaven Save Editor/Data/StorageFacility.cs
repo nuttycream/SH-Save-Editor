@@ -5,16 +5,14 @@ namespace SpaceHaven_Save_Editor.Data
 {
     public class StorageFacility : ReactiveObject
     {
-        private ObservableCollection<Cargo> _cargo;
-        private ObservableCollection<Cargo> _unmodifiedCargo;
+        private ObservableCollection<DataProp> _cargo;
 
         public StorageFacility()
         {
-            _cargo = new ObservableCollection<Cargo>();
-            _unmodifiedCargo = new ObservableCollection<Cargo>();
+            _cargo = new ObservableCollection<DataProp>();
         }
 
-        public ObservableCollection<Cargo> Cargo
+        public ObservableCollection<DataProp> Cargo
         {
             get => _cargo;
             set => this.RaiseAndSetIfChanged(ref _cargo, value);
@@ -23,8 +21,8 @@ namespace SpaceHaven_Save_Editor.Data
         public string StorageFacilityName =>
             Cargo.Count switch
             {
-                > 1 => "Storage with... [" + Cargo[0].CargoName + ", " + Cargo[1].CargoName + "]",
-                1 => "Storage with... [" + Cargo[0].CargoName + "]",
+                > 1 => "Storage with... [" + Cargo[0].Name + ", " + Cargo[1].Name + "]",
+                1 => "Storage with... [" + Cargo[0].Name + "]",
                 _ => "Empty Storage Facility"
             };
     }

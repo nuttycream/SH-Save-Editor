@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using SpaceHaven_Save_Editor.Data;
 using SpaceHaven_Save_Editor.References;
@@ -30,7 +31,14 @@ namespace SpaceHaven_Save_Editor.FileHandling
                         !int.TryParse(Utilities.GetAttributeValue(invNode, NodeCollection.CargoItemAttributeAmount),
                             out var amountResult)) continue;
 
-                    Cargo cargo = new(idResult, amountResult);
+                    var cargoName = IdCollection.DefaultItemIDs.FirstOrDefault(c => c.Key == idResult).Value;
+                    
+                    DataProp cargo = new()
+                    {
+                        Id = idResult,
+                        Name = cargoName,
+                        Value = amountResult
+                    };
                     storageFacility.Cargo.Add(cargo);
                 }
 
@@ -63,8 +71,8 @@ namespace SpaceHaven_Save_Editor.FileHandling
                 foreach (var cargo in storageFacilities[index].Cargo)
                 {
                     var itemTemplate = invNode.OwnerDocument.CreateElement(NodeCollection.CargoItemElementName);
-                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeId, cargo.CargoId.ToString());
-                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeAmount, cargo.CargoAmount.ToString());
+                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeId, cargo.Id.ToString());
+                    itemTemplate.SetAttribute(NodeCollection.CargoItemAttributeAmount, cargo.Value.ToString());
                     itemTemplate.SetAttribute("onTheWayIn", "0");
                     itemTemplate.SetAttribute("onTheWayOut", "0");
                     invNode.AppendChild(itemTemplate);

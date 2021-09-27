@@ -3,8 +3,8 @@
         xmlns:vm="using:SpaceHaven_Save_Editor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1080" d:DesignHeight="620"
-        Width="1080" Height="620"
+        mc:Ignorable="d" d:DesignWidth="950" d:DesignHeight="420"
+        Width="950" Height="420"
         x:Class="SpaceHaven_Save_Editor.Views.MainWindow"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon.ico"
@@ -25,7 +25,7 @@
 
                 <MenuItem Command="{Binding CreateBackUp}"
                           Header="Manual Backup" InputGesture="Ctrl+B" HotKey="Ctrl+B" />
-
+                
                 <CheckBox Content="Auto Backup" IsChecked="{Binding AutoBackup}" />
 
             </MenuItem>
@@ -39,26 +39,17 @@
                 <MenuItem Command="{Binding GotoGithub}"
                           Header="Github" />
             </MenuItem>
+            
+            <TextBlock Text="{Binding TextData}"></TextBlock>
         </Menu>
         <ProgressBar IsIndeterminate="True" DockPanel.Dock="Top" 
                      IsVisible="{Binding IsBusy}"></ProgressBar>
-        <Grid DockPanel.Dock="Bottom" RowDefinitions="*, 200">
-
-            <UserControl Grid.Row="0">
+        <Grid DockPanel.Dock="Bottom">
+            
+            <UserControl>
                 <ContentControl Content="{Binding GameViewModel}" />
             </UserControl>
-
-            <DockPanel Grid.Row="1">
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="5">
-                    <Button Content="Clear Log"
-                            Command="{Binding ClearLog}" />
-                </StackPanel>
-
-                <TextBox DockPanel.Dock="Bottom"
-                         Text="{Binding TextData}"
-                         IsReadOnly="True" />
-            </DockPanel>
-
+            
         </Grid>
     </DockPanel>
 </Window>

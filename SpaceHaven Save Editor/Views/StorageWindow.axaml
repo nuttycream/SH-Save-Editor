@@ -22,9 +22,9 @@
                       SelectionChanged="DataGridCargoItems_OnSelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Item Name" Width="275" IsReadOnly="True"
-                                        Binding="{Binding CargoName}" />
+                                        Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Amount"
-                                        Binding="{Binding CargoAmount}" />
+                                        Binding="{Binding Value}" />
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
